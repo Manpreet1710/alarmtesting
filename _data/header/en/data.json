@@ -1,0 +1,28 @@
+
+{
+  "navbarBrandText": "",
+  "navbarBrandLogo": "/assets/images/logo.png",
+
+  "navItems":[
+    {
+    "name":"Alarm Clock",
+     "url":"/"
+    },
+    {
+     "name":"Timer",
+     "url":"/timer"
+   },
+   {
+     "name":"Stopwatch",
+     "url":"/stopwatch"
+   },
+   {
+    "name":"Blog",
+    "url":"/blog"
+  },
+   {
+     "name":"allpages",
+     "url":"/allpages"
+   }
+ ]
+}

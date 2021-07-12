@@ -1,0 +1,21 @@
+<div class="container-fluid">
+
+    <div id="stopwatch" class="stopwatch"></div>
+
+    <ul id="buttons" class="controls">
+        <a href="#" class="btn" onClick="stopwatch.start();">Start</a>
+        <!-- <a href="#" class="btn" onClick="stopwatch.lap();">Lap</a> -->
+        <a href="#" class="btn" onClick="stopwatch.stop();">Stop</a>
+        <!-- <a href="#" class="btn" onClick="stopwatch.clear();">Clear Laps</a> -->
+        <a href="#" class="btn" onClick="stopwatch.reset();">reset</a>
+    </ul>
+
+    <ul class="results list-unstyled text-white"
+        style="font-size: 25px; display: flex; justify-content: center; flex-direction: column; width: 100%; text-align: center;">
+    </ul>
+
+</div>
+
+<!-- stopwatch js -->
+<link rel="stylesheet" href="{{ 'css/stopwatch.css' | relative_url }}">
+<script src="{{ 'js/stopwatch.js' }}"> </script>

@@ -1,0 +1,168 @@
+body::-webkit-scrollbar {
+  height: 1rem;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #d92b2b;
+  border-radius: 0.25rem;
+  border: 1px solid #333;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 0.25rem;
+}
+
+.btn:focus {
+  box-shadow: initial;
+}
+/* for scrooll bar */
+
+@font-face {
+  font-family: myFirstFont;
+  src: url(/fonts/digital-7mono.ttf);
+}
+.timer_wrapper {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 25px;
+  font-family: myFirstFont;
+  color: #fff;
+  font-size: 100px;
+}
+
+.btn {
+  color: #fff;
+  /* width: 100px; */
+}
+.btn:hover {
+  color: #fff !important;
+}
+
+#stop,
+#start {
+  display: none;
+  border: 3px solid #ffff;
+}
+
+@media (max-width: 450px) {
+  .timer_wrapper {
+    font-size: 80px !important;
+  }
+}
+
+.alarm_result {
+  background: #0000005c;
+  width: 100%;
+  display: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+/* Modal css */
+.modal__wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.6);
+  height: 100%;
+  width: 100%;
+  display: none;
+  pointer-events: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.modal__container {
+  display: flex;
+  flex-direction: column;
+  margin: 200px auto;
+  background: #fff;
+  width: 650px;
+  max-width: 100%;
+  border-radius: 4px;
+  position: relative;
+  transform: translateY(-100%);
+  transition: all 0.3s ease-in-out;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+p {
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.modal__container button.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 32px;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.modal__container button.close:hover {
+  color: #6b46c1;
+}
+.active {
+  display: block;
+  pointer-events: auto;
+}
+.modal__wrapper.active .modal__container {
+  transform: translateY(0px);
+}
+
+.modal-body {
+  text-align: center;
+  font-size: 20px;
+}
+
+.modal-footer #close {
+  background: #000 !important;
+  font-size: 15px !important;
+  padding: 10px !important;
+  border: none;
+}
+
+.close {
+  color: white !important;
+  opacity: 1;
+}
+
+.close:focus {
+  outline: none !important;
+}
+
+.modal-backdrop {
+  z-index: 0 !important;
+}
+
+.time {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .setAlarm {
+    font-size: 18px !important;
+  }
+
+  .alarm_alert_modal {
+    width: 80%;
+    left: 8%;
+  }
+  .playbtnEdit {
+    margin-top: 1rem !important;
+  }
+}

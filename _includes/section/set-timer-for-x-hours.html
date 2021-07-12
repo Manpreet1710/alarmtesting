@@ -1,0 +1,274 @@
+<!-- **********
+    
+  SET-TIMER-FOR-X-HOURS
+
+    ********** -->
+<div class="container-fluid">
+    <div class="timerHeading text-center text-white mt-5">
+        <h1 style="font-size: 18px;" class="m-0">Set timer for {{page.hours}} hours </h1>
+    </div>
+    <div class="timer_wrapper p-0">
+        <div class="timerDiv">
+            <span> 00:00</span>
+        </div>
+    </div>
+    <div class="buttons text-center">
+        <button class="btn ml-2" id="stop">Stop</button>
+        <button class="btn ml-2" style="border:3px solid #fff;" id="startTimer">Start</button>
+    </div>
+
+    <!-- POPUP WHEN TIMER COUNTDOWN FINIHESD -->
+    <div class="modal__wrapper">
+        <div class="modal__container">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Timer</h5>
+                <button type="button" class="close stop" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" id="close" style="color:#000">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alarm">
+                    <div class="icon">
+                        <img src="../../assets/images/timer.svg" alt="alarm-logo" style="width:40px">
+                    </div>
+                    <div class="timerTitle mt-3"></div>
+                    <div class="mb-3 mt-3" id="timer"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="ok">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIITING TIMER POPUP  -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Timer</h5>
+                    <button type="button" class="close modalTest" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:#000">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <audio src="" id="playAudio"></audio>
+                    <div class="row text-left" style="font-size: 13px;">
+                        <div class="col-md-4">
+                            <span>Hours</span>
+                            <select class="form-control" id="hours"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <span>Minutes</span>
+                            <select class="form-control" id="minutes"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <span>Seconds</span>
+                            <select class="form-control" id="seconds"></select>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <span>Sound</span>
+                            <select class="form-control" id="audio"></select>
+                        </div>
+                        <div class="col-md-2 playbtnEdit" style="margin-top: 2.6rem">
+                            <i class="fas fa-play-circle playButton fa-2x"></i>
+                        </div>
+                        <div class="col-md-12">
+                            <span>Title</span>
+                            <input type="text" class="form-control" id="title" placeholder="Alarm">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary click" data-dismiss="modal"
+                        onclick="onEnter()">Start</button>
+                </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CLOSE -->
+
+
+<!-- ADDED SOME NEW CSS STYLE TO THIS HTML DOCUMENTS -->
+<link rel="stylesheet" href="{{ 'css/timer.css' | relative_url }}">
+
+<script>
+    // GRAB ALL HTML ELEMENTS HERE
+    // hr , mins , ampm
+    let hours = `{{page.hours}}`
+    let minutes = `{{page.minutes}}`
+    let seconds = `{{page.sec}}`
+
+    let hours1 = document.querySelector('#hours')
+    let minutes2 = document.querySelector('#minutes')
+    let seconds3 = document.querySelector('#seconds')
+
+    let audio = document.querySelector('#audio')
+    let playAudio = document.querySelector('#playAudio')
+    let playButton = document.querySelector('.playButton')
+
+    let start = document.getElementById('startTimer')
+    let stop = document.getElementById('stop')
+    let ok = document.querySelector('#ok')
+    let timer = document.querySelector('#timer')
+
+    let title = document.getElementById('title')
+    let timerTitle = document.querySelector('.timerTitle')
+
+    // modal
+    const trigger = document.querySelector('#trigger')
+    const modalWrapper = document.querySelector('.modal__wrapper')
+    const closeBtn = document.querySelector('.close')
+
+    // COUNTDOWN FUNCTION && SET TIMER
+    function showTimer() {
+        let time = localStorage.getItem('timer')
+        timer.innerHTML = localStorage.getItem('timer')
+        let timerDiv = document.querySelector('.timerDiv')
+        timerDiv.innerHTML = time
+
+        my_timer = setInterval(() => {
+            let hr = 0,
+                min = 0,
+                sec = 0,
+                timeup = false
+            t = time.split(':')
+            hr = parseInt(t[0])
+            min = parseInt(t[1])
+            sec = parseInt(t[2])
+            // console.log(min)
+            if (sec == 0) {
+                if (min > 0) {
+                    sec = 59
+                    min--
+                } else if (hr > 0) {
+                    min = 59
+                    sec = 59
+                    hr--
+                } else {
+                    timeup = true
+                }
+            } else {
+                sec--
+            }
+            if (hr < 10) {
+                hr = '0' + hr
+            }
+            if (min < 10) {
+                min = '0' + min
+            }
+            if (sec < 10) {
+                sec = '0' + sec
+            }
+
+            time = hr + ':' + min + ':' + sec
+            timerDiv.innerHTML = time
+            if (timeup) {
+                stop.style.display = 'none'
+                start.style.display = 'inline-block'
+                openModal()
+                clearInterval(my_timer)
+                playMusic()
+                timerTitle.innerHTML = localStorage.getItem('timerTitle')
+            }
+        }, 1000)
+    }
+
+    // SET TIMER
+    let timeSet = hours + ':' + minutes + ':' + seconds
+    localStorage.setItem('timer', timeSet)
+    showTimer()
+    clearInterval(my_timer)
+
+    // START-BTN
+    start.addEventListener('click', () => {
+        start.style.display = 'none'
+        stop.style.display = 'inline-block'
+        showTimer()
+    })
+
+    // STOP-BTN
+    stop.addEventListener('click', () => {
+        start.style.display = 'inline-block'
+        stop.style.display = 'none'
+        clearInterval(my_timer)
+    })
+
+    // DROPDOWN FOR MUSIC LIST
+    async function getUserAsync(id) {
+        let select = id
+        let response = await fetch('sound.json')
+        let data = await response.json()
+        for (i = 0; i < data.length; i++) {
+            select.options[select.options.length] = new Option(data[i].sound_name)
+        }
+    }
+
+    // calling function
+    getUserAsync(audio)
+
+    // for playing audio
+    const playMusic = () => {
+        playAudio.src = 'sounds/' + audio.value + '.mp3'
+        isPlaying = true
+        playAudio.play()
+        playAudio.loop = true
+        playButton.classList.replace('fa-play-circle', 'fa-pause-circle')
+    }
+    // for pause audio
+    const pauseMusic = () => {
+        playAudio.src = 'sounds/' + audio.value + '.mp3'
+        isPlaying = false
+        playAudio.pause()
+        playButton.classList.replace('fa-pause-circle', 'fa-play-circle')
+    }
+
+    // logic for playing pause music
+    playButton.addEventListener('click', () => {
+        isPlaying ? pauseMusic() : playMusic()
+    })
+    // input audio select
+    audio.addEventListener('input', () => {
+        playMusic()
+    })
+    // when audio finished
+    playAudio.addEventListener('ended', () => {
+        pauseMusic()
+    })
+
+
+    // RESET MUSIC
+    ok.addEventListener('click', () => {
+        pauseMusic()
+        closeModal()
+    })
+
+
+    // Modal Js
+    closeBtn.addEventListener('click', function () {
+        closeModal()
+    })
+
+    modalWrapper.addEventListener('click', function (e) {
+        if (e.target !== this) return
+        closeModal()
+    })
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeModal()
+        }
+    })
+
+    function openModal() {
+        modalWrapper.classList.add('active')
+    }
+    function closeModal() {
+        modalWrapper.classList.remove('active')
+    }
+
+</script>

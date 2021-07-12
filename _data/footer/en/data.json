@@ -1,0 +1,61 @@
+{
+  "logo": "assets/images/logo.png",
+  "heading": "Online AlarmSetter Website",
+  "company": [
+    {
+      "name": "Terms and Condition",
+      "url": "/terms-and-condition"
+    },
+    {
+      "name": "Disclaimer",
+      "url": "/disclaimer"
+    },
+    {
+      "name": "Privacy policy",
+      "url": "/privacy-policy"
+    }
+  ],
+  "product": [
+    {
+      "name": "Alarm Clock",
+      "url": "/"
+    },
+    {
+      "name": "Timer",
+      "url": "/timer"
+    },
+    {
+      "name": "Stopwatch",
+      "url": "/stopwatch"
+    }
+  ],
+  "networkSites": [],
+  "social": [
+    {
+      "logo": "/assets/facebook.svg",
+      "url": "/",
+      "title": "abc"
+    },
+    {
+      "logo": "/assets/youtube.svg",
+      "url": "/",
+      "title": "abc"
+    },
+    {
+      "logo": "/assets/instagram.svg",
+      "url": "/",
+      "title": "abc"
+    },
+    {
+      "logo": "/assets/linkdin.svg",
+      "url": "/",
+      "title": "abc"
+    },
+    {
+      "logo": "/assets/twitter.svg",
+      "url": "/",
+      "title": "abc"
+    }
+  ],
+  "messege": "© 2021 Alarm-Setter — Made with love for the people of the internet."
+}

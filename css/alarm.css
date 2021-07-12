@@ -1,0 +1,273 @@
+body {
+  background-color: #f0f0f0 !important;
+}
+.box-border {
+  background: transparent !important;
+  border: none !important;
+}
+.buttonStyle {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: white;
+  width: 150px;
+}
+.buttonStyle2 {
+  border: 1px solid #0090dd;
+  background-color: #0090dd;
+  width: 150px;
+  color: #fff;
+}
+.buttonStyle2:hover {
+  color: white !important;
+}
+.btn:focus {
+  box-shadow: initial;
+}
+h2 {
+  margin-bottom: 10px;
+}
+p {
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* close */
+
+/* for scrooll bar */
+@font-face {
+  font-family: myFirstFont;
+  src: url(/fonts/digital-7mono.ttf);
+}
+.clockdate-wrapper {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 25px;
+  font-family: myFirstFont;
+  /* color: #fff; */
+  font-size: 100px;
+}
+
+#clock span {
+  font-size: 30px;
+  position: relative;
+  left: -15px;
+}
+
+.calendar-wrapper {
+  display: inline-flex;
+  flex-basis: 30%;
+  flex-wrap: wrap;
+  gap: 5px;
+  position: relative;
+  letter-spacing: 10px;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+#hours,
+#minutes,
+#sound,
+#title:focus {
+  box-shadow: none;
+  outline: none;
+  border-color: #ced4da;
+  border-radius: 0 !important;
+}
+
+#hours,
+#minutes,
+#sound,
+#title {
+  height: calc(1.5em + 1rem + 2px) !important;
+}
+
+@media (max-width: 450px) {
+  .clockdate-wrapper {
+    font-size: 40px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #clockdate {
+    padding: 10px !important;
+  }
+
+  .calendar-wrapper {
+    font-size: 13px;
+    letter-spacing: 5px;
+    gap: 0;
+  }
+  .playbtnEdit {
+    margin-top: 1rem !important;
+  }
+  .clockdate-wrapper {
+    font-size: 70px;
+    height: 220px;
+  }
+  #clock .time-now {
+    font-size: 45px;
+  }
+  #clock span {
+    font-size: 20px;
+    left: 0;
+  }
+  #date {
+    font-size: 15px;
+    letter-spacing: 5px;
+  }
+}
+
+/* alarmResult styling */
+.alarm_result {
+  display: none;
+  background: #f0f0f0 !important;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.stop2 {
+  color: white;
+  background-color: #dd636e;
+}
+.stop2:hover {
+  color: white !important;
+  background-color: #ef6262;
+}
+
+.alarmTime {
+  font-family: myFirstFont;
+  font-size: 25px;
+}
+.topMargin {
+  top: 100px;
+}
+.modal-body {
+  text-align: center;
+  font-size: 20px;
+}
+
+.modal-footer #close {
+  background: #000 !important;
+  font-size: 15px !important;
+  padding: 10px !important;
+  border: none;
+  width: 100px;
+  margin: 0 auto;
+}
+
+.close {
+  color: white !important;
+  opacity: 1;
+}
+
+.close:focus {
+  outline: none !important;
+}
+
+.modal-backdrop {
+  z-index: 0 !important;
+}
+
+.time {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .setAlarm {
+    font-size: 18px !important;
+  }
+
+  .alarm_alert_modal {
+    width: 80%;
+    left: 8%;
+  }
+}
+
+/* <Modal */
+.modal-dialog {
+  min-width: 600px;
+}
+.modal__wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.6);
+  height: 100%;
+  width: 100%;
+  display: none;
+  pointer-events: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.modal__container {
+  display: flex;
+  flex-direction: column;
+  margin: 200px auto;
+  background: #fff;
+  width: 650px;
+  max-width: 100%;
+  border-radius: 4px;
+  position: relative;
+  transform: translateY(-100%);
+  transition: all 0.3s ease-in-out;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.modal__container button.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 32px;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.modal__container button.close:hover {
+  color: #6b46c1;
+}
+.active {
+  display: block;
+  pointer-events: auto;
+}
+.modal__wrapper.active .modal__container {
+  transform: translateY(0px);
+}
+
+@media (max-width: 552px) {
+  .modal-dialog {
+    min-width: 50%;
+  }
+}
+
+/* play button */
+.playbtnEdit {
+  height: 42px;
+  margin-top: 1rem;
+  cursor: pointer;
+  background: #e7e7e7;
+  position: absolute;
+  right: -27px;
+  top: 3px;
+  /* border-radius: 5px; */
+  padding: 0;
+  width: 42px;
+  z-index: 999;
+}
+.playbtnEdit .playButton {
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 43px;
+}

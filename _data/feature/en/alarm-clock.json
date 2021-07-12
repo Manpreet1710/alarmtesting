@@ -1,0 +1,18 @@
+{
+    "H1": "Best online alarm clock",
+    "H2": "Do not close browser tab.",
+    "TITLE": "Alarm Clock",
+    "color": "white",
+    "META": "Simple to use online alarm clock to wake up after specific time or at specific times",
+    "img": "/assets/images/logo.png",
+    "HOW_TO_CONTENT": {
+        "logoImageUrl": "/assets/images/pdf.svg",
+        "heading": "How to set alarm using online alarm clock",
+        "steps": [
+            "Click on set alarm",
+            "Set appropriate time for alarm",
+            "Choose sound of your choice",
+            "Click submit to set alarm, that's it ! "
+        ]
+    }
+}

@@ -1,0 +1,304 @@
+<!-- ********
+    
+    SET-ALARM-FOR-X-HOURS
+    SET-ALARM-FOR-9-HOURS
+    
+    ********8 -->
+<div class="container-fluid">
+    <div id="clockdate" style="padding: 35px;">
+        <div class="setAlarm text-white text-center pt-3" style="font-size: 25px;">
+            Set alarm  for {{page.hours}} hours from now
+        </div>
+        <div class="clockdate-wrapper">
+            <div id="clock"></div>
+            <div class="calendar-wrapper">
+                <div class="weekday-label"></div>
+                  <div class="month-label"></div>
+                  <div class="day-label"></div>
+                  <div class="year"></div>
+          </div>
+        </div>
+        <div class="mb-5 d-flex justify-content-center">
+            <button class="btn text-white  mr-4 testBtn" style="border: 3px solid white;
+            " data-toggle="modal" data-target="#exampleModal" id="testingModal">Test alarm</button>
+
+
+            <button class="btn  btn1 text-white" onclick="onEnter()" style="
+                border: 3px solid white;
+            ">
+                Set alarm</button>
+        </div>
+
+        <!-- Alarm-Result-Box-Alert -->
+        <div class="alarm_result">
+            <div class="alarm">
+                <div class="alarm-title" style="margin-bottom: 15px;">Alarm</div>
+                <div class="time">
+                    <div class="icon mr-2">
+                        <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:20px">
+                    </div>
+                    <div class="alarm-time">
+                        Alarm set for
+                        <span id="afterTime"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="cancel mt-3">
+                <button class="btn stop btn-danger" style="font-size: 12px;">Stop Alarm</button>
+            </div>
+        </div>
+        <!-- CLOSE -->
+
+        <!-- Modal Popup When Alarm Ringing the alarm -->
+        <div class="modal__wrapper">
+            <div class="modal__container">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Alarm</h5>
+                    <button type="button" class="close stop" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" id="close" style="color:#000">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alarm">
+                        <div class="icon">
+                            <audio id="myAudio">
+                                <source src="../../sounds/school.mp3" type="audio/mpeg">
+                            </audio>
+                            <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:40px">
+                        </div>
+                        <div class="alarm-title mb-3">Alarm</div>
+                        <div id="alarmText"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="close" class="stop btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- testING modal IF YOU CHECKING RINGING ALARM -->
+        <div class="modal fade topMargin"  id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Alarm</h5>
+                        <button type="button" class="close modalTest" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="color:#000">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alarm">
+                            <div class="icon">
+                                <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:40px">
+                            </div>
+                            <div class="alarm-title mb-3 mt-3">Alarm</div>
+                            {{page.hours}} hours for now
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="close" class="close modalTest btn btn-primary" data-dismiss="modal"
+                            aria-label="Close">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- CLOSE -->
+    </div>
+</div>
+
+
+<!-- ONE EXTERAL STYLE USED -->
+<link rel="stylesheet" href="{{ 'css/alarm.css' | relative_url }}">
+<script src="{{ 'js/currentDate.js' | relative_url }}"></script>
+
+<script>
+    
+    // ALL HTML TAGS GRAB HERE
+    let audio = document.getElementById('myAudio')
+    let testingModal = document.getElementById('testingModal')
+
+    // hr , mins , amp
+    let hourValue = `{{page.hours}}`
+
+    let alarm_result = document.querySelector('.alarm_result')
+    let alaram_testing_popup = document.querySelector('.alaram_testing_popup')
+    let btn1 = document.querySelector('.btn1')
+    let testBtn = document.querySelector('.testBtn')
+    let close = document.querySelector('.close')
+    let setAlarmHeading = document.querySelector('.setAlarm')
+
+    let activeAlarm = false
+    let currentTime
+    let alarmElement
+
+    // modal
+    const trigger = document.querySelector('#trigger')
+    const modalWrapper = document.querySelector('.modal__wrapper')
+    const closeBtn = document.querySelector('.close')
+
+    let alarmText = document.getElementById("alarmText")
+    let afterTime = document.querySelector('#afterTime')
+
+    // testModal audio playing
+    testingModal.addEventListener('click', () => {
+        audio.play()
+        audio.loop = true
+    })
+
+    // STOP TESTMODAL audio playing
+    document.querySelectorAll('.modalTest').forEach((item) => {
+        item.addEventListener('click', (event) => {
+            audio.pause()
+        })
+    })
+
+    // FUNCTION FOR RINGING THE ALARM AT SPECFIC TIME
+    function startTime() {
+        var today = new Date()
+        var hr = today.getHours() //for hours
+        var min = today.getMinutes() //for mins
+        var sec = today.getSeconds() //for sec
+
+        //Add a zero in front of numbers<10
+        min = checkTime(min)
+        sec = checkTime(sec)
+
+        // AMPM LOGIC here
+        ap = hr < 12 ? 'AM' : 'PM'
+        hr = hr == 0 ? 12 : hr
+        hr = hr > 12 ? hr - 12 : hr
+
+
+        currentTime = hr + ':' + min + ':' + sec + ' ' + ap
+        alarmXhrs = localStorage.getItem("Xhours")
+
+
+        if (currentTime == alarmXhrs) {
+            alarmText.innerHTML = alarmXhrs
+            openModal()
+            audio.play()
+        }
+
+        // today date and time printing...
+        document.getElementById('clock').innerHTML =
+            hr + ':' + min + ':' + sec + ' ' + `<span> ${ap} </span>`
+
+        var time = setTimeout(function () {
+            startTime()
+        }, 500)
+    }
+
+    // calling function
+    startTime()
+
+    // ADDED ZEROS TO FRONT
+    function checkTime(i) {
+        if (i < 10) {
+            i = '0' + i
+        }
+        return i
+    }
+
+    // ALARM SET FUNCTION HERE
+    function onEnter() {
+        var today = new Date()
+
+        var hr = today.getHours() //for hours
+        var min = today.getMinutes() //for mins
+        var sec = today.getSeconds() //for sec
+        
+        //Add a zero in front of numbers<10
+        min = checkTime(min)
+        sec = checkTime(sec)
+
+        alarm_result.style.display = 'block'
+        btn1.style.display = 'none'
+        testBtn.style.display = 'none'
+        if (activeAlarm == false) {
+            let alarmSet 
+            let apPm
+            ap = hr < 12 ? 'AM' : 'PM'
+            hr = hr == 0 ? 12 : hr
+            hr = hr > 12 ? hr - 12 : hr
+
+            if(ap == 'PM'){
+            alarmSet = parseInt(hr) + parseInt(hourValue)
+            if(alarmSet == 12){
+                apPm = 'AM'
+            }
+            if(alarmSet > 12){
+                apPm = 'AM'
+            }
+            if(alarmSet<12){
+                apPm = 'PM'
+            }
+            alarmSet = alarmSet > 12 ? alarmSet - 12 : alarmSet
+           
+        }
+
+
+            if(ap == 'AM'){
+            alarmSet = parseInt(hr) + parseInt(hourValue)
+            // alarmSet = alarmSet == 0 ? 12 : alarmSet
+            if(alarmSet == 12){
+                apPm = 'PM'
+            }
+            if(alarmSet > 12){
+                apPm = 'PM'
+            }
+            if(alarmSet < 12){
+                apPm = 'AM'
+            }
+            alarmSet = alarmSet > 12 ? alarmSet - 12 : alarmSet
+        }
+           
+
+            alarmSet = alarmSet + ':' + min + ':' + sec + ' ' + apPm
+            
+
+            localStorage.setItem("Xhours", alarmSet)
+            let alarmXhrs = localStorage.getItem("Xhours")
+            setAlarmHeading.innerHTML = `Alarm set for ${hourValue} hours from now`
+            afterTime.innerHTML = alarmXhrs
+        }
+    }
+
+    // RESET ALARM AND STOP AUDIO FUNCTION
+    document.querySelectorAll('.stop').forEach((item) => {
+        item.addEventListener('click', (event) => {
+            audio.pause();
+            closeModal()
+            setAlarmHeading.innerHTML = `Set alarm  for ${hourValue} hours from now`
+            alarm_result.style.display = 'none'
+            btn1.style.display = 'block'
+            testBtn.style.display = 'block'
+            localStorage.removeItem("Xhours")
+        })
+    })
+
+
+    // SOME Modal JS FUNCTION
+    closeBtn.addEventListener('click', function () {
+        closeModal()
+    })
+
+    modalWrapper.addEventListener('click', function (e) {
+        if (e.target !== this) return
+        closeModal()
+    })
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeModal()
+        }
+    })
+
+    function openModal() {
+        modalWrapper.classList.add('active')
+    }
+    function closeModal() {
+        modalWrapper.classList.remove('active')
+    }
+
+
+</script>

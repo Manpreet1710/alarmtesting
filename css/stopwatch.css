@@ -1,0 +1,62 @@
+@font-face {
+  font-family: myFirstFont;
+  src: url(/fonts/digital-7mono.ttf);
+}
+.stopwatch {
+  padding: 25px;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  font-size: 100px;
+  color: #fff;
+  /* font-family: myFirstFont; */
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+}
+
+.controls a {
+  text-decoration: none !important;
+  margin: 0 15px;
+  color: #fff !important;
+  border: 3px solid white;
+  border-radius: 5px;
+}
+
+.results {
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  color: white;
+  margin: 20px 0;
+}
+.results span {
+  padding: 20px 0;
+}
+
+
+.dropdown-toggle {
+  white-space: nowrap;
+  display: none;
+}
+
+
+
+@media (max-width: 600px) {
+  .stopwatch {
+    font-size: 40px;
+  }
+  .controls {
+    padding: 0;
+    flex-direction: column;
+  }
+  .controls a {
+    margin: 8px 15px;
+  }
+}

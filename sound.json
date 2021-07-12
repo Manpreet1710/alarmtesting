@@ -1,0 +1,58 @@
+[
+    {
+        "sound_name":  "bells",
+        "sound_path": "sounds/bells.mp3"
+    },
+    {
+        "sound_name":  "childhood",
+        "sound_path": "sounds/childhood.mp3"
+    },
+    {
+        "sound_name":  "classic",
+        "sound_path": "sounds/classic.mp3"
+    },
+    {
+        "sound_name":  "cuckoo",
+        "sound_path": "sounds/cuckoo.mp3"
+    },
+    {
+        "sound_name":  "flute",
+        "sound_path": "sounds/flute.mp3"
+    },
+    {
+        "sound_name":  "happy",
+        "sound_path": "sounds/happy.mp3"
+    },
+    {
+        "sound_name":  "musicbox",
+        "sound_path": "sounds/musicbox.mp3"
+    },
+    {
+        "sound_name":  "paradise",
+        "sound_path": "sounds/paradise.mp3"
+    },
+    {
+        "sound_name":  "pipe",
+        "sound_path": "sounds/pipe.mp3"
+    },
+    {
+        "sound_name":  "savannah",
+        "sound_path": "sounds/savannah.mp3"
+    },
+    {
+        "sound_name":  "school",
+        "sound_path": "sounds/school.mp3"
+    },
+    {
+        "sound_name":  "twinkle",
+        "sound_path": "sounds/twinkle.mp3"
+    },
+    {
+        "sound_name":  "windchimes",
+        "sound_path": "sounds/windchimes.mp3"
+    },
+    {
+        "sound_name":  "xylophone",
+        "sound_path": "sounds/xylophone.mp3"
+    }
+]

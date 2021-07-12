@@ -1,0 +1,23 @@
+<a href="#">click me for change background</a>
+<div id="sd" style="height: 300px; display: none;"></div>
+<script src=" https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous">
+    </script>
+<script>
+    if (typeof (localStorage) == 'undefined') {
+        alert('Your browser does not support HTML5 localStorage. Try upgrading.');
+    } else {
+        if (localStorage.getItem("background") != null) {
+            console.log(localStorage.background)
+            document.getElementById("sd").style.background = localStorage.background;
+        }
+    }
+
+    $("a").click(function () {
+        setColour = 'yellow';/*to more test color can change and retest*/
+        localStorage.setItem("background", setColour);
+        document.getElementById("sd").style.display = "block"
+
+
+    });
+</script>

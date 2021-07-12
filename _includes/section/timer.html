@@ -1,0 +1,93 @@
+<div class="container-fluid">
+    <div class="timer_wrapper">
+        <div class="timerDiv">
+            <span> 00:00</span>
+        </div>
+    </div>
+    <div class="buttons text-center">
+        <button id="editTimer" class="btn" style="border:3px solid #fff" data-toggle="modal"
+            data-target="#exampleModal">Set
+            Timer</button>
+        <button id="editTimer2" class="btn" style="border:3px solid #fff; display: none;" data-toggle="modal"
+            data-target="#exampleModal">Edit
+            Timer</button>
+        <button class="btn ml-2" id="stop">Stop</button>
+        <button class="btn ml-2" id="start">Start</button>
+    </div>
+
+    <div class="modal__wrapper">
+        <div class="modal__container">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Timer</h5>
+                <button type="button" class="close stop" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" id="close" style="color:#000">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alarm">
+                    <div class="icon">
+                        <img src="../../assets/images/timer.svg" alt="alarm-logo" style="width:40px">
+                    </div>
+                    <div class="timerTitle mt-3"></div>
+                    <div class="mb-3 mt-3" id="timer"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="ok">Ok</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" style="margin-top:100px" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Timer</h5>
+                    <button type="button" class="close modalTest" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:#000">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <audio src="" id="playAudio"></audio>
+                    <div class="row text-left" style="font-size: 13px;">
+                        <div class="col-md-4">
+                            <span>Hours</span>
+                            <select class="form-control" id="hours"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <span>Minutes</span>
+                            <select class="form-control" id="minutes"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <span>Seconds</span>
+                            <select class="form-control" id="seconds"></select>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <span>Sound</span>
+                            <select class="form-control" id="audio"></select>
+                        </div>
+                        <div class="col-md-6 playbtnEdit" style="margin-top: 2.5rem; cursor: pointer;">
+                            <i class="fas fa-play-circle playButton fa-2x"></i>
+                            <i class="fas fa-pause-circle playButton2 fa-2x" style="display:none"></i>
+                        </div>
+                        <div class="col-md-12">
+                            <span>Title</span>
+                            <input type="text" class="form-control" id="title" placeholder="Alarm">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary click" data-dismiss="modal"
+                        onclick="onEnter()">Start</button>
+                </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="{{ 'css/timer.css' | relative_url }}">
+<script src="/js/timer.js"></script>
