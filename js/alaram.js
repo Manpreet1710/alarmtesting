@@ -191,15 +191,23 @@ function onEnter() {
 
 
     localStorage.setItem('alarmTitle', title.value)
-    localStorage.setItem('alarm', alarmElement)
+    let userAlarmTime = localStorage.setItem('alarm', alarmElement)
+
 
     let currentTime = new Date()
+    currentTime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), currentTime.getHours(), currentTime.getMinutes(), 00)
+
     let newHrsValue = hoursValue
     if (amPm === 'PM') {
-      newHrsValue = newHrsValue + 12
-
+      newHrsValue = parseInt(newHrsValue) + 12
     }
+
     var dateObject = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), newHrsValue, minutes.value, 00)
+
+    if (currentTime.getTime() >= dateObject.getTime()) {
+      dateObject = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate() + 1, newHrsValue, minutes.value, 00)
+    }
+
     localStorage.setItem("dateObject", JSON.stringify(dateObject))
 
 
@@ -331,11 +339,12 @@ function startTimer(duration, hoursEnd, minutesEnd, amPMEnd) {
 
     remainningTime[0].innerHTML = 'Remaining Time:'
     remainningTime[1].innerHTML = hours + ':' + minutes + ':' + seconds
-    // console.log(hours + ':' + minutes + ':' + seconds)
+
 
     let oldDateObject = localStorage.getItem("dateObject")
     let newDateObject = new Date()
     oldDateObject = new Date(JSON.parse(oldDateObject))
+    console.log('new', newDateObject.getTime(), "old", oldDateObject.getTime())
 
     if (newDateObject.getTime() > oldDateObject.getTime()) {
       openModal()
