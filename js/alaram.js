@@ -283,9 +283,8 @@ function timeDiffererence(hoursEnd, minutesEnd, amPMEnd) {
 
       var duration = (end.getTime() - start.getTime()) / 1000
 
-      setTimeout(function () {
-        startTimer(duration)
-      }, 500)
+      startTimer(duration, hoursEnd, minutesEnd, amPMEnd)
+
     }
   }
 }
@@ -299,18 +298,17 @@ Date.prototype.addDays = function (days) {
 
 // Counter Timer
 var x
-function startTimer(duration) {
-  console.log(duration)
+function startTimer(duration, hoursEnd, minutesEnd, amPMEnd) {
   remainningTime[1].innerHTML = ''
-
-  var timer = duration,
-    hours,
-    minutes,
-    seconds
 
   var tempTime
   clearInterval(x)
   x = setInterval(function () {
+    timeDiffererence(hoursEnd, minutesEnd, amPMEnd)
+    var timer = duration,
+      hours,
+      minutes,
+      seconds
     hours = parseInt(timer / 3600, 10)
     tempTime = parseInt(timer % 3600, 10)
     minutes = parseInt(tempTime / 60, 10)
