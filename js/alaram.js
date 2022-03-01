@@ -193,6 +193,16 @@ function onEnter() {
     localStorage.setItem('alarmTitle', title.value)
     localStorage.setItem('alarm', alarmElement)
 
+    let currentTime = new Date()
+    let newHrsValue = hoursValue
+    if (amPm === 'PM') {
+      newHrsValue = newHrsValue + 12
+
+    }
+    var dateObject = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), newHrsValue, minutes.value, 00)
+    localStorage.setItem("dateObject", JSON.stringify(dateObject))
+
+
     timeDiffererence(hoursValue, minutes.value, amPm)
 
     if (title.value !== '') {
@@ -256,7 +266,7 @@ function timeDiffererence(hoursEnd, minutesEnd, amPMEnd) {
         (amPMEnd == 'AM' && hoursEnd == 12)
       ) {
         hours24FormatEnd = parseInt(hoursEnd) + 12
-        console.log(amPMEnd)
+        // console.log(amPMEnd)
       }
 
       start = new Date(
@@ -277,12 +287,12 @@ function timeDiffererence(hoursEnd, minutesEnd, amPMEnd) {
         secondsEnd
       )
 
+
       if (start > end) {
         end = end.addDays(1)
       }
 
       var duration = (end.getTime() - start.getTime()) / 1000
-
       startTimer(duration, hoursEnd, minutesEnd, amPMEnd)
 
     }
@@ -321,7 +331,21 @@ function startTimer(duration, hoursEnd, minutesEnd, amPMEnd) {
 
     remainningTime[0].innerHTML = 'Remaining Time:'
     remainningTime[1].innerHTML = hours + ':' + minutes + ':' + seconds
-    console.log(hours + ':' + minutes + ':' + seconds)
+    // console.log(hours + ':' + minutes + ':' + seconds)
+
+    let oldDateObject = localStorage.getItem("dateObject")
+    let newDateObject = new Date()
+    oldDateObject = new Date(JSON.parse(oldDateObject))
+
+    if (newDateObject.getTime() > oldDateObject.getTime()) {
+      openModal()
+      playMusic()
+      clearInterval(x)
+      localStorage.removeItem('background')
+      localStorage.removeItem('alarm')
+      localStorage.removeItem('alarmTitle')
+    }
+
 
     if (--timer < 0) {
       openModal()
@@ -332,6 +356,7 @@ function startTimer(duration, hoursEnd, minutesEnd, amPMEnd) {
       localStorage.removeItem('alarmTitle')
       // localStorage.removeItem('sound', optionsSound.value)
     }
+
   }, 1000)
 }
 
