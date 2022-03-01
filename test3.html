@@ -1,0 +1,964 @@
+<!-- <script>
+    var wrequest = false;
+    var fqpath = "/word_tools/ajax/wordfinder.php";
+    var searchtype = "";
+    var params;
+    var querystr;
+
+    function Display() {
+        this.mode = ["1", "A", "A", "0", "0", "0", "L"];
+    }
+    Display.prototype.setView = function () {
+        var node = document.getElementById("colselect");
+        var vmode = node.options[node.selectedIndex].id;
+        vmode = vmode.substr(1);
+        if (vmode >= 0 && vmode <= 20) this.mode[0] = vmode + ""; else if (vmode === "T") this.mode[0] = "T"; else this.mode[0] = "0"
+            ; setCookie("displaystate", this.getCookieString()); wordlist.displayResults();
+    }
+    Display.prototype.getDisplayType = function () { return this.mode[0]; } Display.prototype.isNoColumns = function () {
+        return this.mode[0] === "0";
+    } Display.prototype.isSingleColumn = function () { return this.mode[0] === '1'; }
+    Display.prototype.showLength = function () { return this.mode[3] === 'L'; } Display.prototype.showScrabble = function () {
+        return this.mode[4] === 'S';
+    } Display.prototype.showFriends = function () { return this.mode[5] === 'W'; }
+    Display.prototype.getSortType = function () { return this.mode[1]; } Display.prototype.getSortDirection = function () {
+        return this.mode[2];
+    } Display.prototype.getSortString = function () { return this.mode[1] + "" + this.mode[2]; }
+    Display.prototype.aLeft = function () { this.mode[6] = "L"; displayobj.doAlign(); } Display.prototype.aRight = function () { this.mode[6] = "R"; displayobj.doAlign(); } Display.prototype.aCenter = function () {
+        this.mode[6] = "C";
+        displayobj.doAlign();
+    } Display.prototype.getAlign = function () { return this.mode[6]; }
+    Display.prototype.doAlign = function () {
+        var wc = document.getElementsByClassName('wcol'); if (!wc) { return; } var
+            align = "left"; if (this.mode[6] === "C") { align = "center"; } else if (this.mode[6] === "R") { align = "right"; } var
+                i = wc.length; while (i--) { wc[i].style.textAlign = align; } if (displayobj.getDisplayType() === 'T') {
+                    document.getElementById("i" + this.getAlign()).checked = true;
+                } setCookie("displaystate", this.getCookieString());
+    }
+    Display.prototype.setSort = function (smode) {
+        var usmode = smode.toUpperCase(); switch (usmode) {
+            case "AA": case "AD"
+                : case "EA": case "ED": case "LA": case "LD": case "SLA": case "SLD": case "SHA": case "SHD": case "WLA":
+            case "WLD": case "WHA": case "WHD": this.mode[1] = usmode.substr(0, usmode.length - 1);
+                this.mode[2] = usmode[usmode.length - 1]; break; default: this.mode[1] = 'A'; this.mode[2] = 'A'; break;
+        }
+        setCookie("displaystate", this.getCookieString()); wordlist.displayResults();
+    }
+    Display.prototype.getLength = function () { return this.mode[3]; } Display.prototype.updateLengthFlag = function () {
+        var
+        node = document.getElementById('showlength'); this.mode[3] = (!node || !node.checked) ? '0' : 'L';
+        setCookie("displaystate", this.getCookieString()); wordlist.displayResults();
+    }
+    Display.prototype.getScrabble = function () { return this.mode[4]; } Display.prototype.updateScrabbleFlag = function () {
+        var node = document.getElementById('showscrabble'); this.mode[4] = (!node || !node.checked) ? '0' : 'S';
+        setCookie("displaystate", this.getCookieString()); wordlist.displayResults();
+    }
+    Display.prototype.getFriends = function () { return this.mode[5]; } Display.prototype.updateFriendsFlag = function () {
+        var node = document.getElementById('showfriends'); this.mode[5] = (!node || !node.checked) ? '0' : 'W';
+        setCookie("displaystate", this.getCookieString()); wordlist.displayResults();
+    } Display.prototype.view = function () {
+        alert("mode=" + this.mode[0] + this.mode[1] + this.mode[2] + this.mode[3] + this.mode[4] + this.mode[5]);
+    }
+    Display.prototype.getCookieString = function () {
+        return this.mode.join();
+    }
+    Display.prototype.setFromCookieString = function (cookiestr) {
+        this.mode = cookiestr.split(" ,");
+    } var displayobj = new Display(); function Word(w) {
+        this.w = w.w; var x = 0; if
+            (w.v[x] === "h") { this.sl = 0; this.sh = 0; x++; } else {
+                this.sl = parseInt(w.v.substring(x, x + 2), 16);
+            this.sh = parseInt(w.v.substring(x + 2, x + 5), 16); x += 5;
+        } if (w.v[x] === "h") { this.wl = 0; this.wh = 0; x++; } else {
+            this.wl = parseInt(w.v.substring(x, x + 2), 16); this.wh = parseInt(w.v.substring(x + 2, x + 5), 16); x += 5;
+        }
+    }
+    Word.prototype.getAllString = function () {
+        var wstr = "<div><a href='/word_analysis/" + this.w + "'>" + this.w + "</a>"
+        ; if (!displayobj.showLength() && !displayobj.showScrabble() && !displayobj.showFriends()) {
+            wstr += "</div>";
+            return wstr;
+        } wstr += " ("; if (displayobj.showLength()) {
+            wstr += "<span class='wl'>" + (this.w.length < 10 ?
+                ("&#160;" + this.w.length) : this.w.length) + "</span>,";
+        } if (displayobj.showScrabble()) {
+            wstr
+            += "<span class='sv'>" + (this.sl < 10 ? ("&#160;" + this.sl) : this.sl) + "</span>,"; wstr += "<span class='sv'>" +
+                (this.sh < 10 ? ("&#160;" + this.sh) : this.sh) + "</span>,";
+        } if (displayobj.showFriends()) {
+            wstr
+            += "<span class='fv'>" + (this.wl < 10 ? ("&#160;" + this.wl) : this.wl) + "</span>,"; wstr += "<span class='fv'>" +
+                (this.wh < 10 ? ("&#160;" + this.wh) : this.wh) + "</span>,";
+        } wstr += ")</div>"; return wstr.replace(/,\)/g, ")"
+        );
+    } Word.prototype.getTableHeader = function () {
+        var
+        wstr = "<tr><td class='wcol'>Word<br /><button class='' onclick='displayobj.aLeft();'>[</button><button class='' onclick='displayobj.aCenter();'>|</button><button class='' onclick='displayobj.aRight();'>]</button></td>"
+        ; if (displayobj.showLength()) { wstr += "<td class='wl'>Word Length</td>"; } if (displayobj.showScrabble()) {
+            wstr
+            += "<td class='sv'>Scrabble Lowest Board Score</td>";
+        } if (displayobj.showScrabble()) {
+            wstr
+            += "<td class='sv'>Scrabble Highest Board Score</td>";
+        } if (displayobj.showFriends()) {
+            wstr
+            += "<td class='fv'>Words with Friends Lowest Board Score</td>";
+        } if (displayobj.showFriends()) {
+            wstr
+            += "<td class='fv'>Words with Friends Highest Board Score</td>";
+        } wstr += "</tr>"; return wstr;
+    }
+    Word.prototype.getTableRow = function () {
+        var wstr = "<tr><td class='wcol'><a href='/word_analysis/" + this.w + "'>" +
+            this.w + "</a></td>"; if (displayobj.showLength()) wstr += "<td class='wl'>" + this.w.length + "</td>"; if
+            (displayobj.showScrabble()) {
+                wstr += "<td class='sv'>" + this.sl + "</td>"; wstr += "<td class='sv'>" + this.sh
+                    + "</td>";
+        } if (displayobj.showFriends()) {
+            wstr += "<td class='fv'>" + this.wl + "</td>"; wstr
+                += "<td class='fv'>" + this.wh + "</td>";
+        } wstr += "</tr>"; return wstr;
+    } Word.prototype.reverseWord = function () {
+        if (this.w === null || this.w === "") { return; } var rstr = ""; for (i = this.w.length - 1; i >= 0; i--) {
+            rstr += this.w[i];
+        }
+        this.w = rstr;
+    }
+
+    function stringcmp(worda, wordb) {
+        if (worda.w < wordb.w) return -1; if (worda.w > wordb.w) return 1;
+        return 0;
+    }
+
+    function revstringcmp(worda, wordb) {
+        if (worda.w > wordb.w) return -1;
+        if (worda.w < wordb.w) return 1; return 0;
+    } function lengthcmp(worda, wordb) {
+        if (worda.w.length <
+            wordb.w.length) return -1; if (worda.w.length > wordb.w.length) return 1;
+        return stringcmp(worda, wordb);
+    }
+
+    function revlengthcmp(worda, wordb) {
+        if (worda.w.length > wordb.w.length) return -1;
+        if (worda.w.length < wordb.w.length) return 1; return revstringcmp(worda, wordb);
+    } function
+        scrabblelowcmp(worda, wordb) {
+            if (worda.sl === 0) return 1; if (wordb.sl === 0) return -1; if (worda.sl === 0
+                && wordb.sl === 0) return stringcmp(wordb.w, worda.w); if (worda.sl < wordb.sl) return -1; if (worda.sl >
+                    wordb.sl) return 1;
+        return stringcmp(wordb.w, worda.w);
+    }
+
+    function revscrabblelowcmp(worda, wordb) {
+        if (worda.sl > wordb.sl) return -1;
+        if (worda.sl < wordb.sl) return 1; return revstringcmp(wordb, worda);
+    } function scrabblehighcmp(worda,
+        wordb) {
+            if (worda.sh === 0) return 1; if (wordb.sh === 0) return -1; if (worda.sh === 0 && wordb.sh === 0)
+                return stringcmp(wordb.w, worda.w); if (worda.sh < wordb.sh) return -1; if (worda.sh > wordb.sh)
+            return 1;
+        return stringcmp(wordb.w, worda.w);
+    }
+
+    function revscrabblehighcmp(worda, wordb) {
+        if (worda.sh > wordb.sh) return -1;
+        if (worda.sh < wordb.sh) return 1; return revstringcmp(wordb, worda);
+    } function
+        friendslowcmp(worda, wordb) {
+            if (worda.wl === 0) return 1; if (wordb.wl === 0) return -1; if
+                (worda.wl === 0 && wordb.wl === 0) return stringcmp(wordb.w, worda.w); if (worda.wl < wordb.wl)
+            return -1; if (worda.wl > wordb.wl) return 1;
+        return stringcmp(worda, wordb);
+    }
+
+    function revfriendslowcmp(worda, wordb) {
+        if (worda.wl > wordb.wl) return -1;
+        if (worda.wl < wordb.wl) return 1; return revstringcmp(wordb, worda);
+    } function
+        friendshighcmp(worda, wordb) {
+            if (worda.wh === 0) return 1; if (wordb.wh === 0) return -1; if
+                (worda.wh === 0 && wordb.wh === 0) { return stringcmp(wordb.w, worda.w); } if (worda.wh <
+                    wordb.wh) return -1; if (worda.wh > wordb.wh) return 1;
+        return stringcmp(worda, wordb);
+    }
+
+    function revfriendshighcmp(worda, wordb) {
+        if (worda.wh > wordb.wh) return -1;
+        if (worda.wh < wordb.wh) return 1; return revstringcmp(wordb, worda);
+    } function WordList() { this.wordarray = new Array(); } WordList.prototype.clearWords = function () {
+        this.wordarray = new Array();
+    } WordList.prototype.addWord = function (w) {
+        var newword = new
+            Word(w); this.wordarray.push(newword);
+    } WordList.prototype.view = function () {
+        alert("In
+                                View: count = " + this.wordarray.length);
+}
+    WordList.prototype.displaySingleLine = function () {
+        var wordstr = " <table id=\'coltable\'>
+            < tr >
+            <td class=\'wcol\' style=\'width:100%;white-space:normal;\'>";
+        var l = this.wordarray.length - 1;
+        for (var i in this.wordarray) {
+            wordstr += this.wordarray[i].getAllString();
+        }
+        wordstr += "</td>
+                                </tr >
+                                </table > ";
+            (document.getElementById("wordlistdisplay")).innerHTML = wordstr;
+    }
+    WordList.prototype.displayColumns = function (cc) {
+        var l = this.wordarray.length;
+        var cwidth = 100 / cc;
+        var extra = l % cc;
+        var i = 0;
+        var wordstr = "<table id='coltable'>
+            < tr > ";
+        for (var col = 0; col < cc; col++) {
+            var wpc = Math.floor(l * 1.0 / cc); if (extra
+                !== 0) { wpc++; extra--; } wordstr += "<td class=\'wcol\' style=\'width:" +
+                    cwidth + "%;\'>"; while (wpc !== 0) {
+                        wordstr
+                        += this.wordarray[i].getAllString() + "<br />"; wpc--; i++;
+                    } wordstr
+                        += "</td>";
+        } wordstr += "</tr></table>";
+        (document.getElementById("wordlistdisplay")).innerHTML = wordstr;
+    }
+    WordList.prototype.displayTable = function () {
+        var
+        wordstr = "<table class='wordlisttable'>" +
+            this.wordarray[0].getTableHeader(); for (var i in this.wordarray) wordstr
+                += this.wordarray[i].getTableRow(); wordstr += "</table>";
+        (document.getElementById("wordlistdisplay")).innerHTML = wordstr;
+    }
+    WordList.prototype.displayResults = function () {
+        wordlist.sortWords(); switch
+            (displayobj.getDisplayType()) {
+                case "0": wordlist.displaySingleLine();
+                    break; case "1": wordlist.displayColumns(1); break; case "2":
+                    wordlist.displayColumns(2); break; case "3": wordlist.displayColumns(3);
+                    break; case "4": wordlist.displayColumns(4); break; case "5":
+                    wordlist.displayColumns(5); break; case "6": wordlist.displayColumns(6);
+                    break; case "7": wordlist.displayColumns(7); break; case "8":
+                    wordlist.displayColumns(8); break; case "9": wordlist.displayColumns(9);
+                    break; case "10": wordlist.displayColumns(10); break; case "11":
+                    wordlist.displayColumns(11); break; case "12": wordlist.displayColumns(12);
+                    break; case "13": wordlist.displayColumns(13); break; case "14":
+                    wordlist.displayColumns(14); break; case "15": wordlist.displayColumns(15);
+                    break; case "16": wordlist.displayColumns(16); break; case "17":
+                    wordlist.displayColumns(17); break; case "18": wordlist.displayColumns(18);
+                    break; case "19": wordlist.displayColumns(19); break; case "20":
+                    wordlist.displayColumns(20); break; case "T": wordlist.displayTable();
+                    break; default: alert("invalid display option"); break;
+            }
+        displayobj.doAlign(); var node = document.getElementById("i" +
+            displayobj.getDisplayType()); if (node !== null) node.selected = "selected";
+        (document.getElementById("i" + displayobj.getAlign())).checked = true;
+        (document.getElementById("showlength")).checked = (displayobj.getLength() === "L"
+            ? true : false);
+        (document.getElementById("showscrabble")).checked = (displayobj.getScrabble() === "S"
+            ? true : false);
+        (document.getElementById("showfriends")).checked = (displayobj.getFriends() === "W"
+            ? true : false);
+        (document.getElementById(displayobj.getSortString())).checked = true;
+    }
+    WordList.prototype.sortWords = function () {
+        if (this.wordarray === null) {
+            return;
+        } var sortstr = displayobj.getSortString(); switch (sortstr) {
+            case "AA": this.wordarray.sort(stringcmp); break; case "AD":
+                this.wordarray.sort(revstringcmp); break; case "EA":
+                wordlist.reverseWordsInArray(); this.wordarray.sort(stringcmp);
+                wordlist.reverseWordsInArray(); break; case "ED":
+                wordlist.reverseWordsInArray(); this.wordarray.sort(revstringcmp);
+                wordlist.reverseWordsInArray(); break; case "LA":
+                this.wordarray.sort(lengthcmp); break; case "LD":
+                this.wordarray.sort(revlengthcmp); break; case "SLA":
+                this.wordarray.sort(scrabblelowcmp); break; case "SLD":
+                this.wordarray.sort(revscrabblelowcmp); break; case "SHA":
+                this.wordarray.sort(scrabblehighcmp); break; case "SHD":
+                this.wordarray.sort(revscrabblehighcmp); break; case "WLA":
+                this.wordarray.sort(friendslowcmp); break; case "WLD":
+                this.wordarray.sort(revfriendslowcmp); break; case "WHA":
+                this.wordarray.sort(friendshighcmp); break; case "WHD":
+                this.wordarray.sort(revfriendshighcmp); break; default: break;
+        }
+    }
+    WordList.prototype.reverseList = function () {
+        if (!wordarray) { return; }
+        this.wordarray.reverse(); displayWordList();
+    }
+    WordList.prototype.reverseWordsInArray = function () {
+        for (var j in
+            this.wordarray) { this.wordarray[j].reverseWord(); }
+    } var wordlist = new
+        WordList(); function getFormatButtons() {
+            columns = displayobj.getDisplayType(); var
+                fbstr = "<div class='controlsdiv'><div class='controls'>Columns<br /><select id='colselect' onchange='displayobj.setView()'>"
+                ; fbstr += "<option id='i0'" + (columns === '0' ? " selected='selected'" : "")
+                    + ">None</option>"; for (var i = 1; i <= 20; i++) fbstr += "<option id='i" + i
+                        + "'" + (columns === 'i' ? " selected='selected'" : "") + ">" + i
+                        + "</option>"; fbstr += "<option id='iT'" + (columns === 'T'
+                            ? " selected='selected'" : "") + ">Table</option>"; fbstr
+                                += "</select></div>"; align = displayobj.getAlign(); fbstr
+                                    += "<div class='controls'>Align<br />"; fbstr
+                                        += "<input id='iL' name='a' onclick='displayobj.aLeft();' type='radio'" +
+                                        (align === 'L' ? " checked='checked'" : "") + "><label for='iL'>L</label>";
+            fbstr
+                += "<input id='iC' name='a' onclick='displayobj.aCenter();' type='radio'" +
+                (align === 'C' ? " checked='checked'" : "") + "><label for='iC'>C</label>";
+            fbstr
+                += "<input id='iR' name='a' onclick='displayobj.aRight();' type='radio'" +
+                (align === 'R' ? " checked='checked'" : "") + "><label for='iR'>R</label>";
+            fbstr += "</div>"; sorttype = displayobj.getSortType() +
+                displayobj.getSortDirection(); fbstr
+                    += "<div class='controls'>Alphabetical<br />(word start)<br />"; fbstr
+                        += "<input id='AA' name='s' onclick='displayobj.setSort(\" AA\")'
+            type = 'radio'" + (sorttype === 'AA' ? " checked = 'checked'" : "") + " > <label
+                for='AA'>&#8593;</label>";
+            fbstr += "<input id='AD' name='s' onclick='displayobj.setSort(\"AD\")'
+            type = 'radio'" + (sorttype === 'AD' ? "
+            checked = 'checked'" : "") + " > <label for='AD'>&#8595;</label></div > ";
+            fbstr += "<div class='controls'>Alphabetical<br />(word end)<br /><input
+            id = 'EA' name = 's' onclick = 'displayobj.setSort(\"EA\")'
+            type = 'radio'" + (sorttype === 'ED' ? "
+            checked = 'checked'" : "") + " ><label for='EA'>&#8593;</label><input
+                                                    id='ED' name='s' onclick='displayobj.setSort(\"ED\")'
+                                                    type='radio'" + (sorttype === 'ED' ? "
+            checked = 'checked'" : "") + " > <label for='ED'>&#8595;</label></div > ";
+            fbstr += "<div class='controls'><span class='wl'>Length</span><br /><input
+            id = 'showlength' type = 'checkbox'
+            onclick = 'displayobj.updateLengthFlag();'" + (displayobj.showLength() ? "
+            checked = 'true'" : "") + " > Display < br /> <input id='LA' name='s'
+                onclick='displayobj.setSort(\"LA\")'
+                type='radio'" + (sorttype === 'LA' ? "
+            checked = 'checked'" : "") + " ><label for='LA'>&#8593;</label><input
+                                                    id='LD' name='s' onclick='displayobj.setSort(\"LD\")'
+                                                    type='radio'" + (sorttype === 'LD' ? "
+            checked = 'checked'" : "") + " > <label for='LD'>&#8595;</label></div > ";
+            fbstr += "<div class='controls'><span
+            class='sv' > Scrabble &#174;&#160;* <br />Board
+            Scores</span ><br /><input id='showscrabble' type='checkbox'
+                                                    onclick='displayobj.updateScrabbleFlag();'" + (displayobj.showScrabble() ? "
+            checked = 'true'" : "") + "'>Display<br />Lowest: <input id=' SLA'
+            name = 's' onclick = 'displayobj.setSort(\"SLA\")'
+            type = 'radio'" + (sorttype === 'SLA' ? "
+            checked = 'checked'" : "") + " ><label for='SLA'><span
+                                                        class='arrows'>&#8593;</span></label><input id='SLD' name='s'
+                                                    onclick='displayobj.setSort(\"SLD\")'
+                                                    type='radio'" + (sorttype === 'SLD' ? "
+            checked = 'checked'" : "") + " ><label for='SLD'><span
+                                                        class='arrows'>&#8595;</span></label><br />Highest: <input
+                id='SHA' name='s' onclick='displayobj.setSort(\"SHA\")'
+                type='radio'" + (sorttype === 'SHA' ? "
+            checked = 'checked'" : "") + " ><label for='SHA'><span
+                                                        class='arrows'>&#8593;</span></label> <input id='SHD' name='s'
+                                                    onclick='displayobj.setSort(\"SHD\")'
+                                                    type='radio'" + (sorttype === 'SHD' ? "
+            checked = 'checked'" : "") + " > <label for='SHD'><span
+                class='arrows'>&#8595;</span></label></div > ";
+            fbstr += "<div class='controls'><span class='fv'>Words&#160;With
+            Friends &#8482;&#160;* <br />Board Scores</span ><br /><input
+                                                    id='showfriends' type='checkbox'
+                                                    onclick='displayobj.updateFriendsFlag();'" + (displayobj.showScrabble() ? "
+            checked = 'true'" : "") + " > Display < br /> Lowest: <input id='WLA'
+                                                    name='s' onclick='displayobj.setSort(\"WLA\")' type='radio'><label
+                                                    for='WLA'" + (sorttype == 'WLA' ? "
+                                                    checked='checked'" : "") + "><span
+                                                        class='arrows'>&#8593;</span></label><input id='WLD' name='s'
+                                                    onclick='displayobj.setSort(\"WLD\")'
+                                                    type='radio'" + (sorttype == 'WLD' ? "
+            checked = 'checked'" : "") + " ><label for='WLD'><span
+                                                        class='arrows'>&#8595;</span></label><br />Highest: <input
+                id='WHA' name='s' onclick='displayobj.setSort(\"WHA\")'
+                type='radio'" + (sorttype == 'WHA' ? "
+            checked = 'checked'" : "") + " ><label for='WHA'><span
+                                                        class='arrows'>&#8593;</span></label><input id='WHD' name='s'
+                                                    onclick='displayobj.setSort(\"WHD\")'
+                                                    type='radio'" + (sorttype == 'WHD' ? "
+            checked = 'checked'" : "") + " > <label for='WHD'><span
+                class='arrows'>&#8595;</span></label></div > ";
+            fbstr += "<div class='clearleft'>&#160;</div>
+                                            </div > ";
+            var node = document.getElementById("fdbuttondiv");
+            node.innerHTML = fbstr;
+        }
+
+    function hideFormatButtons() {
+        var node = document.getElementById("fdbuttondiv");
+        node.innerHTML = "";
+    }
+
+    function dosearch() {
+        if (!testCookiesEnabled()) {
+            hideSearchResult();
+            return false;
+        }
+        if (!hasAllRequiredCookies()) {
+            alert("Unable to do search. Reloading the page...");
+            window.location.reload(true);
+            return false;
+        }
+        hideSearchResult();
+        if (!wrequest) {
+            var sformnode = document.getElementById("sform");
+            if (sformnode !== null) searchtype = sformnode.attributes["class"].value;
+            if (!getParameters()) return false;
+            if (params["searchtype"] !== "patternmatch" && params["searchtype"] !==
+                "submitword") {
+                rememberInputState();
+            }
+            setStatusMessage("<h1>Processing request ...</h1>");
+            (document.getElementById("findwords")).disabled = "disabled";
+            querystr = getQueryString();
+            wreq();
+        }
+        return false;
+    }
+
+    function wreq() {
+        if (wrequest.abort) wrequest.abort();
+        try {
+            wrequest = new XMLHttpRequest();
+        } catch (ms1) {
+            try {
+                wrequest = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (ms2) {
+                try {
+                    wrequest = new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (e) {
+                    alert("wordsearch.js:" + e.toString());
+                    wrequest = false;
+                    return;
+                }
+            }
+        }
+        setStatusMessage("Processing request ...");
+        wrequest.open("GET", fqpath + "?" + querystr);
+        wrequest.setRequestHeader("Content-Type",
+            "application/x-www-form-urlencoded");
+        wrequest.onreadystatechange = wcallback;
+        wrequest.send(null);
+    }
+
+    function wcallback() {
+        if (wrequest === false) return;
+        if (wrequest.readyState == 4) {
+            if (wrequest.status == 200) {
+                try {
+                    if (wrequest.responseText) {
+                        outputWordResults(wrequest.responseText);
+                    }
+                } catch (e) {
+                    wrequest.onreadystatechange = function () { };
+                    if (wrequest.abort) {
+                        wrequest.abort();
+                    }
+                    alert("wrequest Failed. We are experiencing a technical issue with certain
+                                            devices.Please try later.Thank you for your patience!");
+                                            hideSearchResult();
+                }
+                wrequest.abort();
+                wrequest = false;
+                (document.getElementById("findwords")).disabled = false;
+            }
+        }
+    }
+
+    function outputWordResults(jsonstr) {
+        var validjson = !(/[^,:{}\[\]0-9.\-+Eaeflnr-u
+        \n\r\t]/.test(jsonstr.replace(/"(\\.|[^"\\])* "/g, '')));
+        if (!validjson) {
+            alert("Security Violation");
+            resetWF();
+            return;
+        }
+        var obj = eval('(' + jsonstr + ')');
+        if (obj.status == "autherror") {
+            setStatusMessage("Unable to do search. Reloading the page...");
+            if (getParameters()) rememberInputState();
+            setTimeout(window.location.reload(true), 2000);
+            restoreInputState();
+        } else if (obj.status == "timeouterror") {
+            setStatusMessage("Session timed out. Reloading page...");
+            setTimeout(window.location.reload(true), 2000);
+        } else if (obj.status == "busyerror") {
+            alert("Server busy. Try again.");
+            setStatusMessage("Server busy. Try again.");
+            hideSearchResult();
+        } else if (obj.status == "success") {
+            if (obj.search.searchtype == "submitword") {
+                var node = document.getElementById("searchresult");
+                if (node) {
+                    node.innerHTML = "<p>" + obj.statusmessage + "</p>";
+                    node.style.display = "block";
+                    setStatusMessage("");
+                }
+                return;
+            }
+            var wordcount = obj.resultset.wordlist.length;
+            var percent = obj.resultset.percent;
+            var message = obj.resultset.message;
+            if (wordcount === 0) {
+                setStatusMessage("No words found.");
+                hideSearchResult();
+            } else {
+                setStatusMessage(wordcount + (wordcount == 1 ? " word" : " words") + "
+                                            found. (" + percent + " &#160;% of all words) <br />See results below.");
+                wordlist.clearWords();
+                for (var i in obj.resultset.wordlist) {
+                    wordlist.addWord(obj.resultset.wordlist[i]);
+                }
+                getFormatButtons();
+                var sr = document.getElementById("searchresult");
+                sr.innerHTML = "<div id='wordlistdisplay'></div>";
+                sr.style.display = "block";
+                wordlist.displayResults();
+                node = document.getElementById("explanation");
+                if (node) {
+                    node.innerHTML = "<p>*These scores are the highest and lowest board scores
+                    for a word in Scrabble &#174; and Words With Friends &#8482;.</p >
+                                            <p>The score of a word in the game is far more than the sum of the letters.
+                        It is determined by what letters you play and where you play them on the
+                        board. How a word is situated relative to previously played words is
+                        unpredictable, but it also affects the score. We calculate the scores of
+                        all words at all board positions, and the values presented here are the
+                        lowest and the highest possible scores for a word as they would score on
+                        the board. It does not make sense to just add up the letter scores
+                        because this is worse than the lowest score for anything other than the
+                        shortest words, because you can't help but hit a premium board square if
+                        you play them. A score of 0 indicates that the word is not playable in
+                        these games; the word may be too long to fit on the board, or the
+                                                frequency of letters, blanks included, will not allow it.</p>
+                                            <p>If you want to see how a word plays at all possible board positions, go
+                                                to our <a href='/word_analysis/'>Word Analysis</a> section and enter
+                                                your word. Scroll down the page. You won't be disappointed. A play is a
+                                                combination of letters and board position; you will see both; You will
+                                                find all this in one fast and convenient place:</p>
+                                            <ul>
+                                                <li>Definitions and quotations involving the word (if we have them).
+                                                </li>
+                                                <li>All possible Scrabble plays for a word.</li>
+                                                <li>The highest scoring Scrabble plays for the letters in your word (or
+                                                    nonword).</li>
+                                                <li>All possible Words With Friends plays for a word.</li>
+                                                <li>The highest scoring Words With Friends plays for the letters in your
+                                                    word (or nonword)</li>
+                                                <li>All words in your letters and all words in your letters plus one or
+                                                    two blanks, organized by length.</li>
+                                                <li>Patterns of Word Growth involving your word. What words do you make
+                            to get to your word, and how do you extend it. This is handy if you
+                            are trying to set up a play for the next round to make longer words.
+                            Everyone extends words with s'es and d's. Get something your
+                                                    opponent doesn't even think of.</li>
+                                                <li>Sequences of your letters within other words.</li>
+                                            </ul>
+                                            <p>If this doesn't do it for you, have a look at our <q>best plays</q>
+                                                tools. Find optimal plays (words, word scores, and positions) in your
+                                                letters. We have tools for Scrabble and Words With Friends:</p>
+                                            <div class=\"regularbuttons center\"><a
+                    href =\"/word_tools_scrabble_censored/best_scrabble_plays.php\"
+                    class=\"inlineblock sclook center\" title=\"Find Your Best Scrabble
+                    Words\">Find&#160;Your&#160;* Best
+                        * <br />Scrabble &#174; <br />Plays</a > <a
+                            href=\"/words_scrabble_censored/best_plays/legendary_scrabble_plays.html\"
+                    class=\"inlineblock sclook center\" title=\"Legendary Scrabble
+                    Plays\">Legendary<br />Scrabble&#174;<br />Plays</a><a
+                    href =\"/word_tools_wwf_censored/best_words_with_friends_plays.php\"
+                    class=\"inlineblock wclook center\" title=\"Find Your Words With
+                    Friends &#8482; Best Words\">Find&#160;Your&#160;* Best
+                        * <br />Words &#160; With &#160; Friends < br /> Plays</a > <a
+                            href=\"/words_wwf_censored/best_plays/legendary_words_with_friends_plays.html\"
+                    class=\"inlineblock wclook center\" title=\"Legendary Words With
+                    Friends &#8482;
+                    Plays\">Legendary<br />Words&#160;With&#160;Friends<br />Plays</a><a
+                    href =\"/word_analysis/\" class=\"inlineblock lclook center\"
+                    title =\"Word Analysis\">&#160;<br />Word Analysis<br />&#160;</a>
+                                            </div >
+                        <p><strong>To play or not to play. That is the question. These tools only
+                        give you words that match the search criteria. You still need to
+                        apply you own judgment on whether it is legal to play them according
+                        to the rules of each game, in terms of proper nouns, compound words,
+                        etc. We have no official lists for either game, so it is entirely
+                                                    your call to play or not to play a word.</strong></p>";
+                }
+            }
+        } else if (obj.status === "error") {
+            alert("Error: " + obj.statusmessage);
+            resetWF();
+        }
+    }
+
+    function getQueryString() {
+        var qstr = "";
+        for (var key in params) {
+            qstr += (key + "=" + params[key] + "&");
+        }
+        lqstr = qstr.toLowerCase();
+        var auth = getCookie("authkey");
+        lqstr += ("auth=" + auth);
+        hd = getCookie("hotdog");
+        lqstr += ("&hd=" + hd);
+        return lqstr;
+    }
+
+    function getParameters() {
+        params = new Array();
+        var node = document.getElementById("dicname");
+        var dicstr = node.innerHTML;
+        if (dicstr.indexOf("Mammoth") !== -1) {
+            if (dicstr.indexOf("Uncensored") !== -1) {
+                params["dic"] = "mammothuncensored";
+            } else {
+                params["dic"] = "mammothcensored";
+            }
+        } else if (dicstr.indexOf("Enable") !== -1) {
+            if (dicstr.indexOf("Uncensored") !== -1) {
+                params["dic"] = "enableuncensored";
+            } else {
+                params["dic"] = "enablecensored";
+            }
+        } else if (dicstr.indexOf("Scrabble") !== -1) {
+            if (dicstr.indexOf("Uncensored") !== -1) {
+                params["dic"] = "scrabbleuncensored";
+            } else {
+                params["dic"] = "scrabblecensored";
+            }
+        } else if (dicstr.indexOf("Friends") !== -1) {
+            if (dicstr.indexOf("Uncensored") !== -1) {
+                params["dic"] = "wwfuncensored";
+            } else {
+                params["dic"] = "wwfcensored";
+            }
+        } else if (dicstr.indexOf("Default") !== -1) {
+            params["dic"] = "default";
+        } else {
+            params["dic"] = "notset";
+        }
+        var sformnode = document.getElementById("sform");
+        if (sformnode !== null) {
+            searchtype = sformnode.attributes["class"].value;
+        }
+        params["searchtype"] = searchtype;
+        switch (searchtype) {
+            case "startswith":
+            case "endswith":
+            case "containssequence":
+            case "containsminimally":
+            case "containsonly":
+            case "containsonlywc":
+            case "containsonlywcwc":
+            case "wordsmadefrom":
+            case "scrambo":
+            case "soundex":
+            case "metaphone":
+                node = document.getElementById("str");
+                node.value = node.value.replace(/[^a-zA-Z]/g, "").substring(0,
+                    30).toLowerCase();
+                if (node.value === "") {
+                    alert("You need to enter a value.");
+                    node.focus();
+                    return false;
+                }
+                params["str"] = node.value;
+                getLengthParameters();
+                break;
+            case "submitword":
+                node = document.getElementById("str");
+                node.value = node.value.replace(/[^a-zA-Z]/g, "").substring(0,
+                    30).toLowerCase();
+                if (node.value === "") {
+                    alert("You need to enter a value.");
+                    node.focus();
+                    return false;
+                }
+                params["str"] = node.value;
+                if (document.getElementById("addword").checked) {
+                    params["reason"] = "addword";
+                } else if (document.getElementById("inappropriateword").checked) {
+                    params["reason"] = "inappropriateword";
+                } else if (document.getElementById("notaword").checked) {
+                    params["reason"] = "notaword";
+                }
+                break;
+            case "patternmatch":
+                node = document.getElementById("str");
+                node.value = (node.value.replace(/[^a-zA-Z*?]/g, ""));
+                node.value = node.value.replace(/\*{2,}/g, "*").substring(0,
+                    30).toLowerCase();
+                if (node.value === "") {
+                    alert("You need to enter a value.");
+                    node.focus();
+                    return false;
+                }
+                if (node.value === "*") {
+                    alert("You need to be more specific.");
+                    node.focus();
+                    return false;
+                }
+                str = node.value.replace(/\?/g, "%3F");
+                params["str"] = str.replace(/\*/g, "%2A");
+                getLengthParameters();
+                break;
+            case "anagram":
+                node = document.getElementById("str");
+                node.value = node.value.replace(/[^a-zA-Z]/g, "").substring(0,
+                    30).toLowerCase();
+                if (node.value === "") {
+                    alert("You need to enter a value.");
+                    node.focus();
+                    return false;
+                }
+                params["str"] = node.value;
+                params["lentype"] = "fixedlen";
+                params["num1"] = (trim(node.value)).length;
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    function resetWF() {
+        if (wrequest !== false) {
+            wrequest.onreadystatechange = function () { };
+            wrequest.abort();
+            wrequest = false;
+        }
+        thisfile = "" + window.self.parent.location;
+        if (thisfile.indexOf("suggest_a_word.php") !== -1) {
+            setStatusMessage("&#160;");
+        } else {
+            setStatusMessage("Do a word finder search.<br />Results will display
+                                            below.");
+                                            }
+        (document.getElementById("findwords")).disabled = false;
+        hideFormatButtons();
+        hideSearchResult();
+        var node = document.getElementById("explanation");
+        if (node) {
+            node.innerHTML = "&#160;";
+        }
+        node = (document.getElementById("anylen"));
+        if (node) {
+            node.checked = "checked";
+        }
+        adjustLengthInputs(-1, -1);
+        node = document.getElementById("str");
+        if (node) {
+            node.value = "";
+            node.focus();
+        }
+        removeCookie("inputstate");
+        return false;
+    }
+
+    function getLengthType() {
+        var node = document.getElementById("anylen");
+        if (!node) {
+            return null;
+        }
+        if (node.checked) {
+            return "anylen";
+        } else if ((document.getElementById("fixedlen")).checked) {
+            return "fixedlen";
+        } else if ((document.getElementById("rangelen")).checked) {
+            return "rangelen";
+        }
+        return null;
+    }
+
+    function adjustLengthInputs(num1, num2) {
+        var longestword = 52;
+        var node = document.getElementById("dicname");
+        var dicstr = node.innerHTML;
+        if (dicstr.indexOf("Enable") !== -1) {
+            longestword = 28;
+        } else if (dicstr.indexOf("Scrabble") !== -1) {
+            longestword = 15;
+        } else if (dicstr.indexOf("Words With Friends") !== -1) {
+            longestword = 15;
+        }
+        var str = "";
+        switch (getLengthType()) {
+            case "anylen":
+                str = "";
+                break;
+            case "fixedlen":
+                str = getSelectBox("num1", 1, longestword, (num1 === -1 || num1 ===
+                    undefined ? 6 : num1)) + " letters";
+                break;
+            case "rangelen":
+                str = getSelectBox("num1", 1, longestword, (num1 === -1 || num1 ===
+                    undefined ? 3 : num1));
+                str += " to " + getSelectBox("num2", 1, longestword, (num2 === -1 || num2
+                    === undefined ? 15 : num2)) + " letters";
+                break;
+            default:
+                return;
+        }
+        node = document.getElementById("lengthinputs");
+        node.innerHTML = str;
+        return;
+    }
+
+    function getSelectedValue(selid) {
+        var node = document.getElementById(selid);
+        return node.options[node.selectedIndex].value;
+    }
+
+    function getLengthParameters() {
+        switch (getLengthType()) {
+            case "anylen":
+                params["lentype"] = "anylen";
+                break;
+            case "fixedlen":
+                params["lentype"] = "fixedlen";
+                params["num1"] = getSelectedValue("num1");
+                break;
+            case "rangelen":
+                params["lentype"] = "rangelen";
+                params["num1"] = getSelectedValue("num1");
+                params["num2"] = getSelectedValue("num2");
+                break;
+            default:
+                break;
+        }
+    }
+
+    function getSelectBox(id, low, high, def) {
+        var str = "<select id='" + id + "'>";
+        for (var i = low; i <= high; i++) {
+            if (i === def) {
+                str += ("<option
+                                                    value = '" + i + "' selected = 'selected' > " + i + "</option > ");
+            } else {
+                str += "<option value='" + i + "'>" + i + "</option>";
+            }
+        }
+        str += "</select>";
+        return str;
+    }
+
+    function trim(str) {
+        var t = new String(str);
+        return t.replace(/^[ \t\n]+|[ \t\n]+$/g, "");
+    }
+
+    function testCloseKeyboard(e) {
+        var chascii;
+        if (window.event) {
+            chascii = e.keyCode;
+        } else if (e.which) {
+            chascii = e.which;
+        }
+        if (chascii == 13) {
+            var snode = document.getElementById("str");
+            if (snode) snode.blur();
+            snode = document.getElementById("findwords");
+            if (snode) snode.click();
+        }
+        return false;
+    }
+
+    function testinput(e) {
+        var fnode = document.getElementById("sform");
+        if (fnode) {
+            var snode = document.getElementById("str");
+            var l1 = 0;
+            var pos = snode.selectionStart;
+            if (fnode.className === "patternmatch") {
+                if (snode) {
+                    l1 = snode.value.length;
+                    snode.value = snode.value.replace(/[^a-zA-Z\?\*]/g, "").substring(0,
+                        30).toLowerCase();
+                    if (l1 !== snode.value.length) pos = pos - 1;
+                    snode.setSelectionRange(pos, pos);
+                }
+            } else {
+                if (snode) {
+                    l1 = snode.value.length;
+                    snode.value = snode.value.replace(/[^a-zA-Z]/g, "").substring(0,
+                        30).toLowerCase();
+                    if (l1 !== snode.value.length) pos = pos - 1;
+                    snode.setSelectionRange(pos, pos);
+                }
+            }
+        }
+        return false;
+    }
+
+    function hideSearchResult() {
+        var sr = document.getElementById("searchresult");
+        if (sr) sr.style.display = "none";
+    }
+
+    function setStatusMessage(msgstr) {
+        var node = document.getElementById("statusdiv");
+        if (!node) return;
+        node.innerHTML = msgstr;
+    }
+
+    function clearCheckBoxes() {
+        (document.getElementById("drop-literature")).checked = false;
+        (document.getElementById("drop-about")).checked = false;
+        (document.getElementById("hamburger")).checked = false;
+        return false;
+    }
+
+    function adjustCheckBoxes(me) {
+        if (me !== "literature") (document.getElementById("drop-literature")).checked
+            = false;
+        if (me !== "about") (document.getElementById("drop-about")).checked = false;
+        return false;
+    }
+
+    function testCookiesEnabled() {
+        var enabled = navigator.cookieEnabled;
+        if (enabled === false) {
+            document.cookie = "testcookie";
+            if (document.cookie.indexOf("testcookie") !== -1) {
+                enabled = true;
+                document.cookie = "testcookie=1; expires=Thu, 01-Jan-1970 00:00:01 GMT";
+            } else {
+                enabled = false;
+            }
+        }
+        var node = document.getElementById("nocookies");
+        if (node) {
+            if (!enabled) {
+                node.innerHTML = "You need to enable cookies to use this tool. Enable your
+                cookies and reload the page.";
+                node.style.display = "block";
+            } else {
+                node.style.display = "none";
+            }
+        }
+        return enabled;
+    }
+
+    function hasAllRequiredCookies() {
+        var cookies = document.cookie;
+        if (cookies === "") return false;
+        if (cookies.indexOf("count") == -1 || cookies.indexOf("inittime") == -1 ||
+            cookies.indexOf("lasttime") == -1 || cookies.indexOf("authkey") == -1 ||
+            cookies.indexOf("verification") == -1) {
+            return false;
+        }
+        return true;
+    }
+
+    function getCookie(cookiename) {
+        var arr = document.cookie.split(";");
+        var arr2;
+        for (var i = 0, len = arr.length; i < len; i++) {
+            arr2 = arr[i].split("=");
+            if (arr2[0].trim() === cookiename) return arr2[1].trim();
+        }
+        return "";
+    }
+
+
+</script> -->

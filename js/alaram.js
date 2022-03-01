@@ -1,16 +1,18 @@
 // GRAB ALL HTML ELEMENT IN VARIABLES
 
 console.log('connected')
+
 // for sounds
 let playButton = document.querySelector('.playButton')
 let audio = document.querySelector('#myAudio')
 let audioSrc = document.querySelector('#audioSrc')
 
+let remainningTime = document.getElementsByClassName('remainningTime')
+
 // hr , mins , ampm
 let optionsSound = document.querySelector('#sound')
-let hours = document.querySelector('#hours')
-let minutes = document.querySelector('#minutes')
-let AMPM = document.querySelector('#AMPM')
+let hours = document.querySelector('#edit-hour')
+let minutes = document.querySelector('#edit-minute')
 let title = document.querySelector('.title')
 let result = document.querySelector('.result')
 
@@ -31,22 +33,31 @@ const closeBtn = document.querySelector('.close')
 // DROPDOWN MUSIC LIST
 async function getUserAsync(id) {
   let select = id
-  let response = await fetch('sound.json')
-  let data = await response.json()
-  for (i = 0; i < data.length; i++) {
-    select.options[select.options.length] = new Option(data[i].sound_name)
+  for (let n = 0; n < select.length; n++) {
+    const elem = select[n]
+    if (elem.innerHTML == 'Rooster') {
+      if (localStorage.getItem('sound') === null) {
+        localStorage.setItem('sound', elem.innerHTML.toLowerCase())
+        elem.setAttribute('selected', '')
+      }
+    }
+
+    if (elem.innerHTML.toLowerCase() == localStorage.getItem('sound')) {
+      localStorage.setItem('sound', elem.innerHTML.toLowerCase())
+      elem.setAttribute('selected', '')
+    }
   }
 }
 
 optionsSound.addEventListener('input', () => {
-  localStorage.setItem('sound', optionsSound.value)
+  localStorage.setItem('sound', optionsSound.value.toLowerCase())
 })
 
 getUserAsync(optionsSound)
 
 // for playing audio
 const playMusic = () => {
-  audio.src = 'sounds/' + localStorage.getItem('sound') + '.mp3'
+  audio.src = 'sounds/' + localStorage.getItem('sound').toLowerCase() + '.mp3'
   audio.play()
   audio.loop = true
   isPlaying = true
@@ -54,7 +65,7 @@ const playMusic = () => {
 }
 // for pause audio
 const pauseMusic = () => {
-  audio.src = 'sounds/' + optionsSound.value + '.mp3'
+  audio.src = 'sounds/' + optionsSound.value.toLowerCase() + '.mp3'
   isPlaying = false
   audio.pause()
   playButton.classList.replace('fa-pause', 'fa-play')
@@ -66,9 +77,9 @@ playButton.addEventListener('click', () => {
 })
 
 // input audio select
-// optionsSound.addEventListener('input', () => {
-//   playMusic()
-// })
+optionsSound.addEventListener('input', () => {
+  playMusic()
+})
 
 // when audio finished
 audio.addEventListener('ended', () => {
@@ -96,70 +107,35 @@ function startTime() {
     hr + ':' + min + ':' + sec + ' ' + `<span> ${ap} </span>`
 
   currentTime = hr + ':' + min + ' ' + ap
-  let alarmSet = localStorage.getItem('alarm')
 
-  if (currentTime == alarmSet) {
-    openModal()
-    playMusic()
-  } else {
-    setTimeout(function () {
-      startTime()
-    }, 500)
-  }
+  setTimeout(function () {
+    startTime()
+  }, 500)
 }
-
 // calling function
 startTime()
 
-// ADD ZERO
+// ADDED ZEROS
 function checkTime(i) {
   if (i < 10) {
     i = '0' + i
   }
   return i
 }
-// ADD ZERO
-function addMinSec(id) {
-  let select = id
-  let min = 59
-  for (i = 0; i <= min; i++) {
-    select.options[select.options.length] = new Option(i < 10 ? '0' + i : i)
-  }
-}
-// ADD ZERO
-function addHour(id) {
-  let select = id
-  let hrs = 12
-  for (i = 1; i <= hrs; i++) {
-    if (i == 12) {
-      select.options[select.options.length] = new Option(i + ' ' + 'AM')
-    }
-  }
-  for (i = 1; i < hrs; i++) {
-    if (i < 12) {
-      select.options[select.options.length] = new Option(i + ' ' + 'AM')
-    }
-  }
-}
-function addHour2(id) {
-  let select = id
-  let hrs = 12
-  for (i = 1; i <= hrs; i++) {
-    if (i == 12) {
-      select.options[select.options.length] = new Option(i + ' ' + 'PM')
-    }
-  }
-  for (i = 1; i < hrs; i++) {
-    if (i < 12) {
-      select.options[select.options.length] = new Option(i + ' ' + 'PM')
-    }
-  }
-}
 
-//add
-addHour(hours)
-addHour2(hours)
-addMinSec(minutes)
+for (let n = 0; n < hours.length; n++) {
+  const elem = hours[n]
+
+  if (elem.innerHTML.replace(/\&nbsp;/g, '') == moment().format('h A')) {
+    elem.setAttribute('selected', '')
+  }
+}
+for (let n = 0; n < minutes.length; n++) {
+  const elem = minutes[n]
+  if (elem.innerHTML == moment().format('mm')) {
+    elem.setAttribute('selected', '')
+  }
+}
 
 let alarm_alert_modal = document.querySelector('.alarm_alert_modal')
 let alarmTime = document.getElementsByClassName('alarmTime')
@@ -167,7 +143,7 @@ let alarmTitle = document.getElementsByClassName('alarm-title')
 
 // ALARM SET FUNCTION
 
-window.onload = function () {
+document.addEventListener('DOMContentLoaded', () => {
   if (typeof localStorage == 'undefined') {
     alert('Your browser does not support HTML5 localStorage. Try upgrading.')
   } else {
@@ -177,57 +153,29 @@ window.onload = function () {
       alarmTitle[1].innerHTML = localStorage.getItem('alarmTitle')
       alarmTime[0].innerHTML = localStorage.getItem('alarm')
       alarmTime[1].innerHTML = localStorage.getItem('alarm')
+      document.querySelector('#set-Alarm').style.display = 'none'
+
+      localStorage.getItem('remainningTime')
       alarm_result.style.display = 'block'
+
+      let time = localStorage.getItem('alarm')
+      let hoursValue = time.split(':')[0]
+      let minitesValue = time.split(':')[1].split(' ')[0]
+      let amPmValue = time.split(':')[1].split(' ')[1]
+
+      if (hoursValue && minitesValue && amPmValue) {
+        timeDiffererence(hoursValue, minitesValue, amPmValue)
+      }
     }
   }
-}
+})
+
+var my_timer
 
 function onEnter() {
-  var currentTime = moment()
-  let Chr = moment(currentTime).format('h A')
-  // console.log(Chr.split(' '))
-  // console.log(hours.value.split(' '))
-
-  let cTime = Chr.split(' ')[1]
-  let uTime = hours.value.split(' ')[1]
-
-  if (cTime === uTime) {
-    console.log('true')
-    console.log(parseInt(hours.value) - Chr.split(' ')[0])
-  }
-  if (cTime !== uTime) {
-    console.log(parseInt(hours.value) + parseInt(Chr.split(' ')[0] - 2))
-  }
-
-  // let min = moment(currentTime).format('mm')
-  // let sec = moment(currentTime).format('ss')
-  // let time = hr + ':' + min + ':' + sec
-  // let t = time.split(':')
-  // hr = parseInt(hours.value) - parseInt(t[0])
-  // console.log(hours.value)
-  // min = parseInt(minutes.value) - parseInt(t[1])
-  // sec = parseInt(t[2])
-  // setInterval(() => {
-  //   if (sec == 0) {
-  //     if (min > 0) {
-  //       sec = 59
-  //       min--
-  //     } else if (hr > 0) {
-  //       min = 59
-  //       sec = 59
-  //       hr--
-  //     } else {
-  //       timeup = true
-  //     }
-  //   } else {
-  //     sec--
-  //   }
-
-  //   document.querySelector('.remainTime').innerHTML = hr + ':' + min + ':' + sec
-  //   console.log(hr + ' ' + 'Hours' + ':' + min + ' ' + 'minutes' + ':' + sec)
-  // }, 800)
-
   if (activeAlarm == false) {
+    pauseMusic()
+    document.querySelector('#set-Alarm').style.display = 'none'
     setColour = 'rgb(26 26 26)'
     alarm_result.style.background = setColour
     localStorage.setItem('background', setColour)
@@ -237,10 +185,15 @@ function onEnter() {
     let hoursValue = hrs[0]
     let amPm = hrs[1]
 
-    alarmElement = hoursValue + ':' + minutes.value + ' ' + amPm
+
+    alarmElement =
+      hoursValue.replace(/\xA0/g, ' ') + ':' + minutes.value + ' ' + amPm
+
 
     localStorage.setItem('alarmTitle', title.value)
     localStorage.setItem('alarm', alarmElement)
+
+    timeDiffererence(hoursValue, minutes.value, amPm)
 
     if (title.value !== '') {
       alarmTitle[0].innerHTML = localStorage.getItem('alarmTitle')
@@ -251,26 +204,193 @@ function onEnter() {
   }
 }
 
+// TimeDifferernece Function
+
+function timeDiffererence(hoursEnd, minutesEnd, amPMEnd) {
+  var today = new Date()
+  var hours
+  var hours24Format = today.getHours() //for hours
+  var minutes = today.getMinutes() //for mins
+  var seconds = today.getSeconds() //for sec
+  var amPM
+  var error = ''
+
+  // AMPM LOGIC here
+  amPM = hours24Format < 12 ? 'AM' : 'PM'
+  hours = hours24Format == 0 ? 12 : hours24Format
+  hours = hours24Format > 12 ? hours24Format - 12 : hours24Format
+
+  var hoursStart = hours
+  var minutesStart = minutes
+  var secondsStart = seconds
+  var hoursEnd = hoursEnd
+  var minutesEnd = minutesEnd
+  var secondsEnd = '0'
+  var hours24FormatStart
+  var hoursr24FormatEnd
+  var amPMStart = amPM
+  var amPMEnd = amPMEnd
+
+  if (
+    !isNaN(hoursStart) &&
+    !isNaN(minutesStart) &&
+    !isNaN(secondsStart) &&
+    !isNaN(hoursEnd) &&
+    !isNaN(minutesEnd) &&
+    !isNaN(secondsEnd)
+  ) {
+    if (error == '') {
+      hours24FormatStart = hoursStart
+
+      if (
+        (amPM == 'PM' && hoursStart < 12) ||
+        (amPM == 'AM' && hoursStart == 12)
+      ) {
+        hours24FormatStart = hoursStart + 12
+      }
+
+      hours24FormatEnd = hoursEnd
+
+      if (
+        (amPMEnd == 'PM' && hoursEnd < 12) ||
+        (amPMEnd == 'AM' && hoursEnd == 12)
+      ) {
+        hours24FormatEnd = parseInt(hoursEnd) + 12
+        console.log(amPMEnd)
+      }
+
+      start = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        hours24FormatStart,
+        minutesStart,
+        secondsStart
+      )
+
+      end = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        hours24FormatEnd,
+        minutesEnd,
+        secondsEnd
+      )
+
+      if (start > end) {
+        end = end.addDays(1)
+      }
+
+      var duration = (end.getTime() - start.getTime()) / 1000
+
+      setTimeout(function () {
+        startTimer(duration)
+      }, 500)
+    }
+  }
+}
+//duratiop = 500000
+// Date Formatting
+Date.prototype.addDays = function (days) {
+  var date = new Date(this.valueOf())
+  date.setDate(date.getDate() + days)
+  return date
+}
+
+// Counter Timer
+var x
+function startTimer(duration) {
+  console.log(duration)
+  remainningTime[1].innerHTML = ''
+
+  var timer = duration,
+    hours,
+    minutes,
+    seconds
+
+  var tempTime
+  clearInterval(x)
+  x = setInterval(function () {
+    hours = parseInt(timer / 3600, 10)
+    tempTime = parseInt(timer % 3600, 10)
+    minutes = parseInt(tempTime / 60, 10)
+    tempTime = parseInt(timer % 60, 10)
+    seconds = tempTime
+
+    hours = hours < 10 ? '0' + hours : hours
+    minutes = minutes < 10 ? '0' + minutes : minutes
+    seconds = seconds < 10 ? '0' + seconds : seconds
+
+    remainningTime[0].innerHTML = 'Remaining Time:'
+    remainningTime[1].innerHTML = hours + ':' + minutes + ':' + seconds
+    console.log(hours + ':' + minutes + ':' + seconds)
+
+    if (--timer < 0) {
+      openModal()
+      playMusic()
+      clearInterval(x)
+      localStorage.removeItem('background')
+      localStorage.removeItem('alarm')
+      localStorage.removeItem('alarmTitle')
+      // localStorage.removeItem('sound', optionsSound.value)
+    }
+  }, 1000)
+}
+
+//  formatDateTime
+function formatDateTime(date) {
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var day = date.getDate()
+  var hh = date.getHours()
+  var m = date.getMinutes()
+  var s = date.getSeconds()
+  var dd = 'AM'
+  var h = hh
+
+  if (h >= 12) {
+    h = hh - 12
+    dd = 'PM'
+  }
+  if (h == 0) {
+    h = 12
+  }
+
+  month = month < 10 ? '0' + month : month
+  day = day < 10 ? '0' + day : day
+  m = m < 10 ? '0' + m : m
+  s = s < 10 ? '0' + s : s
+  h = h < 10 ? '0' + h : h
+
+  var display = month + '/' + day + '/' + year + ' ' + h + ':' + m
+  display += ':' + s
+  display += ' ' + dd
+
+  return display
+}
+
 // RESET ALARM SET
 document.querySelectorAll('.stop').forEach((item) => {
   item.addEventListener('click', (event) => {
-    location.reload()
+    pauseMusic()
+    document.querySelector('#set-Alarm').style.display = 'block'
     audio.pause()
     closeModal()
-    alarm_result.style.visibility = 'hidden'
-    localStorage.removeItem('background')
-    localStorage.removeItem('alarm')
-    localStorage.removeItem('alarmTitle')
+    alarm_result.style.display = 'none'
   })
 })
 
 // STOP
 let stop2 = document.querySelector('.stop2')
 stop2.addEventListener('click', () => {
+  document.querySelector('#set-Alarm').style.display = 'block'
+  clearInterval(x)
+  // location.reload()
   alarm_result.style.display = 'none'
   localStorage.removeItem('background')
   localStorage.removeItem('alarm')
   localStorage.removeItem('alarmTitle')
+  // localStorage.removeItem('sound', optionsSound.value)
 })
 
 // Modal Js

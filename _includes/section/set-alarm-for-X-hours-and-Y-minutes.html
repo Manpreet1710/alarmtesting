@@ -13,10 +13,10 @@
             <div id="clock"></div>
             <div class="calendar-wrapper">
                 <div class="weekday-label"></div>
-                  <div class="month-label"></div>
-                  <div class="day-label"></div>
-                  <div class="year"></div>
-          </div>
+                <div class="month-label"></div>
+                <div class="day-label"></div>
+                <div class="year"></div>
+            </div>
         </div>
         <div class="mb-5 d-flex justify-content-center">
             <button class="btn text-white  mr-4 testBtn" style="border: 3px solid white;
@@ -28,18 +28,27 @@
                 Set alarm</button>
         </div>
 
-          <!-- Alarm-Result-Box-Alert -->
+        <!-- Alarm-Result-Box-Alert -->
         <div class="alarm_result">
             <div class="alarm">
                 <div class="alarm-title" style="margin-bottom: 15px;">Alarm</div>
                 <div class="time">
                     <div class="icon mr-2">
-                        <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:20px">
+                        <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:20px">
                     </div>
                     <div class="alarm-time">
-                        Alarm set for
+
                         <span id="afterTime"></span>
                     </div>
+                </div>
+                <div class="remainningTimes mt-3">
+                    <span>
+                        <span class="remainningTime">
+
+                        </span>
+                        <span class="remainningTime"></span>
+                    </span>
+
                 </div>
             </div>
             <div class="cancel mt-3">
@@ -49,7 +58,7 @@
         <!-- CLOSE -->
 
 
-         <!-- Modal Popup When Alarm Ringing the alarm -->
+        <!-- Modal Popup When Alarm Ringing the alarm -->
         <div class="modal__wrapper">
             <div class="modal__container">
                 <div class="modal-header">
@@ -64,7 +73,7 @@
                             <audio id="myAudio">
                                 <source src="../../sounds/school.mp3" type="audio/mpeg">
                             </audio>
-                            <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:40px">
+                            <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:40px">
                         </div>
                         <div class="alarm-title mb-3">Alarm</div>
                         <div id="alarmText"></div>
@@ -77,7 +86,8 @@
         </div>
 
         <!-- testING modal FOR ALARM RINGING  -->
-        <div class="modal fade topMargin" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade topMargin" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -89,7 +99,7 @@
                     <div class="modal-body">
                         <div class="alarm">
                             <div class="icon">
-                                <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:40px">
+                                <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:40px">
                             </div>
                             <div class="alarm-title mb-3 mt-3">Alarm</div>
                             {{page.hours}} hours and {{page.minutes}} minutes from now
@@ -109,9 +119,10 @@
 <!-- ADDED ONE EXTERNAL STYLE CSS -->
 <link rel="stylesheet" href="{{ 'css/alarm.css' | relative_url }}">
 <script src="{{ 'js/currentDate.js' | relative_url }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script>
-    
+
     // ALL HTML ELEMENTS GRAB HERE
     let audio = document.getElementById('myAudio')
     let testingModal = document.getElementById('testingModal')
@@ -120,6 +131,7 @@
     let hourValue = `{{page.hours}}`
     let minutes = `{{page.minutes}}`
 
+    let remainningTime = document.getElementsByClassName('remainningTime')
     let alarm_result = document.querySelector('.alarm_result')
     let alaram_testing_popup = document.querySelector('.alaram_testing_popup')
     let btn1 = document.querySelector('.btn1')
@@ -168,14 +180,6 @@
         hr = hr > 12 ? hr - 12 : hr
 
 
-        currentTime = hr + ':' + min + ':' + sec + ' ' + ap
-
-        alarmXYHrs = localStorage.getItem("Xhours")
-        if (currentTime == alarmXYHrs) {
-            alarmText.innerHTML = alarmXYHrs
-            openModal()
-            audio.play()
-        }
 
         // today date and time printing...
         document.getElementById('clock').innerHTML =
@@ -197,71 +201,41 @@
         return i
     }
 
+    window.onload = function () {
+        if (typeof localStorage == 'undefined') {
+            alert('Your browser does not support HTML5 localStorage. Try upgrading.')
+        } else {
+            if (localStorage.getItem('background7') != null) {
+                alarm_result.style.background = localStorage.background
+                alarm_result.style.display = 'block'
+                setAlarmHeading.innerHTML = `Alarm set for ${localStorage.getItem("hourMsg")} hours and ${localStorage.getItem("minutesMsg")} minutes from now`
+                afterTime.innerHTML = `Alarm set for ${localStorage.getItem("xHours_and_yHours")}`
+            }
+        }
+    }
+
+
     // ALARM SET FUNCTION
     function onEnter() {
-        var today = new Date()
-
-        var hr = today.getHours() //for hours
-        var min = today.getMinutes() //for mins
-        var sec = today.getSeconds() //for sec
-
-       
-
-        //Add a zero in front of numbers<10
-        min = checkTime(min)
-        sec = checkTime(sec)
-
+        setColour = 'rgb(26 26 26)'
+        alarm_result.style.background = setColour
+        localStorage.setItem('background7', setColour)
         alarm_result.style.display = 'block'
         btn1.style.display = 'none'
         testBtn.style.display = 'none'
         if (activeAlarm == false) {
-            let newHrs
-             // AMPM LOGIC here
-                  ap = hr < 12 ? 'AM' : 'PM'
-                  hr = hr == 0 ? 12 : hr
-                  hr = hr > 12 ? hr - 12 : hr
-
-            if(ap == 'PM'){
-            newHrs = parseInt(hr) + parseInt(hourValue)
-            if(newHrs > 12){
-                apPm = 'AM'
-            }
-            if(newHrs == 12){
-                apPm = 'AM'
-            }
-            if(newHrs < 12){
-                apPm = 'PM'
-            }
-            newHrs = newHrs > 12 ? newHrs - 12 : newHrs
-           
-        }
-
-            if(ap == 'AM'){
-            newHrs = parseInt(hr) + parseInt(hourValue)
-            // newHrs = newHrs == 0 ? 12 : newHrs
-            if(newHrs == 12){
-                apPm = 'PM'
-            }
-            if(newHrs > 12){
-                apPm = 'PM'
-            }
-            if(newHrs < 12){
-                apPm = 'AM'
-            }
-            newHrs = newHrs > 12 ? newHrs - 12 : newHrs
-        }
-           
-            let newMins = parseInt(min) + parseInt(minutes)
-            newMins = newMins > 60 ? newMins - 60 : newMins
-            newMins = newMins < 10 ? "0" + newMins : newMins
-            let alarmSet = newHrs + ':' + newMins + ':' + sec + ' ' + apPm
-            console.log(alarmSet)
+            let alarmSet = moment().add(hourValue, 'hours').add(minutes, 'minutes').format('h:mm:ss A')
+            let alarmMsg = moment().add(hourValue, 'hours').add(minutes, 'minutes').format('h:mm:ss A')
+            alarmMsg = alarmMsg.split(":")
+            let hourMsg = alarmMsg[0]
+            let minutesMsg = alarmMsg[1]
+            localStorage.setItem("hourMsg", hourMsg)
+            localStorage.setItem("minutesMsg", minutesMsg)
 
             localStorage.setItem("xHours_and_yHours", alarmSet)
-
             let alarmXYHrs = localStorage.getItem("xHours_and_yHours")
-            setAlarmHeading.innerHTML = `Alarm set for ${hourValue} hours and ${minutes} minutes from now`
-            afterTime.innerHTML = alarmXYHrs
+            setAlarmHeading.innerHTML = `Alarm set for ${localStorage.getItem("hourMsg")} hours and ${localStorage.getItem("minutesMsg")} minutes from now`
+            afterTime.innerHTML = `Alarm set for ${alarmXYHrs}`
         }
     }
 
@@ -275,6 +249,9 @@
             alarm_result.style.display = 'none'
             btn1.style.display = 'block'
             testBtn.style.display = 'block'
+            localStorage.removeItem("hourMsg")
+            localStorage.removeItem("minutesMsg")
+            localStorage.removeItem('background7')
             localStorage.removeItem("xHours_and_yHours")
         })
     })

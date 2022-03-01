@@ -2,11 +2,10 @@
     "H1": "Best online alarm clock",
     "H2": "Do not close browser tab.",
     "TITLE": "Alarm Clock",
-    "color": "white",
     "META": "Simple to use online alarm clock to wake up after specific time or at specific times",
     "img": "/assets/images/logo.png",
     "HOW_TO_CONTENT": {
-        "logoImageUrl": "/assets/images/pdf.svg",
+        "logoImageUrl": "/assets/images/stepup.svg",
         "heading": "How to set alarm using online alarm clock",
         "steps": [
             "Click on set alarm",
@@ -14,5 +13,75 @@
             "Choose sound of your choice",
             "Click submit to set alarm, that's it ! "
         ]
-    }
+    },
+    "FAQ": [
+        {
+            "question": "Can I rely on alarmsetter.com  to setup alarm for 1:05 pm?",
+            "answer": "If you have set alarm for  1:05 pm, you can be 100% sure that alarm will ring at 1:05 pm. You can trust us completely."
+        },
+        {
+            "question": "What will happen to the alarm that I have set, if I refresh the browser ?",
+            "answer": "The alarm will still ring at 1:05 pm, even if you refresh the browser, since we store the information in browser's local cache."
+        },
+        {
+            "question": "What will happen to the alarm that I have set, if I close the tab of browser in which alarmsetter.com is opened?",
+            "answer": "It will be gone. The alarm will not ring at 1:05 pm, if you close the tab."
+        },
+        {
+            "question": "What will happen to the alarm that I have set, if I close the browser?",
+            "answer": "It will be gone. The alarm will not ring at 1:05 pm, if you close the browser."
+        },
+        {
+            "question": "How many hours should do I need to sleep being an adult?",
+            "answer": "For an adult ,average sleeping hours ranges from 7 to 9 hours."
+        },
+        {
+            "question": "What should be the perfect bedtime routine for a working professional?",
+            "answer": "Let us say your wake up time is 5 am.Since 7 to 9 hours of sleep is prescribed for healthy working adults so at least you should go to bed at 5-7 PM at night"
+        },
+        {
+            "question": "How many minutes are there in 1:05 pm?",
+            "answer": "1 hour comprises of 60 minutes. So 1:05 pm  in minutes would be 65"
+        },
+        {
+            "question": "How many seconds are there in 1:05 pm ?",
+            "answer": "1 hour comprises of 3600 seconds whereas 1 minute comprises of 60 seconds.So 1:05 pm in seconds would be 3900"
+        },
+        {
+            "question": "What happens if I sleep too much ?",
+            "answer": "Sleeping more than required can cause dangerous side effects. According to studies it can increase the risk of diabetes, heart disease, stroke, and death according to several studies. So in order take care of your health remember to set alarm to get up on time."
+        },
+        {
+            "question": "I have set alarm for  in my laptop but will it still work if my laptop turns off?",
+            "answer": "If the laptop gets turned off due to any reason alarm won't work."
+        },
+        {
+            "question": "What will happen to my alarm clock I set my mobile phone in airplane mode?",
+            "answer": "It will be be there.The alarm will  ring at TIME even if you set your mobile phone in airplane mode."
+        },
+        {
+            "question": "Can I use my laptop as an alarm clock?",
+            "answer": "Let us say you want to set alarm for 1:05 pm.Just Google Alarmsetter.com and set the required alarm."
+        },
+        {
+            "question": "Is this alarm clock suitable for heavy sleepers?",
+            "answer": "Set alarm for 1:05 pm and leave the rest on Alarmsetter.com.It Is designed for every type of sleepers"
+        },
+        {
+            "question": "I have set alarm for 1:05 pm ,is there any way I can set the alarm tone of my choice?",
+            "answer": "Yes you can set alarm for 1:05 pm  and after that you can pick any alarm tone from the drop downmenu"
+        },
+        {
+            "question": "I am solving questions for my online exam,to check my speed I have set alarm for 1:05 pm .Can I rely  on this tool?",
+            "answer": "Yes, set alarm for 1:05 pm  and take your tests without any worries our the alarm will ring at the right time."
+        },
+        {
+            "question": "I have used this alarm setter to set alarm for 1:05 pm  twice today, I want to use it multiple times so can I use it ?",
+            "answer": "Yes, absolutely. Alarmsetter.com is 100% free and online. You can use it as many times as you require"
+        },
+        {
+            "question": "I have to get ready to attend an important online conference meeting at 1:05 pm  , can this tool help me?",
+            "answer": "Yes , of course simply set the alarm for 1:05 pm  and relax. The alarm will ring at right time without fail."
+        }
+    ]
 }

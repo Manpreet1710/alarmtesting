@@ -1,23 +1,746 @@
-<a href="#">click me for change background</a>
-<div id="sd" style="height: 300px; display: none;"></div>
-<script src=" https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous">
-    </script>
-<script>
-    if (typeof (localStorage) == 'undefined') {
-        alert('Your browser does not support HTML5 localStorage. Try upgrading.');
-    } else {
-        if (localStorage.getItem("background") != null) {
-            console.log(localStorage.background)
-            document.getElementById("sd").style.background = localStorage.background;
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="ctl00_Head1">
+    <title>
+        Set Alarm for 1 Hour From Now - Wake me up in 1 Hour
+    </title>
+    <meta name="description"
+        content="Set alarm for 1 hour from now to set an alarm that rings after 1 hour. Wake me up in 1 hour 1 hour timer is an internet alarm clock that will go off in 1 hour." />
+    <meta name="keywords" content="Set Alarm for 1 hour, Wake me up in 1 hour" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 15px;
+            font-size: 14px
         }
-    }
 
-    $("a").click(function () {
-        setColour = 'yellow';/*to more test color can change and retest*/
-        localStorage.setItem("background", setColour);
-        document.getElementById("sd").style.display = "block"
+        p {
+            font-size: 14px;
+            line-height: 30px
+        }
 
+        h1,
+        h2,
+        h3 {
+            font-weight: 500
+        }
 
-    });
-</script>
+        h1 {
+            font-size: 22px;
+            line-height: 22px
+        }
+
+        h2,
+        h3 {
+            font-size: 18px;
+            padding: 0
+        }
+
+        a {
+            color: #087397;
+            font-size: 15px;
+            line-height: 30px;
+            text-decoration: none
+        }
+
+        a:hover {
+            text-decoration: underline
+        }
+
+        p {
+            padding-right: 40px
+        }
+
+        #header h1 a {
+            margin: 0;
+            font-size: 25px;
+            font-weight: 700;
+            padding-bottom: 20px;
+            padding-top: 20px
+        }
+
+        #subheader {
+            font-size: 15px;
+            padding-bottom: 15px
+        }
+
+        .footer {
+            text-align: center;
+            background-color: #184f66;
+            color: #fff;
+            height: 100px
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none
+        }
+
+        .regular_text label {
+            font-weight: 400;
+            padding: 0 5px
+        }
+
+        .field_text {
+            font-weight: 700
+        }
+
+        .result_data_small {
+            font-size: 17px;
+            padding: 4px;
+            line-height: 25px
+        }
+
+        .result_data_color {
+            color: #098c0c;
+            font-weight: 700
+        }
+
+        .result_data_bold {
+            font-weight: 700;
+            font-size: 18px
+        }
+
+        .result_data {
+            font-weight: 700;
+            font-size: 25px;
+            color: #3675dd;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            line-height: 25px
+        }
+
+        .result {
+            font-size: 15px
+        }
+
+        .result_field {
+            font-size: 15px;
+            font-weight: 700
+        }
+
+        tr.header,
+        tr.header2 {
+            background-color: #bb4d3b;
+            color: #fff
+        }
+
+        tr.header2 {
+            background-color: #bb4d3b;
+            color: #fff
+        }
+
+        tr.header h3,
+        tr.header2 h2 {
+            display: inline;
+            padding: 10px;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            color: #fff
+        }
+
+        .divider_text {
+            color: #d33c07;
+            font-weight: 700
+        }
+
+        .error {
+            color: red
+        }
+
+        .tablestyle {
+            background-color: #fff;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 5px;
+            padding-left: 5px
+        }
+
+        li {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 20px;
+            font-size: 15px
+        }
+
+        .date,
+        .input-custom {
+            background-color: #fff;
+            width: 130px;
+            padding: 6px 12px;
+            line-height: 18px;
+            color: #555;
+            vertical-align: middle;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            display: inline
+        }
+
+        .date:focus,
+        .input-custom:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
+        }
+
+        .input-custom[type=text]:disabled {
+            background-color: #ddd;
+            color: #000
+        }
+
+        .table-bordered {
+            width: 98%;
+            border-spacing: 1px;
+            border-width: thin;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            -moz-border-radius-topleft: 10px;
+            -moz-border-radius-bottomleft: 10px;
+            -webkit-border-top-left-radius: 10px;
+            -webkit-border-bottom-left-radius: 10px;
+            -moz-border-radius-topright: 10px;
+            -moz-border-radius-bottomright: 10px;
+            -webkit-border-top-right-radius: 10px;
+            -webkit-border-bottom-right-radius: 10px
+        }
+
+        .table-bordered th {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            text-align: left
+        }
+
+        .table-bordered td {
+            padding-top: 7px;
+            padding-bottom: 7px;
+            font-size: 14px;
+            line-height: 15px;
+            font-weight: 400
+        }
+
+        .biggersize td {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-weight: 400;
+            font-size: 20px
+        }
+
+        .bgcolor {
+            background-color: #999d9e;
+            color: #fff
+        }
+
+        .bgcolorTableElement {
+            background-color: #f0f0f0
+        }
+
+        .logo td {
+            height: 60px
+        }
+
+        .logo td a {
+            color: #525646;
+            text-decoration: none;
+            margin-right: 10px
+        }
+
+        .menu {
+            margin-top: 6px
+        }
+
+        .menu td {
+            background-color: #5c6349;
+            color: #fff;
+            height: 35px
+        }
+
+        .menu td a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 10px
+        }
+
+        .tablestyle {
+            background-color: #fff;
+            padding-left: 5px;
+            padding-right: 5px
+        }
+
+        .button-main {
+            color: #fff;
+            background-color: #1289bb;
+            border-color: #076406;
+            text-decoration: none
+        }
+
+        .button-main a {
+            color: #fff;
+            text-decoration: none
+        }
+
+        .button {
+            width: 150px;
+            display: inline-block;
+            padding: 6px 18px;
+            margin-bottom: 0;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.428571429;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none
+        }
+
+        .button-long {
+            width: 250px;
+            background-color: #1289bb;
+            color: #fff
+        }
+
+        a.button {
+            text-decoration: none
+        }
+
+        img {
+            max-width: 100%
+        }
+
+        .button-green,
+        .button-green a {
+            width: 120px;
+            color: #fff;
+            background-color: #090;
+            border-color: #076406;
+            text-decoration: none
+        }
+
+        .brown {
+            width: 50px;
+            background-color: #616662
+        }
+
+        .links a {
+            padding-top: 15px;
+            line-height: 38px
+        }
+    </style>
+</head>
+
+<body>
+    <form name="aspnetForm" method="post" action="setalarmforhours.aspx?number1=1" id="aspnetForm">
+        <div>
+            <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
+                value="/wEPDwUKMTM2OTEwMzMyNQ9kFgJmD2QWAgIDD2QWBGYPZBYEAgQPDxYCHgdWaXNpYmxlaGRkAgUPDxYEHgtOYXZpZ2F0ZVVybAUzaHR0cHM6Ly9vbmxpbmUtY2FsY3VsYXRvci5vcmcvc2V0LWFsYXJtLWZvci0yLWhvdXJzHgRUZXh0BRVzZXQgYWxhcm0gZm9yIDIgaG91cnNkZAIDDxYCHwIFBDIwMjFkZJzfDnGJhEQoTxNBjxIONnbFybHi" />
+        </div>
+
+        <div>
+
+            <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION"
+                value="/wEWBAL0xM2TDgLGysbfBwKt2tCWDAKwteuWA++VXf179APktYdbbeWH1o+MBrhE" />
+        </div>
+        <table width="100%" class="logo" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    <table width="1050" align="center">
+                        <tr>
+                            <td width="60"><a href="https://online-calculator.org"><img
+                                        src="https://online-calculator.org/images/online-calculator.gif" /></a></td>
+                            <td width="350">
+                                <div id="header">
+                                    <h1><a href="https://online-calculator.org">Online Calculator</a></h1>
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <table width="1050" class="menu tablestyle" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="25"></td>
+                <td width="65"><a href="https://online-calculator.org">Home</a></td>
+                <td width="10"></td>
+                <td width="90"><a href="https://online-calculator.org/financial-calculators.aspx">Financial</a></td>
+                <td width="10"></td>
+                <td width="60"><a href="https://online-calculator.org/math-calculators.aspx">Math</a></td>
+                <td width="10"></td>
+                <td width="160"><a href="https://online-calculator.org/health-and-fitness-calculators.aspx">Health and
+                        Fitness</a></td>
+                <td width="10"></td>
+                <td width="130"><a href="https://online-calculator.org/time-and-date-calculators.aspx">Time and Date</a>
+                </td>
+                <td width="10"></td>
+                <td width="100"><a href="https://online-calculator.org/conversion.aspx">Conversion</a></td>
+                <td width="10"></td>
+                <td width="100"><a href="https://online-calculator.org/miscellaneous-calculators.aspx">Tools</a></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table width="1050" align="center" cellpadding="0" cellspacing="0" class="tablestyle">
+            <tr>
+                <td valign="top">
+
+                    <br />
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- online_728_horizontal -->
+                    <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px"
+                        data-ad-client="ca-pub-2828604702089638" data-ad-slot="1608633672"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                    <br /><br />
+
+                    <a href="https://online-calculator.org/">Online Calculators</a> > <a
+                        href="https://online-calculator.org/time-and-date-calculators.aspx">Time Calculators</a>
+                    <h1>Set Alarm for 1 Hour</h1>
+
+                    <p><strong>Set alarm for 1 hour from now</strong> to set an alarm that rings after 1 hour.
+                        Wake me up in 1 hour 1 hour timer is an internet alarm clock that will go off in 1 hour. Set
+                        timer for 1 hour with alarm or adjust the hours, minutes and seconds with
+                        the alarm clock according to your needs.</p>
+                    <h2>Wake me up in 1 hour</h2>
+                    <br />
+                    <table>
+                        <tr>
+                            <td colspan="2"><span id="alarmTime" class="field_text" style="display:none"></span></td>
+                        </tr>
+                        <tr>
+                            <td width="200"><span id="lblTimer" class="result_data"
+                                    style="display:none;font-size:50px;">00:00:00</span></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <br /> <br />
+                    <span id="error" class="error" style="display:none">Please enter a time from now.</span>
+                    <table class="table table-bordered">
+                        <tr class="header2">
+                            <td>
+                                <h2>Wake me up in 1 hour</h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input name="ctl00$MainContent$txtHours" type="text" value="1"
+                                    id="ctl00_MainContent_txtHours" class="input-custom" style="width:50px;" /> <span
+                                    class="field_text">Hours</span>
+                                <input name="ctl00$MainContent$txtMinutes" type="text" id="ctl00_MainContent_txtMinutes"
+                                    class="input-custom" style="width:50px;" /> <span class="field_text">Minutes</span>
+                                <input name="ctl00$MainContent$txtSeconds" type="text" id="ctl00_MainContent_txtSeconds"
+                                    class="input-custom" style="width:50px;" /> <span class="field_text">Seconds</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a onclick="setAlarmByCountDown()" class="button button-main">Set Alarm</a>
+                                <a onclick="pauseAlarm()" id="pause" class="button button-main brown"
+                                    style="display:none;width:120px;">Turn Off Alarm</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <h2>1 Hour Timer</h2>
+                    <p>You can reset the alarm any time or turn off the alarm after it starts ringing in 1 hour.</p>
+                    <audio id="alarm">
+                        <source src="audio/alarm.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <br />
+                    <a id="ctl00_MainContent_lnk2" href="https://online-calculator.org/set-alarm-for-2-hours">set alarm
+                        for 2 hours</a><br />
+                    <script type="text/javascript">
+                        function formatDateTime(date) {
+                            var year = date.getFullYear();
+                            var month = date.getMonth() + 1;
+                            var day = date.getDate();
+                            var hh = date.getHours();
+                            var m = date.getMinutes();
+                            var s = date.getSeconds();
+                            var dd = "AM";
+                            var h = hh;
+
+                            if (h >= 12) {
+                                h = hh - 12;
+                                dd = "PM";
+                            }
+                            if (h == 0) {
+                                h = 12;
+                            }
+
+                            month = month < 10 ? "0" + month : month;
+                            day = day < 10 ? "0" + day : day;
+                            m = m < 10 ? "0" + m : m;
+                            s = s < 10 ? "0" + s : s;
+                            h = h < 10 ? "0" + h : h;
+
+                            var display = month + "/" + day + "/" + year + " " + h + ":" + m;
+                            display += ":" + s;
+                            display += " " + dd;
+
+                            return display;
+                        }
+                        function formatDate(date) {
+                            var monthNames = [
+                                "January", "February", "March",
+                                "April", "May", "June", "July",
+                                "August", "September", "October",
+                                "November", "December"
+                            ];
+
+                            var dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                            var day = date.getDate();
+                            var monthIndex = date.getMonth();
+                            var dayOfWeekIndex = date.getDay();
+                            var year = date.getFullYear();
+
+                            day = day < 10 ? "0" + day : day;
+
+                            return dayOfWeek[dayOfWeekIndex] + ', ' + monthNames[monthIndex] + ' ' + day + ', ' + year;
+                        }
+                        function formatTime(date) {
+                            var hh = date.getHours();
+                            var m = date.getMinutes();
+                            var s = date.getSeconds();
+                            var dd = "AM";
+                            var h = hh;
+
+                            if (h >= 12) {
+                                h = hh - 12;
+                                dd = "PM";
+                            }
+                            if (h == 0) {
+                                h = 12;
+                            }
+
+                            m = m < 10 ? "0" + m : m;
+                            s = s < 10 ? "0" + s : s;
+                            h = h < 10 ? "0" + h : h;
+
+                            var display = h + ":" + m;
+                            display += ":" + s;
+                            display += " " + dd;
+
+                            return display;
+                        }
+                        function format_hours_minutes(minutes) {
+                            var hours = Math.floor(minutes / 60);
+                            var remaining_minutes = Math.round(minutes % 60);
+                            var display_time = "";
+                            if (hours > 0) {
+                                display_time = hours + " hour";
+                                if (hours > 1) {
+                                    display_time = display_time + "s";
+                                }
+                                if (remaining_minutes != 0) {
+                                    display_time = display_time + " and ";
+                                }
+                            }
+                            if (remaining_minutes > 0) {
+                                display_time = display_time + remaining_minutes + " minute";
+                                if (remaining_minutes > 1) {
+                                    display_time = display_time + "s";
+                                }
+                            }
+
+                            return display_time;
+                        }</script>
+                    <script type="text/javascript">
+                        var AM = "AM";
+                        var PM = "PM";
+                        var alarm = document.getElementById("alarm");
+                        document.getElementById("alarm").loop = true;
+                        var x;
+                        function convertToZero(field) {
+                            if (isNaN(field)) {
+                                return 0;
+                            }
+                            return field;
+                        }
+
+                        function startTimer(duration) {
+                            var timer = duration, hours, minutes, seconds;
+                            var tempTime;
+                            clearInterval(x);
+                            x = setInterval(function () {
+                                hours = parseInt(timer / 3600, 10);
+                                tempTime = parseInt(timer % 3600, 10);
+                                minutes = parseInt(tempTime / 60, 10);
+                                tempTime = parseInt(timer % 60, 10);
+                                seconds = tempTime;
+
+                                hours = hours < 10 ? "0" + hours : hours;
+                                minutes = minutes < 10 ? "0" + minutes : minutes;
+                                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                                document.getElementById('lblTimer').innerHTML = hours + ":" + minutes + ":" + seconds;
+
+                                if (--timer < 0) {
+                                    alarm.play();
+                                    clearInterval(x);
+                                }
+                            }, 1000);
+                        }
+
+                        function setAlarmByCountDown() {
+                            alarm.pause();
+                            var hours = parseFloat(document.getElementById('ctl00_MainContent_txtHours').value);
+                            var minutes = parseFloat(document.getElementById('ctl00_MainContent_txtMinutes').value);
+                            var seconds = parseFloat(document.getElementById('ctl00_MainContent_txtSeconds').value);
+                            var start;
+                            var secondsToAdd;
+                            document.getElementById('lblTimer').style.display = "inline";
+                            document.getElementById('alarmTime').style.display = "inline";
+                            document.getElementById('error').style.display = "none";
+
+                            if ((!isNaN(hours) || !isNaN(minutes) || !isNaN(seconds))) {
+                                hours = convertToZero(hours);
+                                minutes = convertToZero(minutes);
+                                seconds = convertToZero(seconds);
+
+                                console.log(hours)
+                                secondsToAdd = hours * 60 * 60 + minutes * 60 + seconds;
+                                var date = new Date();
+                                date.setSeconds(date.getSeconds() + secondsToAdd);
+
+                                document.getElementById('alarmTime').innerHTML = "Alarm is set for " + formatDateTime(date) + "<br /><br />";
+
+                                document.getElementById('pause').style.display = "inline";
+                                startTimer(secondsToAdd);
+                            } else {
+                                error = "Please enter a time";
+                                document.getElementById('error').innerHTML = error;
+                                document.getElementById('error').style.display = "inline";
+                            }
+                        }
+                        function setAlarm() {
+                            alarm.play();
+                        }
+                        function pauseAlarm() {
+                            alarm.pause();
+                            clearInterval(x);
+                            document.getElementById('lblTimer').innerHTML = "00:00:00";
+                        }
+//setAlarmByCountDown();
+                    </script>
+
+                </td>
+
+                <td width="20"></td>
+                <td valign="top" width="300">
+                    <br />
+
+                    <a href="https://online-calculator.org/electrical-calculators.aspx">Electrical Calculators</a><br />
+                    <a href="https://online-calculator.org/real-estate-calculators.aspx">Real Estate
+                        Calculators</a><br />
+                    <a href="https://online-calculator.org/accounting-calculator.aspx">Accounting Calculators</a><br />
+                    <a href="https://online-calculator.org/business-calculator.aspx">Business Calculators</a><br />
+                    <a href="https://online-calculator.org/construction-calculators.aspx">Construction
+                        Calculators</a><br />
+                    <a href="https://online-calculator.org/sports-calculators.aspx">Sports Calculators</a><br />
+                    <br />
+
+                    <div style="width:300px">
+                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- online_calculator_300x600 -->
+                        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px"
+                            data-ad-client="ca-pub-2828604702089638" data-ad-slot="7481703348"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                    <br /><br />
+
+                    Financial Calculators<br />
+                    <a href="https://online-calculator.org/compound-interest-calculator.aspx">Compound Interest
+                        Calculator</a><br />
+                    <a href="https://online-calculator.org/mortgage-calculator.aspx">Mortgage Calculator</a><br />
+                    <a href="https://online-calculator.org/how-much-house-can-i-afford.aspx">How Much House Can I
+                        Afford</a><br />
+                    <a href="https://online-calculator.org/loan-calculator.aspx">Loan Calculator</a><br />
+                    <a href="https://online-calculator.org/stock-profit-calculator.aspx">Stock Calculator</a><br />
+                    <a href="https://online-calculator.org/investment-calculator.aspx">Investment Calculator</a><br />
+                    <a href="https://online-calculator.org/retirement-calculator.aspx">Retirement Calculator</a><br />
+                    <a href="https://online-calculator.org/401k-calculator.aspx">401k Calculator</a><br />
+                    <a href="https://online-calculator.org/ebay-fee-calculator.aspx">eBay Fee Calculator</a><br />
+                    <a href="https://online-calculator.org/paypal-fee-calculator.aspx">PayPal Fee Calculator</a><br />
+                    <a href="https://online-calculator.org/etsy-fee-calculator.aspx">Etsy Fee Calculator</a><br />
+                    <a href="https://online-calculator.org/markup-calculator.aspx">Markup Calculator</a><br />
+                    <a href="https://online-calculator.org/time-value-of-money-calculator.aspx">TVM Calculator</a><br />
+                    <a href="https://online-calculator.org/loan-to-value-calculator.aspx">LTV Calculator</a><br />
+                    <a href="https://online-calculator.org/annuity-calculator.aspx">Annuity Calculator</a><br />
+                    <a href="https://online-calculator.org/annual-income-calculator.aspx">How Much do I Make a
+                        Year</a><br />
+                    <br />
+                    Math Calculators<br />
+                    <a href="https://online-calculator.org/mixed-number-to-decimal-calculator.aspx">Mixed Number to
+                        Decimal</a><br />
+                    <a href="https://online-calculator.org/ratio-simplifier.aspx">Ratio Simplifier</a><br />
+                    <a href="https://online-calculator.org/percentage-calculator.aspx">Percentage Calculator</a><br />
+                    <br />
+                    Health Calculators<br />
+                    <a href="https://online-calculator.org/bmi-calculator.aspx">BMI Calculator</a><br />
+                    <a href="https://online-calculator.org/health/weight-loss-calculator.php">Weight Loss
+                        Calculator</a><br />
+                    <br />
+                    Conversion<br />
+                    <a href="https://online-calculator.org/conversion/cm-to-feet-and-inches.php">CM to Feet and
+                        Inches</a><br />
+                    <a href="https://online-calculator.org/conversion/mm-to-inches.php">MM to Inches</a><br /><br />
+                    Others<br />
+                    <a href="https://online-calculator.org/how-old-am-i.aspx">How Old am I</a><br />
+                    <a href="https://online-calculator.org/random-name-picker.aspx">Random Name Picker</a><br />
+                    <a href="https://online-calculator.org/random-number-generator.aspx">Random Number
+                        Generator</a><br />
+                </td>
+
+            </tr>
+        </table>
+
+        <div style="height:300px;"></div>
+        <table width="100%" class="footer" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    <table width="1050" align="center">
+                        <tr>
+                            <td>
+                                <div class="footer">
+                                    <p><a href="https://online-calculator.org/">Online Calculator</a> | <a
+                                            href="https://online-calculator.org/terms.aspx">Terms</a> |
+                                        <a href="https://online-calculator.org/privacy.aspx">Privacy</a> |
+                                        <a href="https://online-calculator.org/contact.aspx">Contact</a><br />
+                                        &copy; 2021 <b>Online Calculator</b>
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+
+</html>

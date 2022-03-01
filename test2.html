@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+<html>
+
+<head id="ctl00_Head1">
+    <title>
+        Set Alarm for 2:30 PM - Wake me up at 2:30 PM
+    </title>
+    <meta name="description"
+        content="Set Alarm for 2 am  will set an alarm that will wake me up at 2 pm. A countdown timer to 2pm will be shown, as soon as it hit 0, the alarm will go off." />
+    <meta name="keywords" content="Set Alarm for 2, Set Alarm for 2 pm" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 15px;
+            font-size: 14px
+        }
+
+        p {
+            font-size: 14px;
+            line-height: 30px
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-weight: 500
+        }
+
+        h1 {
+            font-size: 22px;
+            line-height: 22px
+        }
+
+        h2,
+        h3 {
+            font-size: 18px;
+            padding: 0
+        }
+
+        a {
+            color: #087397;
+            font-size: 15px;
+            line-height: 30px;
+            text-decoration: none
+        }
+
+        a:hover {
+            text-decoration: underline
+        }
+
+        p {
+            padding-right: 40px
+        }
+
+        #header h1 a {
+            margin: 0;
+            font-size: 25px;
+            font-weight: 700;
+            padding-bottom: 20px;
+            padding-top: 20px
+        }
+
+        #subheader {
+            font-size: 15px;
+            padding-bottom: 15px
+        }
+
+        .footer {
+            text-align: center;
+            background-color: #184f66;
+            color: #fff;
+            height: 100px
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none
+        }
+
+        .regular_text label {
+            font-weight: 400;
+            padding: 0 5px
+        }
+
+        .field_text {
+            font-weight: 700
+        }
+
+        .result_data_small {
+            font-size: 17px;
+            padding: 4px;
+            line-height: 25px
+        }
+
+        .result_data_color {
+            color: #098c0c;
+            font-weight: 700
+        }
+
+        .result_data_bold {
+            font-weight: 700;
+            font-size: 18px
+        }
+
+        .result_data {
+            font-weight: 700;
+            font-size: 25px;
+            color: #3675dd;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            line-height: 25px
+        }
+
+        .result {
+            font-size: 15px
+        }
+
+        .result_field {
+            font-size: 15px;
+            font-weight: 700
+        }
+
+        tr.header,
+        tr.header2 {
+            background-color: #bb4d3b;
+            color: #fff
+        }
+
+        tr.header2 {
+            background-color: #bb4d3b;
+            color: #fff
+        }
+
+        tr.header h3,
+        tr.header2 h2 {
+            display: inline;
+            padding: 10px;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            color: #fff
+        }
+
+        .divider_text {
+            color: #d33c07;
+            font-weight: 700
+        }
+
+        .error {
+            color: red
+        }
+
+        .tablestyle {
+            background-color: #fff;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 5px;
+            padding-left: 5px
+        }
+
+        li {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 20px;
+            font-size: 15px
+        }
+
+        .date,
+        .input-custom {
+            background-color: #fff;
+            width: 130px;
+            padding: 6px 12px;
+            line-height: 18px;
+            color: #555;
+            vertical-align: middle;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            display: inline
+        }
+
+        .date:focus,
+        .input-custom:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
+        }
+
+        .input-custom[type=text]:disabled {
+            background-color: #ddd;
+            color: #000
+        }
+
+        .table-bordered {
+            width: 98%;
+            border-spacing: 1px;
+            border-width: thin;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            -moz-border-radius-topleft: 10px;
+            -moz-border-radius-bottomleft: 10px;
+            -webkit-border-top-left-radius: 10px;
+            -webkit-border-bottom-left-radius: 10px;
+            -moz-border-radius-topright: 10px;
+            -moz-border-radius-bottomright: 10px;
+            -webkit-border-top-right-radius: 10px;
+            -webkit-border-bottom-right-radius: 10px
+        }
+
+        .table-bordered th {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            text-align: left
+        }
+
+        .table-bordered td {
+            padding-top: 7px;
+            padding-bottom: 7px;
+            font-size: 14px;
+            line-height: 15px;
+            font-weight: 400
+        }
+
+        .biggersize td {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-weight: 400;
+            font-size: 20px
+        }
+
+        .bgcolor {
+            background-color: #999d9e;
+            color: #fff
+        }
+
+        .bgcolorTableElement {
+            background-color: #f0f0f0
+        }
+
+        .logo td {
+            height: 60px
+        }
+
+        .logo td a {
+            color: #525646;
+            text-decoration: none;
+            margin-right: 10px
+        }
+
+        .menu {
+            margin-top: 6px
+        }
+
+        .menu td {
+            background-color: #5c6349;
+            color: #fff;
+            height: 35px
+        }
+
+        .menu td a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 10px
+        }
+
+        .tablestyle {
+            background-color: #fff;
+            padding-left: 5px;
+            padding-right: 5px
+        }
+
+        .button-main {
+            color: #fff;
+            background-color: #1289bb;
+            border-color: #076406;
+            text-decoration: none
+        }
+
+        .button-main a {
+            color: #fff;
+            text-decoration: none
+        }
+
+        .button {
+            width: 150px;
+            display: inline-block;
+            padding: 6px 18px;
+            margin-bottom: 0;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.428571429;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none
+        }
+
+        .button-long {
+            width: 250px;
+            background-color: #1289bb;
+            color: #fff
+        }
+
+        a.button {
+            text-decoration: none
+        }
+
+        img {
+            max-width: 100%
+        }
+
+        .button-green,
+        .button-green a {
+            width: 120px;
+            color: #fff;
+            background-color: #090;
+            border-color: #076406;
+            text-decoration: none
+        }
+
+        .brown {
+            width: 50px;
+            background-color: #616662
+        }
+
+        .links a {
+            padding-top: 15px;
+            line-height: 38px
+        }
+    </style>
+    <link rel="shortcut icon" href="https://online-calculator.org/images/favicon.ico" />
+</head>
+
+<body>
+    <form name="aspnetForm" method="post" action="setalarmfor-pm-hm.aspx?number1=2&amp;number2=30" id="aspnetForm">
+        <div>
+            <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
+                value="/wEPDwUJMzY1MjQwMzM5D2QWAmYPZBYCAgMPZBYEZg9kFggCCQ8PFgQeC05hdmlnYXRlVXJsBTNodHRwczovL29ubGluZS1jYWxjdWxhdG9yLm9yZy9zZXQtYWxhcm0tZm9yLTMtMzAtcG0eBFRleHQFFXNldCBhbGFybSBmb3IgMzozMCBwbWRkAgoPDxYEHwAFM2h0dHBzOi8vb25saW5lLWNhbGN1bGF0b3Iub3JnL3NldC1hbGFybS1mb3ItMi0zNS1wbR8BBRVzZXQgYWxhcm0gZm9yIDI6MzUgcG1kZAILDw8WBB8ABTNodHRwczovL29ubGluZS1jYWxjdWxhdG9yLm9yZy9zZXQtYWxhcm0tZm9yLTEtMzAtcG0fAQUVc2V0IGFsYXJtIGZvciAxOjMwIHBtZGQCDA8PFgQfAAUzaHR0cHM6Ly9vbmxpbmUtY2FsY3VsYXRvci5vcmcvc2V0LWFsYXJtLWZvci0yLTMwLWFtHwEFFXNldCBhbGFybSBmb3IgMjozMCBhbWRkAgMPFgIfAQUEMjAyMWRkGjdOOLqAtnLXSIsF8Yc4sZSsWGA=" />
+        </div>
+
+        <div>
+
+            <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION"
+                value="/wEWCwLxt6mKBwLc7bfaCgLSysq4BwLN3qHlDgLur92qBwLBr92qBwKn0sufDQLs/8XtCQK72KDsDwK/yMq0DAKQyMq0DDw7jR7KKrFFqi/1Ay385LCpoHQf" />
+        </div>
+        <table width="100%" class="logo" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    <table width="1050" align="center">
+                        <tr>
+                            <td width="60"><a href="https://online-calculator.org"><img
+                                        src="https://online-calculator.org/images/online-calculator.gif" /></a></td>
+                            <td width="350">
+                                <div id="header">
+                                    <h1><a href="https://online-calculator.org">Online Calculator</a></h1>
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <table width="1050" class="menu tablestyle" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="25"></td>
+                <td width="65"><a href="https://online-calculator.org">Home</a></td>
+                <td width="10"></td>
+                <td width="90"><a href="https://online-calculator.org/financial-calculators.aspx">Financial</a></td>
+                <td width="10"></td>
+                <td width="60"><a href="https://online-calculator.org/math-calculators.aspx">Math</a></td>
+                <td width="10"></td>
+                <td width="160"><a href="https://online-calculator.org/health-and-fitness-calculators.aspx">Health and
+                        Fitness</a></td>
+                <td width="10"></td>
+                <td width="130"><a href="https://online-calculator.org/time-and-date-calculators.aspx">Time and Date</a>
+                </td>
+                <td width="10"></td>
+                <td width="100"><a href="https://online-calculator.org/conversion.aspx">Conversion</a></td>
+                <td width="10"></td>
+                <td width="100"><a href="https://online-calculator.org/miscellaneous-calculators.aspx">Tools</a></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table width="1050" align="center" cellpadding="0" cellspacing="0" class="tablestyle">
+            <tr>
+                <td valign="top">
+
+                    <br />
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- online_728_horizontal -->
+                    <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px"
+                        data-ad-client="ca-pub-2828604702089638" data-ad-slot="1608633672"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                    <br /><br />
+
+                    <a href="https://online-calculator.org/">Online Calculators</a> > <a
+                        href="https://online-calculator.org/time-and-date-calculators.aspx">Time Calculators</a>
+                    <h1>Set Alarm for 2:30 pm</h1>
+
+                    <p><strong>Set Alarm for 2:30 pm</strong> will set an alarm that will wake me up at 2:30pm.
+                        A countdown timer to 2:30 pm will be shown, as soon as it hit 0, the alarm will go off. You can
+                        adjust the hour, minute, seconds or AM/PM to set a new alarm.</p>
+                    <table>
+                        <tr>
+                            <td colspan="2"><span id="alarmTime" class="field_text"
+                                    style="display:none;font-size:15px;"></span></td>
+                        </tr>
+                        <tr>
+                            <td width="150"><span id="lblTimer" class="result_data"
+                                    style="display:none;font-size:50px;">00:00:00</span><br /><br />
+                                <span style="font-size:15px;">countdown timer</span>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <br />
+                    <span id="error2" class="error" style="display:none">Please enter a time from now.</span>
+                    <table class="table table-bordered">
+                        <tr class="header2">
+                            <td>
+                                <h2>Set Alarm for 2:30pm</h2>
+                            </td>
+                        </tr>
+                        <tr style="display:none">
+                            <td><input name="ctl00$MainContent$txtHourStart" type="text"
+                                    id="ctl00_MainContent_txtHourStart" class="input-custom" style="width:50px;" /> :
+                                <input name="ctl00$MainContent$txtMinuteStart" type="text"
+                                    id="ctl00_MainContent_txtMinuteStart" class="input-custom" style="width:50px;" /> :
+                                <input name="ctl00$MainContent$txtSecondStart" type="text"
+                                    id="ctl00_MainContent_txtSecondStart" class="input-custom" style="width:50px;" />
+                                <select name="ctl00$MainContent$ddlAmPmStart" id="ctl00_MainContent_ddlAmPmStart"
+                                    class="input-custom" style="width:70px;">
+                                    <option selected="selected" value="AM">AM</option>
+                                    <option value="PM">PM</option>
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input name="ctl00$MainContent$txtHourEnd" type="text" value="2"
+                                    id="ctl00_MainContent_txtHourEnd" class="input-custom" style="width:50px;" /> :
+                                <input name="ctl00$MainContent$txtMinuteEnd" type="text" value="30"
+                                    id="ctl00_MainContent_txtMinuteEnd" class="input-custom" style="width:50px;" /> :
+                                <input name="ctl00$MainContent$txtSecondEnd" type="text" value="0"
+                                    id="ctl00_MainContent_txtSecondEnd" class="input-custom" style="width:50px;" />
+                                <select name="ctl00$MainContent$ddlAmPmEnd" id="ctl00_MainContent_ddlAmPmEnd"
+                                    class="input-custom" style="width:70px;">
+                                    <option value="AM">AM</option>
+                                    <option selected="selected" value="PM">PM</option>
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a onclick="setAlarmByClock()" class="button button-main">Set Alarm</a>
+                                <a onclick="pauseAlarm()" id="pause" class="button button-main brown"
+                                    style="display:none;width:120px;">Turn Off Alarm</a>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <audio id="alarm">
+                        <source src="audio/alarm.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+
+                    <script type="text/javascript">
+                        var AM = "AM";
+                        var PM = "PM";
+                        var alarm = document.getElementById("alarm");
+                        document.getElementById("alarm").loop = true;
+                        var x;
+                        function convertToZero(field) {
+                            if (isNaN(field)) {
+                                return 0;
+                            }
+                            return field;
+                        }
+
+                        function startTimer(duration) {
+                            var timer = duration, hours, minutes, seconds;
+                            var tempTime;
+                            clearInterval(x);
+                            x = setInterval(function () {
+                                hours = parseInt(timer / 3600, 10);
+                                tempTime = parseInt(timer % 3600, 10);
+                                minutes = parseInt(tempTime / 60, 10);
+                                tempTime = parseInt(timer % 60, 10);
+                                seconds = tempTime;
+
+                                hours = hours < 10 ? "0" + hours : hours;
+                                minutes = minutes < 10 ? "0" + minutes : minutes;
+                                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                                // console.log(hours)
+                                document.getElementById('lblTimer').innerHTML = hours + ":" + minutes + ":" + seconds;
+
+                                if (--timer < 0) {
+                                    alarm.play();
+                                    clearInterval(x);
+                                }
+                            }, 1000);
+                        }
+
+                        function timeNowStart() {
+                            var today = new Date();
+                            var hours24Format = today.getHours();
+                            var hours;
+                            var minutes = today.getMinutes();
+                            var seconds = today.getSeconds();
+                            var amPM;
+
+                            if (hours24Format > 12) {
+                                hours = hours24Format - 12;
+                                amPM = PM;
+                                document.getElementById('ctl00_MainContent_ddlAmPmStart').selectedIndex = "1";
+                            } else if (hours24Format == 12) {
+                                hours = hours24Format;
+                                amPM = PM;
+                                document.getElementById('ctl00_MainContent_ddlAmPmStart').selectedIndex = "1";
+                            } else {
+                                hours = hours24Format;
+                                amPM = AM;
+                                document.getElementById('ctl00_MainContent_ddlAmPmStart').selectedIndex = "0";
+                            }
+
+
+                            console.log(hours, minutes, seconds, amPM)
+
+
+                            document.getElementById('ctl00_MainContent_txtHourStart').value = hours;
+                            document.getElementById('ctl00_MainContent_txtMinuteStart').value = minutes;
+                            document.getElementById('ctl00_MainContent_txtSecondStart').value = seconds;
+                        }
+
+                        function setAlarmByClock() {
+                            alarm.pause();
+                            timeNowStart();
+                            var hoursStart = parseFloat(document.getElementById('ctl00_MainContent_txtHourStart').value);
+                            // console.log(hoursStart)
+                            var minutesStart = parseFloat(document.getElementById('ctl00_MainContent_txtMinuteStart').value);
+                            var secondsStart = parseFloat(document.getElementById('ctl00_MainContent_txtSecondStart').value);
+                            var hoursEnd = parseFloat(document.getElementById('ctl00_MainContent_txtHourEnd').value);
+                            var minutesEnd = parseFloat(document.getElementById('ctl00_MainContent_txtMinuteEnd').value);
+                            var secondsEnd = parseFloat(document.getElementById('ctl00_MainContent_txtSecondEnd').value);
+                            var hours24FormatStart;
+                            var hoursr24FormatEnd;
+                            var hoursDifferences;
+                            var minutesDifferences;
+                            var secondsDifferences;
+                            var totalHours;
+                            var totalMinutes;
+                            var result = "";
+                            var result2 = "";
+                            var start;
+                            var end;
+                            var msec;
+                            var diff;
+                            var hh;
+                            var mm;
+                            var ss;
+                            var e = document.getElementById('ctl00_MainContent_ddlAmPmStart');
+                            var amPMStart = e.options[e.selectedIndex].value;
+
+                            var e2 = document.getElementById('ctl00_MainContent_ddlAmPmEnd');
+                            var amPMEnd = e2.options[e2.selectedIndex].value;
+                            // console.log(amPMEnd)
+                            var error = "";
+                            document.getElementById('error2').style.display = "none";
+                            if (!isNaN(hoursStart) && !isNaN(minutesStart) && !isNaN(secondsStart) && !isNaN(hoursEnd) && !isNaN(minutesEnd) && !isNaN(secondsEnd)) {
+                                if (hoursStart > 12 || hoursStart < 0) {
+                                    error = error + "Starting hours must be greater or equal to 0 and less than or equal to 12.<br />";
+                                }
+
+                                if (hoursEnd > 12 || hoursEnd < 0) {
+                                    error = error + "Ending hours must be greater or equal to 0 and less than or equal to 12.<br />";
+                                }
+                                if (minutesStart > 59 || minutesStart < 0) {
+                                    error = error + "Starting minutes must be greater or equal to 0 and less than or equal to 59.<br />";
+                                }
+                                if (minutesEnd > 59 || minutesEnd < 0) {
+                                    error = error + "Ending minutes must be greater or equal to 0 and less than or equal to 59.<br />";
+                                }
+                                if (secondsStart > 59 || secondsStart < 0) {
+                                    error = error + "Starting seconds must be greater or equal to 0 and less than or equal to 59.<br />";
+                                }
+                                if (secondsEnd > 59 || secondsEnd < 0) {
+                                    error = error + "Ending seconds must be greater or equal to 0 and less than or equal to 59.<br />";
+                                }
+
+                                if (error == "") {
+                                    hours24FormatStart = hoursStart;
+
+                                    if ((amPMStart == "PM" && hoursStart < 12) || (amPMStart == "AM" && hoursStart == 12)) {
+                                        hours24FormatStart = hoursStart + 12;
+
+
+                                    }
+
+                                    hours24FormatEnd = hoursEnd;
+
+                                    if ((amPMEnd == "PM" && hoursEnd < 12) || (amPMEnd == "AM" && hoursEnd == 12)) {
+                                        hours24FormatEnd = hoursEnd + 12;
+                                        console.log(amPMEnd)
+                                    }
+
+
+
+                                    var today = new Date();
+                                    start = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours24FormatStart, minutesStart, secondsStart);
+                                    end = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours24FormatEnd, minutesEnd, secondsEnd);
+
+                                    console.log(hours24FormatEnd)
+                                    console.log(minutesEnd)
+                                    console.log(start)
+                                    console.log(end)
+                                    console.log(formatDateTime(end))
+                                    if (start > end) {
+                                        end = end.addDays(1);
+                                        console.log(end)
+                                    }
+
+
+                                    var secondsToAdd = (end.getTime() - start.getTime()) / 1000;
+
+                                    document.getElementById('alarmTime').innerHTML = "Alarm is set for " + formatDateTime(end) + "<br /><br />";
+
+                                    document.getElementById('lblTimer').style.display = "inline";
+                                    document.getElementById('alarmTime').style.display = "inline";
+                                    document.getElementById('error2').style.display = "none";
+
+                                    document.getElementById('pause').style.display = "inline";
+                                    startTimer(secondsToAdd);
+                                } else {
+                                    document.getElementById('error2').innerHTML = error;
+                                    document.getElementById('error2').style.display = "inline";
+                                }
+                            } else {
+                                error = "Please enter starting time and ending time";
+                                document.getElementById('error2').innerHTML = error;
+                                document.getElementById('error2').style.display = "inline";
+                            }
+                        }
+                        Date.prototype.addDays = function (days) {
+                            var date = new Date(this.valueOf());
+                            date.setDate(date.getDate() + days);
+                            return date;
+                        }
+                        function setAlarm() {
+                            alarm.play();
+                        }
+                        function pauseAlarm() {
+                            alarm.pause();
+                            clearInterval(x);
+                            document.getElementById('lblTimer').innerHTML = "00:00:00";
+                        }
+//setAlarmByClock();
+                    </script>
+
+                </td>
+
+
+
+            </tr>
+        </table>
+
+
+    </form>
+
+</body>
+
+<script>
+    function formatDateTime(date) {
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        var hh = date.getHours();
+        var m = date.getMinutes();
+        var s = date.getSeconds();
+        var dd = "AM";
+        var h = hh;
+
+        if (h >= 12) {
+            h = hh - 12;
+            dd = "PM";
+        }
+        if (h == 0) {
+            h = 12;
+        }
+
+        month = month < 10 ? "0" + month : month;
+        day = day < 10 ? "0" + day : day;
+        m = m < 10 ? "0" + m : m;
+        s = s < 10 ? "0" + s : s;
+        h = h < 10 ? "0" + h : h;
+
+        var display = month + "/" + day + "/" + year + " " + h + ":" + m;
+        display += ":" + s;
+        display += " " + dd;
+
+        return display;
+    }
+    function formatDate(date) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        var dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var dayOfWeekIndex = date.getDay();
+        var year = date.getFullYear();
+
+        day = day < 10 ? "0" + day : day;
+
+        return dayOfWeek[dayOfWeekIndex] + ', ' + monthNames[monthIndex] + ' ' + day + ', ' + year;
+    }
+    function formatTime(date) {
+        var hh = date.getHours();
+        var m = date.getMinutes();
+        var s = date.getSeconds();
+        var dd = "AM";
+        var h = hh;
+
+        if (h >= 12) {
+            h = hh - 12;
+            dd = "PM";
+        }
+        if (h == 0) {
+            h = 12;
+        }
+
+        m = m < 10 ? "0" + m : m;
+        s = s < 10 ? "0" + s : s;
+        h = h < 10 ? "0" + h : h;
+
+        var display = h + ":" + m;
+        display += ":" + s;
+        display += " " + dd;
+
+        return display;
+    }
+    function format_hours_minutes(minutes) {
+        var hours = Math.floor(minutes / 60);
+        var remaining_minutes = Math.round(minutes % 60);
+        var display_time = "";
+        if (hours > 0) {
+            display_time = hours + " hour";
+            if (hours > 1) {
+                display_time = display_time + "s";
+            }
+            if (remaining_minutes != 0) {
+                display_time = display_time + " and ";
+            }
+        }
+        if (remaining_minutes > 0) {
+            display_time = display_time + remaining_minutes + " minute";
+            if (remaining_minutes > 1) {
+                display_time = display_time + "s";
+            }
+        }
+
+        return display_time;
+    }
+</script>
+
+</html>

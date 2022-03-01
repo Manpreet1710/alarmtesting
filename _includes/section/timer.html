@@ -1,20 +1,23 @@
-<div class="container-fluid">
-    <div class="timer_wrapper">
-        <div class="timerDiv">
-            <span> 00:00</span>
+<div class="container-fluid full_screen_preview">
+
+
+    <div id="clockdate">
+        <div class="timer_wrapper clockdate-wrapper">
+            <div class="timerDiv">
+                <span> 00:00</span>
+            </div>
+        </div>
+        <div class="buttons text-center">
+            <button id="editTimer" class="btn" style="border:3px solid #fff" data-toggle="modal"
+                data-target="#exampleModal">Set
+                Timer</button>
+            <button id="editTimer2" class="btn" style="border:3px solid #fff; display: none;" data-toggle="modal"
+                data-target="#exampleModal">Edit
+                Timer</button>
+            <button class="btn ml-2" id="stop">Stop</button>
+            <button class="btn ml-2" id="start">Start</button>
         </div>
     </div>
-    <div class="buttons text-center">
-        <button id="editTimer" class="btn" style="border:3px solid #fff" data-toggle="modal"
-            data-target="#exampleModal">Set
-            Timer</button>
-        <button id="editTimer2" class="btn" style="border:3px solid #fff; display: none;" data-toggle="modal"
-            data-target="#exampleModal">Edit
-            Timer</button>
-        <button class="btn ml-2" id="stop">Stop</button>
-        <button class="btn ml-2" id="start">Start</button>
-    </div>
-
     <div class="modal__wrapper">
         <div class="modal__container">
             <div class="modal-header">
@@ -38,7 +41,8 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" style="margin-top:100px" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" style="margin-top:100px" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -86,7 +90,12 @@
             </div>
         </div>
     </div>
-
+    <div id="fullScreen_button">
+        <i class="fas fa-minus minus_btn" data-toggle="tooltip" data-placement="top" title="Decrease Font Size"></i>
+        <i class="fas fa-plus plus_btn" data-toggle="tooltip" data-placement="top" title="Increase Font Size"></i>
+        <i class="fas fa-expand-arrows-alt expand_btn" data-toggle="tooltip" data-placement="top"
+            title="Full Screen"></i>
+    </div>`
 </div>
 
 <link rel="stylesheet" href="{{ 'css/timer.css' | relative_url }}">

@@ -1,46 +1,57 @@
 <!--*********
-
-    SET-ALARM-FOR-TIME = 17:10 PM
-
-    ***********-->
-
-<div class="container-fluid">
+SET-ALARM-FOR-TIME = 17:10 PM
+***********-->
+<div class="container-fluid full_screen_preview">
     <div id="clockdate" style="padding: 35px;">
         <div class="setAlarm text-white text-center pt-3" style="font-size: 25px;">
-            Set alarm for {{page.hours}}:{{page.minutes}} {{page.ampm}}
+            Set alarm for 10:55 PM
         </div>
         <div class="clockdate-wrapper">
             <div id="clock"></div>
             <div class="calendar-wrapper">
                 <div class="weekday-label"></div>
-                  <div class="month-label"></div>
-                  <div class="day-label"></div>
-                  <div class="year"></div>
-          </div>
+                <div class="month-label"></div>
+                <div class="day-label"></div>
+                <div class="year"></div>
+            </div>
         </div>
-        <div class="mb-5 d-flex justify-content-center">
-            <button class="btn text-white  mr-4 testBtn" style="border: 3px solid white;
+        <div class="mb-5 d-flex justify-content-center EditBtn" style="gap:10px;">
+            <button class="btn text-white testBtn testAlarm" style="border: 3px solid white;
             " data-toggle="modal" data-target="#exampleModal" id="testingModal">Test alarm</button>
 
+            <button class="btn editAlarm text-white" style="border: 3px solid white;" data-toggle="modal"
+                data-target="#editModal">
+                Edit</button>
 
             <button class="btn  btn1 text-white" onclick="onEnter()" style="
                 border: 3px solid white;
             ">
                 Set alarm</button>
+
         </div>
 
         <!-- Alarm-Result-Box-Alert -->
-        <div class="alarm_result">
+        <div class="set_time_alarm_result alarm_result">
             <div class="alarm">
                 <div class="alarm-title" style="margin-bottom: 15px;">Alarm</div>
                 <div class="time">
                     <div class="icon mr-2">
-                        <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:20px">
+                        <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:20px">
                     </div>
                     <div class="alarm-time">
                         Alarm set for {{page.hours}}:{{page.minutes}} {{page.ampm}}
                     </div>
                 </div>
+                <div class="remainningTimes mt-3">
+                    <span>
+                        <span class="remainningTime">
+
+                        </span>
+                        <span class="remainningTime"></span>
+                    </span>
+
+                </div>
+
             </div>
             <div class="cancel mt-3">
                 <button class="btn stop btn-danger" style="font-size: 12px;">Stop Alarm</button>
@@ -48,7 +59,7 @@
         </div>
         <!-- CLOSE -->
 
-         <!-- Modal Popup When Alarm Ringing the alarm -->
+        <!-- Modal Popup When Alarm Ringing the alarm -->
         <div class="modal__wrapper">
             <div class="modal__container">
                 <div class="modal-header">
@@ -60,10 +71,8 @@
                 <div class="modal-body">
                     <div class="alarm">
                         <div class="icon">
-                            <audio id="myAudio">
-                                <source src="../../sounds/school.mp3" type="audio/mpeg">
-                            </audio>
-                            <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:40px">
+
+                            <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:40px">
                         </div>
                         <div class="alarm-title mb-3">Alarm</div>
                         {{page.hours}}:{{page.minutes}} {{page.ampm}}
@@ -77,7 +86,8 @@
         <!-- CLOSE -->
 
         <!-- TESTING modal WHEN ALARM IS RINGING -->
-        <div class="modal fade topMargin" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade topMargin" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -89,7 +99,7 @@
                     <div class="modal-body">
                         <div class="alarm">
                             <div class="icon">
-                                <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:40px">
+                                <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:40px">
                             </div>
                             <div class="alarm-title mb-3 mt-3">Alarm</div>
                             {{page.hours}}:{{page.minutes}} {{page.ampm}}
@@ -102,24 +112,40 @@
                 </div>
             </div>
         </div>
+
+        {%- include section/test.html -%}
     </div>
+</div>
+
+
+<div id="fullScreen_button">
+    <i class="fas fa-minus minus_btn" data-toggle="tooltip" data-placement="top" title="Decrease Font Size"></i>
+    <i class="fas fa-plus plus_btn" data-toggle="tooltip" data-placement="top" title="Increase Font Size"></i>
+    <i class="fas fa-expand-arrows-alt expand_btn" data-toggle="tooltip" data-placement="top" title="Full Screen"></i>
 </div>
 
 
 <!-- SOME ADDED EXTERNAL CSSS FILE -->
 <link rel="stylesheet" href="{{ 'css/alarm.css' | relative_url }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="{{ 'js/currentDate.js' | relative_url }}"></script>
 <script>
+
     // ALL HTML ELEMENT GRABS HERE
+    let remainningTime = document.getElementsByClassName('remainningTime')
+    let rating = `{{page.permalink}}`
     let audio = document.getElementById('myAudio')
     let testingModal = document.getElementById('testingModal')
+    let editAlarm = document.querySelector('.editAlarm')
 
     // hr , mins , amp
     let hourValue = `{{page.hours}}`
     let hourMinutes = `{{page.minutes}}`
     let ampm = `{{page.ampm}}`
 
-    let alarm_result = document.querySelector('.alarm_result')
+    let URL = `{{page.permalink}}`
+
+    let set_time_alarm_result = document.querySelector('.set_time_alarm_result')
     let alaram_testing_popup = document.querySelector('.alaram_testing_popup')
     let btn1 = document.querySelector('.btn1')
     let testBtn = document.querySelector('.testBtn')
@@ -137,7 +163,7 @@
 
     // testModal audio playing
     testingModal.addEventListener('click', () => {
-        audio.play()
+        audio.play();
         audio.loop = true
     })
 
@@ -164,13 +190,7 @@
         hr = hr == 0 ? 12 : hr
         hr = hr > 12 ? hr - 12 : hr
 
-        currentTime = hr + ':' + min + ' ' + ap
-        let alarmSet = localStorage.getItem('alarm')
-        if (currentTime == alarmSet) {
-            openModal()
-            audio.play()
-            console.log('Alarm Alert')
-        }
+
 
         // today date and time printing...
         document.getElementById('clock').innerHTML =
@@ -192,29 +212,208 @@
         return i
     }
 
+    window.onload = function () {
+        if (typeof localStorage == 'undefined') {
+            alert('Your browser does not support HTML5 localStorage. Try upgrading.')
+        } else {
+            if (localStorage.getItem(`${rating}-background`) != null) {
+                set_time_alarm_result.style.background = localStorage.getItem(`${rating}-background`)
+                set_time_alarm_result.style.display = 'block'
+
+                let time = localStorage.getItem(`${URL}-rating`)
+
+                let hoursValue = time.split(':')[0]
+                let minitesValue = time.split(':')[1].split(' ')[0]
+                let amPmValue = time.split(':')[1].split(' ')[1]
+
+
+
+                if (hoursValue && minitesValue && amPmValue) {
+                    console.log(true)
+                    timeDiffererence(hoursValue, minitesValue, amPmValue)
+                }
+            }
+            if (localStorage.getItem(`${rating}-EditOptionbackground`) != null) {
+                edit_alarm_result.style.background = localStorage.getItem(`${rating}-EditOptionbackground`)
+                alarmTitles[0].innerHTML = localStorage.getItem(`${rating}-alarmTitle`)
+                // alarmTitles[1].innerHTML = localStorage.getItem('alarmTitle')
+                alarmTime[0].innerHTML = localStorage.getItem(`${rating}-alarm`)
+                alarmTime[1].innerHTML = localStorage.getItem(`${rating}-alarm`)
+
+                localStorage.getItem('remainningTime')
+                edit_alarm_result.style.display = 'block'
+
+                let Edittimes = localStorage.getItem(`${URL}-alarm`)
+                let hoursValue = Edittimes.split(':')[0]
+                let minitesValue = Edittimes.split(':')[1].split(' ')[0]
+                let amPmValue = Edittimes.split(':')[1].split(' ')[1]
+                if (hoursValue && minitesValue && amPmValue) {
+                    EdittimeDiffererence(hoursValue, minitesValue, amPmValue)
+                }
+            }
+
+        }
+    }
+
+
     // SETALARM FUNCTION HERE
     function onEnter() {
-        alarm_result.style.display = 'block'
+        editAlarm.style.display = "none"
+        setColour = 'rgb(26 26 26)'
+        localStorage.setItem(`${rating}-background`, setColour)
+        set_time_alarm_result.style.background = setColour
+        set_time_alarm_result.style.display = 'block'
         btn1.style.display = 'none'
         testBtn.style.display = 'none'
         if (activeAlarm == false) {
             alarmElement = hourValue + ':' + hourMinutes + ' ' + ampm
+            timeDiffererence(hourValue, hourMinutes, ampm)
             setAlarmTxt.innerHTML = "Alarm set for " + alarmElement
-            localStorage.setItem('alarm', alarmElement)
+            localStorage.setItem(`${rating}-rating`, alarmElement)
         }
         // h2.innerHTML = alarmElement
     }
 
+    function timeDiffererence(hoursEnd, minutesEnd, amPMEnd) {
+        var today = new Date()
+        var hours
+        var hours24Format = today.getHours() //for hours
+        var minutes = today.getMinutes() //for mins
+        var seconds = today.getSeconds() //for sec
+        var amPM
+        var error = ''
+
+        // AMPM LOGIC here
+        amPM = hours24Format < 12 ? 'AM' : 'PM'
+        hours = hours24Format == 0 ? 12 : hours24Format
+        hours = hours24Format > 12 ? hours24Format - 12 : hours24Format
+
+        var hoursStart = hours
+        var minutesStart = minutes
+        var secondsStart = seconds
+        var hoursEnd = hoursEnd
+        var minutesEnd = minutesEnd
+        var secondsEnd = '0'
+        var hours24FormatStart
+        var hoursr24FormatEnd
+        var amPMStart = amPM
+        var amPMEnd = amPMEnd
+
+        if (
+            !isNaN(hoursStart) &&
+            !isNaN(minutesStart) &&
+            !isNaN(secondsStart) &&
+            !isNaN(hoursEnd) &&
+            !isNaN(minutesEnd) &&
+            !isNaN(secondsEnd)
+        ) {
+            if (error == '') {
+                hours24FormatStart = hoursStart
+
+                if (
+                    (amPM == 'PM' && hoursStart < 12) ||
+                    (amPM == 'AM' && hoursStart == 12)
+                ) {
+                    hours24FormatStart = hoursStart + 12
+                }
+
+                hours24FormatEnd = hoursEnd
+
+                if (
+                    (amPMEnd == 'PM' && hoursEnd < 12) ||
+                    (amPMEnd == 'AM' && hoursEnd == 12)
+                ) {
+                    hours24FormatEnd = parseInt(hoursEnd) + 12
+                    console.log(amPMEnd)
+                }
+
+                start = new Date(
+                    today.getFullYear(),
+                    today.getMonth(),
+                    today.getDate(),
+                    hours24FormatStart,
+                    minutesStart,
+                    secondsStart
+                )
+
+                end = new Date(
+                    today.getFullYear(),
+                    today.getMonth(),
+                    today.getDate(),
+                    hours24FormatEnd,
+                    minutesEnd,
+                    secondsEnd
+                )
+
+                if (start > end) {
+                    end = end.addDays(1)
+                }
+
+                var duration = (end.getTime() - start.getTime()) / 1000
+
+                startTimer(duration)
+            }
+        }
+    }
+    // Date Formatting
+    Date.prototype.addDays = function (days) {
+        var date = new Date(this.valueOf())
+        date.setDate(date.getDate() + days)
+        return date
+    }
+
+    // Counter Timer
+    var x
+    function startTimer(duration) {
+        remainningTime[1].innerHTML = ''
+
+        var timer = duration,
+            hours,
+            minutes,
+            seconds
+
+        var tempTime
+        clearInterval(x)
+        x = setInterval(function () {
+            hours = parseInt(timer / 3600, 10)
+            tempTime = parseInt(timer % 3600, 10)
+            minutes = parseInt(tempTime / 60, 10)
+            tempTime = parseInt(timer % 60, 10)
+            seconds = tempTime
+
+            hours = hours < 10 ? '0' + hours : hours
+            minutes = minutes < 10 ? '0' + minutes : minutes
+            seconds = seconds < 10 ? '0' + seconds : seconds
+
+            remainningTime[0].innerHTML = 'Remaining Time:'
+            remainningTime[1].innerHTML = hours + ':' + minutes + ':' + seconds
+            // console.log(hours + ':' + minutes + ':' + seconds)
+
+            if (--timer < 0) {
+                openModal()
+                playMusic()
+                clearInterval(x)
+                localStorage.removeItem(`${rating}-background`)
+                localStorage.removeItem(`${rating}-rating`)
+                localStorage.removeItem('alarmTitle')
+                // localStorage.removeItem('sound', optionsSound.value)
+            }
+        }, 1000)
+    }
+
+
     // STOP ALARM FUNCTION HERE
     document.querySelectorAll('.stop').forEach((item) => {
         item.addEventListener('click', (event) => {
+            editAlarm.style.display = "block"
             audio.pause();
             closeModal()
-            setAlarmTxt.innerHTML = `Set alarm for ${hourValue}:${hourMinutes} ${ampm}`
-            alarm_result.style.display = 'none'
+            setAlarmTxt.innerHTML = `Set alarm for ${hourValue}: ${hourMinutes} ${ampm}`
+            set_time_alarm_result.style.display = 'none'
             btn1.style.display = 'block'
             testBtn.style.display = 'block'
-            localStorage.removeItem('alarm')
+            localStorage.removeItem(`${rating}-background`)
+            localStorage.removeItem(`${rating}-rating`)
         })
     })
 
@@ -242,3 +441,5 @@
         modalWrapper.classList.remove('active')
     }
 </script>
+<script src="../../js/edit.js" data-hour="{{page.hours}}" data-minute="{{page.minutes}}"
+    data-ap="{{page.ampm}}"></script>

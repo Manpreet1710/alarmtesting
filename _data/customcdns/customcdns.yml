@@ -1,0 +1,5 @@
+cssfiles:
+  - <link rel="stylesheet" href="css/fullScreen.css">
+
+jsfiles:
+  - <script src="../../js/fullScreenMode.js"></script>

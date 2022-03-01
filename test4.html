@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+
+    <!-- <link href="/stylesheets/style.css?v=20" media="screen" rel="stylesheet" type="text/css" /> -->
+    <link href="https://dd3sxcrxfx21f.cloudfront.net/swf/style-v9.css" media="screen" rel="stylesheet"
+        type="text/css" />
+
+</head>
+
+<body>
+
+    <!-- header starts here -->
+    <!-- Navigation -->
+
+    <nav class="top-bar row">
+        <ul class="title-area">
+            <!-- Title Area -->
+            <li class="name">
+                <a href="/">
+                    <!-- <img src="/images/logo.png" alt="logo" class="logo"> -->
+                    <img src="https://dd3sxcrxfx21f.cloudfront.net/swf/logo-v1.png" alt="logo" class="logo">
+                </a>
+            </li>
+            <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+        </ul>
+
+        <section class="top-bar-section">
+            <ul class="right">
+                <li class="divider"></li>
+                <li><a href="/dictionary-checker">Dictionary</a></li>
+                <li class="divider"></li>
+                <li><a href="/two-letter-scrabble-words">Two Letter Words</a></li>
+                <li class="divider"></li>
+                <li><a href="/useful-list">Word List</a></li>
+                <li class="divider"></li>
+                <li><a href="/words-with-friends-cheat">Words with Friends Solver</a></li>
+            </ul>
+        </section>
+    </nav>
+
+    <!-- End Top Bar -->
+
+    <!-- end of header -->
+
+    <!-- main content -->
+    <div class="row">
+        <div class="large-12 columns">
+            <!-- content starts here -->
+            <div class="content">
+                <!-- title -->
+                <div class="title">
+                    <h1><span class="text-light">Words With</span> PYON?? </h1>
+                    <p class="subtitle hide-on-mobile">A simple Scrabble solver that helps you win! </p>
+                </div>
+                <!-- main content starts here -->
+                <div class="main">
+                    <!-- hb experiment -->
+                    <div class="ads">
+                        <div class="ads-label">ADVERTISEMENT</div>
+                        <div class="ads-wrapper reserved-slot">
+
+                            <!-- /6248449/swf_result_top -->
+                            <div id='div-gpt-ad-1624271455842-0'>
+                                <script>
+                                    googletag.cmd.push(function () { googletag.display('div-gpt-ad-1624271455842-0'); });
+                                </script>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-wrapper">
+                        <form class="row form" id="mainForm" action="/solver" method="post" autocomplete="off">
+                            <div class="large-6 columns">
+                                <label>Enter up to 15 letters, use <strong>?</strong> as wildcards (max 2).</label>
+                                <div class="input-wrapper">
+                                    <input type="text" name="letters" id="ltr" value="pyon??" maxlength="15"
+                                        spellcheck="false" autocomplete="off" autocorrect="off"
+                                        onkeyup="handleSpaces(this);" required>
+                                    <span id="clear-text">&#x2718; Clear</span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="small-7 columns">
+                                        <label class="">Select Dictionary</label>
+                                        <select name="dictionary" id="dictCode">
+                                            <option value="twl">Scrabble US (TWL)</option>
+
+                                            <option value="sowpods">Scrabble UK (SOWPODS)</option>
+
+
+                                            <option value="enable">Words with Friends (ENABLE)</option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="small-5 columns">
+                                        <a href="javascript:void(0)" id="triggerAdvancedOptions"
+                                            class="button tiny secondary muted adv-options-button">Advanced Options</a>
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- advanced options -->
+
+                                <div class="row hide" id="advancedOptions">
+                                    <!-- <div class="small-6 columns">
+
+      </div> -->
+                                    <div class="small-4 columns">
+                                        <label>Must include </label>
+                                        <input type="text" name="substr" id="subStr" placeholder="y" spellcheck="false"
+                                            autocomplete="off" autocorrect="off">
+                                    </div>
+
+                                    <div class="small-4 columns">
+                                        <label>Starts with </label>
+                                        <input type="text" name="prefix" id="prefixLtr" placeholder="prefix"
+                                            spellcheck="false" autocomplete="off" autocorrect="off">
+                                    </div>
+                                    <div class="small-4 columns">
+                                        <label>Ends with </label>
+                                        <input type="text" name="suffix" id="suffixLtr" placeholder="suffix"
+                                            spellcheck="false" autocomplete="off" autocorrect="off">
+                                    </div>
+
+                                </div> <!-- end of advanced options -->
+                            </div>
+                            <div class="large-6 columns btn-wrapper">
+                                <input type="hidden" name="repeat" value="yes">
+                                <input type="hidden" name="ab_flag" value="true">
+                                <input type="submit" id="hidden-form-field">
+                                <button type="submit" class="button" id="finderBtn">Find Words</button>
+                            </div>
+                        </form>
+
+                        <div id="loadingIcon"><i class="icon-spinner icon-spin icon-4x"></i></div>
+                    </div>
+                    <div id="results-wrapper">
+                        <div class="result"></div>
+                    </div>
+
+                </div> <!-- end of main -->
+            </div>
+            <!-- end of content -->
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        clear_icon_b = document.getElementById('clear-text-b');
+        clear_icon_b.onclick = clearInputB;
+
+        function clearInputB() {
+            document.getElementById('ltrb').value = "";
+        }
+    </script>
+
+    <script type="text/javascript">
+        function handleSpaces(t) {
+            if (t.value.match(/\s/g)) {
+                t.value = t.value.replace(/\s/g, '?');
+            }
+        }
+
+        function displayOffensiveWord(word) {
+            var ul = document.getElementById("offensive_ul");
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+            a.appendChild(document.createTextNode(word));
+            a.setAttribute("href", `/dictionary/${word}`);
+            a.setAttribute("target", '_blank');
+            a.setAttribute("data-word", word);
+            a.setAttribute("class", 'wordWrapper');
+            var sub = document.createElement("sub");
+            var span = document.createElement("span");
+            span.setAttribute("class", "scoreWrapper");
+            sub.appendChild(span);
+            a.appendChild(sub);
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+
+        function showOfnWords() {
+            btn = document.getElementById('showOfnWordsBtn');
+            words = btn.getAttribute('data-words');
+            status = btn.getAttribute('data-show');
+            if (status == "false") {
+                words_ary = JSON.parse(words);
+                words_ary.forEach(displayOffensiveWord);
+                btn.innerHTML = "Hide";
+                btn.setAttribute('data-show', 'true');
+            } else {
+                ul = document.getElementById("offensive_ul");
+                ul.innerHTML = '';
+                btn.innerHTML = "Show";
+                btn.setAttribute('data-show', 'false');
+            }
+        }
+    </script>
+
+    <!-- <script src="/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="/javascripts/foundation/foundation.js" type="text/javascript"></script>
+    <script src="/javascripts/foundation/foundation.topbar.js" type="text/javascript"></script>
+    <script src="/javascripts/app.js" type="text/javascript"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://dd3sxcrxfx21f.cloudfront.net/swf/script-v2.js" type="text/javascript"></script>
+
+</body>
+
+</html>

@@ -9,10 +9,11 @@ permalink: allpages
 {%- include head/index.html -%}
 
 <style>
-.dropdown-toggle {
-  white-space: nowrap;
-  display: none;
-}
+    .dropdown-toggle {
+        white-space: nowrap;
+        display: none;
+    }
+
     a:hover {
         text-decoration: underline !important;
         color: blue !important;
@@ -25,14 +26,19 @@ permalink: allpages
     <div class="container py-5">
         <div class="row">
             {%- for post in site.pages -%}
-            {% if post.url != "/404.html" and post.url != "/blog" and post.url != "/timer" and post.url != "/" and post.url != "/allpages.html"
-            and post.url != "/stopwatch" and post.url != "/feed.xml" and post.url != "/sitemap.xml" 
+            {% if post.url != "/404.html" and post.url != "/blog" and post.url != "/timer" and post.url != "/" and
+            post.url != "/allpages.html"
+            and post.url != "/stopwatch" and post.url != "/feed.xml" and post.url != "/sitemap.xml"
             and post.url != "/robots.txt" and post.url != "/disclaimer" and post.url != "/allpages" and
-            post.url != "/privacy-policy" and post.url != "/terms-and-condition" %}
+            post.url != "/privacy-policy" and post.url != "/terms-and-condition"
+            and post.url != "/js/edit.js"
+            and post.url != "/assets/js/manifest.json"
+            and post.url != "/assets/js/googledrive.js"
+            and post.url != "/assets/js/multiselect.js" %}
             <div class="col-md-3">
                 <p>
                     <a href="{{ post.url }}" style="text-decoration:  none; color:#000">
-                        {{post.url  | replace: '-', ' '  | replace: '/', ' ' }}
+                        {{post.url | replace: '-', ' ' | replace: '/', ' ' }}
                     </a>
                 </p>
             </div>

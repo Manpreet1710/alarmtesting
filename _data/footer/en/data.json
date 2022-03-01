@@ -32,27 +32,27 @@
   "networkSites": [],
   "social": [
     {
-      "logo": "/assets/facebook.svg",
+      "logo": "https://d33wubrfki0l68.cloudfront.net/e5fa7730655be5691999bb536f8e1a55a8a9c73e/ff772/assets/footer/facebook.png",
       "url": "/",
       "title": "abc"
     },
     {
-      "logo": "/assets/youtube.svg",
+      "logo": "https://d33wubrfki0l68.cloudfront.net/7d2a2824bc4552a042459b4fcb8a54c3fa285088/c5ff7/assets/footer/youtube.png",
       "url": "/",
       "title": "abc"
     },
     {
-      "logo": "/assets/instagram.svg",
+      "logo": "https://d33wubrfki0l68.cloudfront.net/d539a46928a5250c3d84414fb5c946c791752757/c75ff/assets/footer/instagram.png",
       "url": "/",
       "title": "abc"
     },
     {
-      "logo": "/assets/linkdin.svg",
+      "logo": "https://d33wubrfki0l68.cloudfront.net/fc8b0b4c0f237155e9c5135afe46ca182dcd04ff/2d334/assets/footer/linkedin.png",
       "url": "/",
       "title": "abc"
     },
     {
-      "logo": "/assets/twitter.svg",
+      "logo": "https://d33wubrfki0l68.cloudfront.net/270e94712aa37fcce48bd184f757a2df9270cfe8/d47e4/assets/footer/twitter.png",
       "url": "/",
       "title": "abc"
     }

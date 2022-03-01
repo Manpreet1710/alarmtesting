@@ -1,0 +1,207 @@
+<!-- edit_alarm_result-Box-Alert -->
+<div class="edit_alarm_result alarm_result">
+    <div class="alarm">
+        <div class="edit-alarm-title" style="margin-bottom: 15px;"></div>
+        <div class="time">
+            <div class="icon mr-2" style="margin-top: .5rem;">
+                <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:20px">
+            </div>
+            <div class="alarmTime"></div>
+        </div>
+        <div class="editremainningTimes mt-3">
+            <span>
+                <span class="editremainningTime">
+
+                </span>
+                <span class="editremainningTime"></span>
+            </span>
+
+        </div>
+    </div>
+    <div class="cancel mt-3">
+        <button class="btn stop2 stopEditAlarm2" style="font-size: 12px;">Stop Alarm</button>
+    </div>
+</div>
+<!-- Close-Alert-Box -->
+
+<!-- EditAlarm Modal Popup When Alarm Ringing the alarm -->
+<div class="modal__wrapper2">
+    <div class="modal__container editMargin">
+        <div class="modal-header">
+            <button type="button" class="close stopEditAlarm" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" id="close" style="color:#000">&times;</span>
+            </button>
+            <h5 class="modal-title" id="exampleModalLabel">Alarm</h5>
+        </div>
+        <div class="modal-body">
+            <div class="alarm">
+                <div class="icon">
+                    <audio id="myAudio">
+                        <source src="../../sounds/bells.mp3" type="audio/mpeg">
+                    </audio>
+                    <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:40px">
+                </div>
+                <div class="alarm-title mb-3">Alarm</div>
+                <div class="alarmTime">
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="close" class="stop stopEditAlarm btn btn-primary">OK</button>
+        </div>
+    </div>
+</div>
+<!-- Close -->
+
+<!-- Edit option modal -->
+<div class="modal fade topMargin" id="editModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #0090DD; color:#fff;">
+                <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                <button type="button" class="close modalTest" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row text-left" style="font-size: 13px;">
+                    <div class="col-6">
+                        <span>Hours</span>
+                        <select class="form-control" id="edit-hour">
+                            <option>12 AM&nbsp;&nbsp;</option>
+                            <option>&nbsp;&nbsp;1 AM</option>
+                            <option>&nbsp;&nbsp;2 AM</option>
+                            <option>&nbsp;&nbsp;3 AM</option>
+                            <option>&nbsp;&nbsp;4 AM</option>
+                            <option>&nbsp;&nbsp;5 AM</option>
+                            <option>&nbsp;&nbsp;6 AM</option>
+                            <option>&nbsp;&nbsp;7 AM</option>
+                            <option>&nbsp;&nbsp;8 AM</option>
+                            <option>&nbsp;&nbsp;9 AM</option>
+                            <option>10 AM</option>
+                            <option>11 AM</option>
+                            <option>12 PM</option>
+                            <option>&nbsp;&nbsp;1 PM</option>
+                            <option>&nbsp;&nbsp;2 PM</option>
+                            <option>&nbsp;&nbsp;3 PM</option>
+                            <option>&nbsp;&nbsp;4 PM</option>
+                            <option>&nbsp;&nbsp;5 PM</option>
+                            <option>&nbsp;&nbsp;6 PM</option>
+                            <option>&nbsp;&nbsp;7 PM</option>
+                            <option>&nbsp;&nbsp;8 PM</option>
+                            <option>&nbsp;&nbsp;9 PM</option>
+                            <option>10 PM</option>
+                            <option>11 PM</option>
+                        </select>
+
+
+                    </div>
+                    <div class="col-6">
+                        <span>Minutes</span>
+                        <select class="form-control" id="edit-minute">
+                            <option>00</option>
+                            <option>01</option>
+                            <option>02</option>
+                            <option>03</option>
+                            <option>04</option>
+                            <option>05</option>
+                            <option>06</option>
+                            <option>07</option>
+                            <option>08</option>
+                            <option>09</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                            <option>13</option>
+                            <option>14</option>
+                            <option>15</option>
+                            <option>16</option>
+                            <option>17</option>
+                            <option>18</option>
+                            <option>19</option>
+                            <option>20</option>
+                            <option>21</option>
+                            <option>22</option>
+                            <option>23</option>
+                            <option>24</option>
+                            <option>25</option>
+                            <option>26</option>
+                            <option>27</option>
+                            <option>28</option>
+                            <option>29</option>
+                            <option>30</option>
+                            <option>31</option>
+                            <option>32</option>
+                            <option>33</option>
+                            <option>34</option>
+                            <option>35</option>
+                            <option>36</option>
+                            <option>37</option>
+                            <option>38</option>
+                            <option>39</option>
+                            <option>40</option>
+                            <option>41</option>
+                            <option>42</option>
+                            <option>43</option>
+                            <option>44</option>
+                            <option>45</option>
+                            <option>46</option>
+                            <option>47</option>
+                            <option>48</option>
+                            <option>49</option>
+                            <option>50</option>
+                            <option>51</option>
+                            <option>52</option>
+                            <option>53</option>
+                            <option>54</option>
+                            <option>55</option>
+                            <option>56</option>
+                            <option>57</option>
+                            <option>58</option>
+                            <option>59</option>
+                        </select>
+                    </div>
+
+                    <div class="col-6 mt-3">
+                        <span>Sound</span>
+                        <select class="form-control" id="sound">
+                            <option>Bells</option>
+                            <option>Childhood</option>
+                            <option>Classic</option>
+                            <option>Cuckoo</option>
+                            <option>Flute</option>
+                            <option>Happy</option>
+                            <option>MusicBox</option>
+                            <option>Paradise</option>
+                            <option>Pipe</option>
+                            <option>Rooster</option>
+                            <option>Savannah</option>
+                            <option>School</option>
+                            <option>Twinkle</option>
+                            <option>WindChimes</option>
+                            <option>Xylophone</option>
+
+                        </select>
+                        <div class="col-2 playbtnEdit" style="cursor: pointer;">
+                            <i class="fas fa-play playButton fa-2x"></i>
+                            <i class="fas fa-pause playButton2 fa-2x" style="display:none"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="col-12">
+                        <span>Title</span>
+                        <input type="text" class="form-control title" id="title" value="Alarm" placeholder="Alarm">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="buttonStyle btn" data-dismiss="modal">Cancel</button>
+                <button type="button" class="buttonStyle2 btn click" data-dismiss="modal"
+                    onclick="Edit()">Start</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- close -->

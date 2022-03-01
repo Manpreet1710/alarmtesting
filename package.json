@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Contenttool/alarm-clock#readme",
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "cities.json": "^1.1.5"
   }
 }

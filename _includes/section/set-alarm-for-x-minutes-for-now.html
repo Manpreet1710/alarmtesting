@@ -1,9 +1,4 @@
-<!-- *********
-    
-    SET-ALARM-FOR-5-MINUTES-FROM-NOW
-    SET-ALRAM-FOR-X-MINUTES-FROM-NOW
-    
-    ********* -->
+<!-- SET-ALRAM-FOR-X-MINUTES-FROM-NOW -->
 <div class="container-fluid">
     <div id="clockdate" style="padding: 35px;">
         <div class="setAlarm text-white text-center pt-3" style="font-size: 25px;">
@@ -13,15 +8,19 @@
             <div id="clock"></div>
             <div class="calendar-wrapper">
                 <div class="weekday-label"></div>
-                  <div class="month-label"></div>
-                  <div class="day-label"></div>
-                  <div class="year"></div>
-          </div>
+                <div class="month-label"></div>
+                <div class="day-label"></div>
+                <div class="year"></div>
+            </div>
         </div>
         <div class="mb-5 d-flex justify-content-center">
-            <button class="btn text-white  mr-4 testBtn" style="border: 3px solid white;
+            <button class="btn text-white  mr-4 testBtn testAlarm" style="border: 3px solid white;
             " data-toggle="modal" data-target="#exampleModal" id="testingModal">Test alarm</button>
 
+
+            <button class="btn editAlarm text-white mr-3" style="border: 3px solid white;" data-toggle="modal"
+                data-target="#editModal">
+                Edit</button>
 
             <button class="btn  btn1 text-white" onclick="onEnter()" style="
                 border: 3px solid white;
@@ -30,17 +29,24 @@
         </div>
 
         <!-- ALARM ALERT BOX WHEN SOMEONE SETS THE ALARM -->
-        <div class="alarm_result">
+        <div class="set_time_alarm_result alarm_result">
             <div class="alarm">
                 <div class="alarm-title" style="margin-bottom: 15px;">Alarm</div>
                 <div class="time">
                     <div class="icon mr-2">
-                        <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:20px">
+                        <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:20px">
                     </div>
                     <div class="alarm-time">
                         Alarm set for
                         <span id="afterTime"></span>
                     </div>
+                </div>
+                <div class="remainningTimes mt-3">
+                    <span>
+                        <span class="remainningTime"></span>
+                        <span class="remainningTime"></span>
+                    </span>
+
                 </div>
             </div>
             <div class="cancel mt-3">
@@ -64,7 +70,7 @@
                             <audio id="myAudio">
                                 <source src="../../sounds/school.mp3" type="audio/mpeg">
                             </audio>
-                            <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:40px">
+                            <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:40px">
                         </div>
                         <div class="alarm-title mb-3">Alarm</div>
                         <div id="alarmText"></div>
@@ -77,7 +83,8 @@
         </div>
 
         <!-- TESTING modal IF YOU WANT RINGING THE ALARM WITHOUT SET ALARM -->
-        <div class="modal fade topMargin" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade topMargin" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -89,7 +96,7 @@
                     <div class="modal-body">
                         <div class="alarm">
                             <div class="icon">
-                                <img src="../../assets/images/alarm-clock.svg" alt="alarm-logo" style="width:40px">
+                                <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:40px">
                             </div>
                             <div class="alarm-title mb-3 mt-3">Alarm</div>
                             {{page.minutes}} minute from now
@@ -102,31 +109,258 @@
                 </div>
             </div>
         </div>
+
+        <!-- edit_alarm_result-Box-Alert -->
+        <div class="edit_alarm_result alarm_result">
+            <div class="alarm">
+                <div class="edit-alarm-title" style="margin-bottom: 15px;"></div>
+                <div class="time">
+                    <div class="icon mr-2" style="margin-top: .5rem;">
+                        <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:20px">
+                    </div>
+                    <div class="alarmTime"></div>
+                </div>
+                <div class="editremainningTimes mt-3">
+                    <span>
+                        <span class="editremainningTime">
+
+                        </span>
+                        <span class="editremainningTime"></span>
+                    </span>
+
+                </div>
+            </div>
+            <div class="cancel mt-3">
+                <button class="btn stop2 stopEditAlarm2" style="font-size: 12px;">Stop Alarm</button>
+            </div>
+        </div>
+        <!-- Close-Alert-Box -->
+
+        <!-- EditAlarm Modal Popup When Alarm Ringing the alarm -->
+        <div class="modal__wrapper2">
+            <div class="modal__container editMargin">
+                <div class="modal-header">
+                    <button type="button" class="close stopEditAlarm" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" id="close" style="color:#000">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">Alarm</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="alarm">
+                        <div class="icon">
+                            <audio id="myAudio">
+                                <source src="../../sounds/school.mp3" type="audio/mpeg">
+                            </audio>
+                            <img src="../../assets/images/logo.png" alt="alarm-logo" style="width:40px">
+                        </div>
+                        <div class="alarm-title mb-3">Alarm</div>
+                        <div class="alarmTime">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="close" class="stop stopEditAlarm btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+        <!-- Close -->
+
+        <!-- Edit option modal -->
+        <div class="modal fade topMargin" id="editModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: #0090DD; color:#fff;">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                        <button type="button" class="close modalTest" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row text-left" style="font-size: 13px;">
+                            <div class="col-6">
+                                <span>Hours</span>
+                                <select class="form-control" id="edit-hour">
+                                    <option>12 AM&nbsp;&nbsp;</option>
+                                    <option>&nbsp;&nbsp;1 AM</option>
+                                    <option>&nbsp;&nbsp;2 AM</option>
+                                    <option>&nbsp;&nbsp;3 AM</option>
+                                    <option>&nbsp;&nbsp;4 AM</option>
+                                    <option>&nbsp;&nbsp;5 AM</option>
+                                    <option>&nbsp;&nbsp;6 AM</option>
+                                    <option>&nbsp;&nbsp;7 AM</option>
+                                    <option>&nbsp;&nbsp;8 AM</option>
+                                    <option>&nbsp;&nbsp;9 AM</option>
+                                    <option>10 AM</option>
+                                    <option>11 AM</option>
+                                    <option>12 PM</option>
+                                    <option>&nbsp;&nbsp;1 PM</option>
+                                    <option>&nbsp;&nbsp;2 PM</option>
+                                    <option>&nbsp;&nbsp;3 PM</option>
+                                    <option>&nbsp;&nbsp;4 PM</option>
+                                    <option>&nbsp;&nbsp;5 PM</option>
+                                    <option>&nbsp;&nbsp;6 PM</option>
+                                    <option>&nbsp;&nbsp;7 PM</option>
+                                    <option>&nbsp;&nbsp;8 PM</option>
+                                    <option>&nbsp;&nbsp;9 PM</option>
+                                    <option>10 PM</option>
+                                    <option>11 PM</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <span>Minutes</span>
+                                <select class="form-control" id="edit-minute">
+                                    <option>00</option>
+                                    <option>01</option>
+                                    <option>02</option>
+                                    <option>03</option>
+                                    <option>04</option>
+                                    <option>05</option>
+                                    <option>06</option>
+                                    <option>07</option>
+                                    <option>08</option>
+                                    <option>09</option>
+                                    <option>10</option>
+                                    <option>11</option>
+                                    <option>12</option>
+                                    <option>13</option>
+                                    <option>14</option>
+                                    <option>15</option>
+                                    <option>16</option>
+                                    <option>17</option>
+                                    <option>18</option>
+                                    <option>19</option>
+                                    <option>20</option>
+                                    <option>21</option>
+                                    <option>22</option>
+                                    <option>23</option>
+                                    <option>24</option>
+                                    <option>25</option>
+                                    <option>26</option>
+                                    <option>27</option>
+                                    <option>28</option>
+                                    <option>29</option>
+                                    <option>30</option>
+                                    <option>31</option>
+                                    <option>32</option>
+                                    <option>33</option>
+                                    <option>34</option>
+                                    <option>35</option>
+                                    <option>36</option>
+                                    <option>37</option>
+                                    <option>38</option>
+                                    <option>39</option>
+                                    <option>40</option>
+                                    <option>41</option>
+                                    <option>42</option>
+                                    <option>43</option>
+                                    <option>44</option>
+                                    <option>45</option>
+                                    <option>46</option>
+                                    <option>47</option>
+                                    <option>48</option>
+                                    <option>49</option>
+                                    <option>50</option>
+                                    <option>51</option>
+                                    <option>52</option>
+                                    <option>53</option>
+                                    <option>54</option>
+                                    <option>55</option>
+                                    <option>56</option>
+                                    <option>57</option>
+                                    <option>58</option>
+                                    <option>59</option>
+                                </select>
+
+                            </div>
+
+                            <div class="col-6 mt-3">
+                                <span>Sound</span>
+                                <select class="form-control" id="sound">
+                                    <option>Bells</option>
+                                    <option>Childhood</option>
+                                    <option>Classic</option>
+                                    <option>Cuckoo</option>
+                                    <option>Flute</option>
+                                    <option>Happy</option>
+                                    <option>MusicBox</option>
+                                    <option>Paradise</option>
+                                    <option>Pipe</option>
+                                    <option>Rooster</option>
+                                    <option>Savannah</option>
+                                    <option>School</option>
+                                    <option>Twinkle</option>
+                                    <option>WindChimes</option>
+                                    <option>Xylophone</option>
+
+                                </select>
+                                <div class="col-2 playbtnEdit" style="cursor: pointer;">
+                                    <i class="fas fa-play playButton fa-2x"></i>
+                                    <i class="fas fa-pause playButton2 fa-2x" style="display:none"></i>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12">
+                                <span>Title</span>
+                                <input type="text" class="form-control title" id="title" value="Alarm"
+                                    placeholder="Alarm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="buttonStyle btn" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="buttonStyle2 btn click" data-dismiss="modal"
+                            onclick="Edit()">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- close -->
+
+        <div id="fullScreen_button">
+            <i class="fas fa-minus minus_btn" data-toggle="tooltip" data-placement="top" title="Decrease Font Size"></i>
+            <i class="fas fa-plus plus_btn" data-toggle="tooltip" data-placement="top" title="Increase Font Size"></i>
+            <i class="fas fa-expand-arrows-alt expand_btn" data-toggle="tooltip" data-placement="top"
+                title="Full Screen"></i>
+        </div>
+
     </div>
 </div>
 
 <!-- SAME STYLE ADDED EXTERANL HERE -->
 <link rel="stylesheet" href="{{ 'css/alarm.css' | relative_url }}">
 <script src="{{ 'js/currentDate.js' | relative_url }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 
 <script>
-    
+
     // ALL HTML TAGS GRAB HERE
     let audio = document.getElementById('myAudio')
     let testingModal = document.getElementById('testingModal')
 
+
+    let editAlarm = document.querySelector(".editAlarm")
+    let URL = `{{page.permalink}}`
+
+
     // hr , mins , amp
     let Minutes = `{{page.minutes}}`
+    let remainningTime = document.getElementsByClassName('remainningTime')
+
+    let timeUp
+    let my_timer
+
     let alarmText = document.getElementById("alarmText")
     let afterTime = document.querySelector('#afterTime')
 
-    let alarm_result = document.querySelector('.alarm_result')
+    let set_time_alarm_result = document.querySelector('.alarm_result')
     let alaram_testing_popup = document.querySelector('.alaram_testing_popup')
     let btn1 = document.querySelector('.btn1')
     let testBtn = document.querySelector('.testBtn')
     let close = document.querySelector('.close')
-    let setAlarm = document.querySelector('.setAlarm')
+    let setAlarmTxt = document.querySelector('.setAlarm')
 
     let activeAlarm = false
     let currentTime
@@ -167,16 +401,6 @@
         hr = hr > 12 ? hr - 12 : hr
 
 
-        currentTime = hr + ':' + min + ':' + sec + ' ' + ap
-        xminutes = localStorage.getItem("Xminutes")
-
-        if (currentTime == xminutes) {
-            alarmText.innerHTML = xminutes
-            openModal()
-            audio.play()
-            audio.loop = true
-        }
-
         // today date and time printing...
         document.getElementById('clock').innerHTML =
             hr + ':' + min + ':' + sec + ' ' + `<span> ${ap} </span>`
@@ -197,47 +421,106 @@
         return i
     }
 
+
+    window.onload = function () {
+        if (typeof localStorage == 'undefined') {
+            alert('Your browser does not support HTML5 localStorage. Try upgrading.')
+        } else {
+            if (localStorage.getItem(`${URL}-background`) != null) {
+                set_time_alarm_result.style.background = localStorage.getItem(`${URL}-background`)
+                setAlarmTxt.innerHTML = `Alarm set for ${Minutes} minutes from now`
+                afterTime.innerHTML = xminutes
+                set_time_alarm_result.style.display = 'block'
+                editAlarm.style.display = "none"
+                btn1.style.display = 'none'
+                testBtn.style.display = 'none'
+
+                minuteTimer(Minutes * 60)
+            }
+            if (localStorage.getItem(`${URL}-EditOptionbackground`) != null) {
+                edit_alarm_result.style.background = localStorage.getItem(`${URL}-EditOptionbackground`)
+                alarmTitles[0].innerHTML = localStorage.getItem(`${URL}-alarmTitle`)
+                // alarmTitles[1].innerHTML = localStorage.getItem('alarmTitle')
+                alarmTime[0].innerHTML = localStorage.getItem(`${URL}-alarm`)
+                alarmTime[1].innerHTML = localStorage.getItem(`${URL}-alarm`)
+                edit_alarm_result.style.display = 'block'
+
+
+                let Edittimes = localStorage.getItem(`${URL}-alarm`)
+                let hoursValue = Edittimes.split(':')[0]
+                let minitesValue = Edittimes.split(':')[1].split(' ')[0]
+                let amPmValue = Edittimes.split(':')[1].split(' ')[1]
+                if (hoursValue && minitesValue && amPmValue) {
+                    EdittimeDiffererence(hoursValue, minitesValue, amPmValue)
+                }
+            }
+        }
+    }
     // ALARM SET FUNCTION
     function onEnter() {
-        var today = new Date()
-
-        var hr = today.getHours() //for hours
-        var min = today.getMinutes() //for mins
-        var sec = today.getSeconds() //for sec
-
-        // AMPM LOGIC here
-        ap = hr < 12 ? 'AM' : 'PM'
-        hr = hr == 0 ? 12 : hr
-        hr = hr > 12 ? hr - 12 : hr
-
-        //Add a zero in front of numbers<10
-        sec = checkTime(sec)
-
-        alarm_result.style.display = 'block'
+        editAlarm.style.display = "none"
         btn1.style.display = 'none'
         testBtn.style.display = 'none'
+        setColour = 'rgb(26 26 26)'
+        set_time_alarm_result.style.background = setColour
+        localStorage.setItem(`${URL}-background`, setColour)
+        set_time_alarm_result.style.display = 'block'
         if (activeAlarm == false) {
-            let alarmElement = parseInt(min) + parseInt(Minutes)
-            alarmElement = alarmElement > 60 ? alarmElement - 60 : alarmElement
-            alarmElement = alarmElement < 10 ? "0" + alarmElement : alarmElement
-            alarmElement = hr + ":" + alarmElement + ':' + sec + ' ' + ap
-            localStorage.setItem("Xminutes", alarmElement)
-            let xminutes = localStorage.getItem("Xminutes")
-            setAlarm.innerHTML = `Alarm set for ${Minutes} minutes from now`
+            alarmElement = moment().add(Minutes, 'minutes').format('h:mm:ss A')
+            localStorage.setItem(`${URL}`, alarmElement)
+            let xminutes = localStorage.getItem(`${URL}`)
+            setAlarmTxt.innerHTML = `Alarm set for ${Minutes} minutes from now`
             afterTime.innerHTML = xminutes
+
+            let startingMinutes = Minutes
+            let time = startingMinutes * 60
+
+            minuteTimer(time)
+
         }
+    }
+
+    function minuteTimer(time) {
+        var my_timer
+        clearInterval(my_timer)
+        my_timer = setInterval(() => {
+            let minutes = Math.floor(time / 60)
+            let seconds = time % 60
+            minutes = minutes < 10 ? '0' + minutes : minutes
+            seconds = seconds < 10 ? '0' + seconds : seconds
+
+            let remanningMinutes = `00: ${minutes}: ${seconds} `
+
+            remainningTime[0].innerHTML = "Remaining Time:"
+            remainningTime[1].innerHTML = remanningMinutes
+
+
+
+            if (--time < 0) {
+                openModal()
+                audio.play()
+                audio.loop = true
+                clearInterval(my_timer)
+                localStorage.removeItem(`${URL}-background`)
+                localStorage.removeItem(`${URL}`)
+            }
+        }, 1000)
     }
 
     // RESET ALARM
     document.querySelectorAll('.stop').forEach((item) => {
         item.addEventListener('click', (event) => {
+            editAlarm.style.display = "block"
+            localStorage.removeItem(`${URL}-remanningMinutes`)
+            clearInterval(my_timer)
             audio.pause();
             closeModal()
-            setAlarm.innerHTML = `Set alarm for {{page.value}} minutes from now`
-            alarm_result.style.display = 'none'
+            setAlarmTxt.innerHTML = `Set alarm for {{ page.value }} minutes from now`
+            set_time_alarm_result.style.display = 'none'
             btn1.style.display = 'block'
             testBtn.style.display = 'block'
-            localStorage.removeItem("Xminutes")
+            localStorage.removeItem(`${URL}-background`)
+            localStorage.removeItem(`${URL}`)
         })
     })
 
@@ -267,3 +550,5 @@
 
 
 </script>
+
+<script src="../../js/edit.js" data-hour="{{page.hours}}" data-minute="{{page.minutes}}"></script>
