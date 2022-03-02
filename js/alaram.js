@@ -4,9 +4,6 @@ console.log('connected')
 
 // for sounds
 let playButton = document.querySelector('.playButton')
-let audio = document.querySelector('#myAudio')
-let audioSrc = document.querySelector('#audioSrc')
-
 let remainningTime = document.getElementsByClassName('remainningTime')
 
 // hr , mins , ampm
@@ -29,6 +26,11 @@ let alarm_result = document.querySelector('.alarm_result')
 const trigger = document.querySelector('#trigger')
 const modalWrapper = document.querySelector('.modal__wrapper')
 const closeBtn = document.querySelector('.close')
+
+
+var audio = new Audio('sounds/' + localStorage.getItem('sound').toLowerCase() + '.mp3');
+audio.loop = true;
+
 
 // DROPDOWN MUSIC LIST
 async function getUserAsync(id) {
@@ -57,7 +59,7 @@ getUserAsync(optionsSound)
 
 // for playing audio
 const playMusic = () => {
-  audio.src = 'sounds/' + localStorage.getItem('sound').toLowerCase() + '.mp3'
+
   audio.play()
   audio.loop = true
   isPlaying = true
