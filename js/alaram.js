@@ -65,22 +65,18 @@ const playMusic = () => {
 }
 // for pause audio
 const pauseMusic = () => {
-  audio.src = 'sounds/' + optionsSound.value.toLowerCase() + '.mp3'
   isPlaying = false
   audio.pause()
   playButton.classList.replace('fa-pause', 'fa-play')
 }
-
 // logic for playing pause music
 playButton.addEventListener('click', () => {
   isPlaying ? pauseMusic() : playMusic()
 })
-
 // input audio select
 optionsSound.addEventListener('input', () => {
   playMusic()
 })
-
 // when audio finished
 audio.addEventListener('ended', () => {
   pauseMusic()
@@ -148,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     alert('Your browser does not support HTML5 localStorage. Try upgrading.')
   } else {
     if (localStorage.getItem('background') != null) {
+      audio.src = 'sounds/' + localStorage.getItem('sound') + '.mp3'
       alarm_result.style.background = localStorage.background
       alarmTitle[0].innerHTML = localStorage.getItem('alarmTitle')
       alarmTitle[1].innerHTML = localStorage.getItem('alarmTitle')
@@ -173,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
 var my_timer
 
 function onEnter() {
+  audio.src = 'sounds/' + localStorage.getItem('sound') + '.mp3'
   if (activeAlarm == false) {
     pauseMusic()
     document.querySelector('#set-Alarm').style.display = 'none'
@@ -191,7 +189,7 @@ function onEnter() {
 
 
     localStorage.setItem('alarmTitle', title.value)
-    let userAlarmTime = localStorage.setItem('alarm', alarmElement)
+    localStorage.setItem('alarm', alarmElement)
 
 
     let currentTime = new Date()
@@ -201,13 +199,10 @@ function onEnter() {
     if (amPm === 'PM') {
       newHrsValue = parseInt(newHrsValue) + 12
     }
-
     var dateObject = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), newHrsValue, minutes.value, 00)
-
     if (currentTime.getTime() >= dateObject.getTime()) {
       dateObject = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate() + 1, newHrsValue, minutes.value, 00)
     }
-
     localStorage.setItem("dateObject", JSON.stringify(dateObject))
 
 
@@ -223,7 +218,6 @@ function onEnter() {
 }
 
 // TimeDifferernece Function
-
 function timeDiffererence(hoursEnd, minutesEnd, amPMEnd) {
   var today = new Date()
   var hours
